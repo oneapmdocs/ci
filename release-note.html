@@ -1,0 +1,1059 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="网站监控,服务器监控,数据库监控,自定义指标,服务监控,中间件监控,数据可视化,大数据监控,页面性能监控">
+<meta name="description" content="Cloudinsight 是一款集监控与数据可视化，数据管理为一身的平台，可以进行基础组件的监控，自定义数据仪表盘的展示，对任意指标报警，是IT运维人员，以及开发人员的必备工具服务">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<!-- Use title if it's in the page YAML frontmatter -->
+<title>Cloudinsight - Release Note</title>
+
+  <script type="text/javascript">
+    if (window.location.hostname === 'www.oneapm.com') {
+      var pathnameSegs = window.location.pathname.split("/docs/ci");
+      var realPathname = pathnameSegs[pathnameSegs.length - 1];
+      window.location.href = 'http://docs-ci.oneapm.com' + realPathname;
+    } else if (window.location.hostname !== 'docs-ci.oneapm.com') {
+      window.location.href = 'http://docs-ci.oneapm.com' + window.location.pathname;
+    }
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?dc7d70374ed3b2f6ce76527be8b9c93a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+<!-- growingio -->
+<script type='text/javascript'>
+  var _vds = _vds || [];
+  window._vds = _vds;
+  (function(){
+    _vds.push(['setAccountId', '9b345c730c9983fa']);
+    (function() {
+      var vds = document.createElement('script');
+      vds.type='text/javascript';
+      vds.async = true;
+      vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(vds, s);
+    })();
+  })();
+</script>
+
+
+<link href="/stylesheets/site.css" rel="stylesheet" />
+<script src="/javascripts/jquery-2.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/all.js"></script>
+<style media="screen">
+  .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+.highlight .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #6c8b9f;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #b2fd6d;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .err {
+  color: #fefeec;
+  background-color: #cc0000;
+}
+.highlight .gr {
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .k, .highlight .kd, .highlight .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+.highlight .o, .highlight .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .p, .highlight .pi {
+  color: #4df4ff;
+}
+.highlight .gd {
+  color: #cc0000;
+}
+.highlight .gi {
+  color: #b2fd6d;
+}
+.highlight .ge {
+  font-style: italic;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gt {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .kc {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nc {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nd {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sb, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .sr, .highlight .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+.highlight .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .nb {
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #BBBBBB;
+}
+.highlight .go {
+  color: #BBBBBB;
+}
+.highlight .nf {
+  color: #a8e1fe;
+}
+.highlight .py {
+  color: #a8e1fe;
+}
+.highlight .na {
+  color: #a8e1fe;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+
+  <body class="page-release-note">
+        <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ6GBS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ6GBS');</script>
+    <!-- End Google Tag Manager -->
+
+<header class="main-header clearfix">
+	<div class="main-navblock col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><div>
+			<a href="../index.html" class="logo-container">
+				<div class="oneapm-logo"></div>
+			</a>
+		</div>
+		<!--<a href="#" class="burger-wrapper">-->
+			<!--<div class="burger"></div>-->
+		<!--</a>-->
+		<!--<div class="nav-container">-->
+			<!--<ul class="nav-list">-->
+				<!--<li>-->
+					<!--<a href="/quick-start/">快速入门</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/agent/">安装配置</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/platform/">操作指南</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/best-practise/">实践案例</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/qa/">常见问题</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+			<!--<ul class="login-list">-->
+				<!--<li>-->
+					<!--<a href="http://user.oneapm.com/pages/v2/login_ci" class="btn outline-dark" id="loginIn">登录</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="https://cloud.oneapm.com/user/register" class="btn inside-yellow" id="signUp">注册</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+		<!--</div>-->
+	</div>
+</header>
+<div class="flagInfo clearfix">
+    <div class="flag-left"></div>
+    <div class="flag-right">Cloudinsight Agent 在 4.7.0 版本，将 Agent 名称从 oneapm-ci-agent 更换至 cloudinsight-agent。若您在使用过程中，出现无法正常工作的情况，请加入售后群：433349863</div>
+    <span class="cl">X</span>
+</div>
+<script type="text/javascript" src="//d.oneapm.com/sso/nav.js"></script>
+
+
+    <div class="container page-container">
+      <div class="row">
+        <div class="col-lg-3 page-sidebar hidden-ssm hidden-xs">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" href="/release-note.html">
+          Release Note
+        </a>
+      </h4>
+    </div>
+    <!--<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">-->
+      <!--<div class="panel-body">-->
+        <!--<ul>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</div>-->
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed"  href="/platform/">
+          平台及拓扑
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/platform/platform_config.html">平台操作</a></li>
+          <li><a href="/platform/hostmap.html">拓扑/Hostmap</a></li>
+          <li><a href="/platform/system.html">System 数据指标解释</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/dashboard/">
+          仪表盘
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/dashboard/custom.html">自定义仪表盘</a></li>
+          <li><a href="/dashboard/automatic.html">平台服务仪表盘</a></li>
+          <li><a href="/dashboard/upload_custom.html">自定义数据仪表盘</a></li>
+          <li><a href="/dashboard/share.html">图表分享</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/metric/">
+          指标与浏览
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/metric/metric_explorer.html">指标浏览</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/alert/">
+          报警与策略
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/alert/metric.html">指标报警</a></li>
+          <li><a href="/alert/host.html">平台报警</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingSix">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/event/">
+          事件
+        </a>
+      </h4>
+    </div>
+    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+      <div class="panel-body">
+        <ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="col-lg-9 page-body">
+          <div class="body-box">
+            <h1>Release Note</h1>
+
+<h2>v 5.6.0</h2>
+
+<p><code>发布时间：2016.11.24</code></p>
+
+<ul>
+<li>仪表盘底部悬停栏显示优化</li>
+<li>非聚合报警邮件内容优化</li>
+<li>仪表盘新增全屏显示模式</li>
+<li>仪表盘中图表样式优化</li>
+</ul>
+
+<h2>v 5.5.0</h2>
+
+<p><code>发布时间：2016.11.03</code></p>
+
+<ul>
+<li>增加仪表盘中全部图表的指标选择普通模式</li>
+<li>主机报警选择平台选项支持hosttag和排除平台</li>
+<li>指标报警支持排除标签</li>
+<li>实现在图表中直接选取时间区间的交互方式</li>
+</ul>
+
+<h2>v 5.4.0</h2>
+
+<p><code>发布时间：2016.10.17</code></p>
+
+<ul>
+<li>增加仪表盘-时间序列图的指标选择普通模式</li>
+<li>优化主机告警状态显示</li>
+<li>修复告警详情页在时间范围调整后的主机状态显示错误</li>
+</ul>
+
+<h2>v 5.3.0</h2>
+
+<p><code>发布时间：2016.10.09</code></p>
+
+<ul>
+<li>支持主机报警的报警策略</li>
+<li>添加系统默认的宕机主机报警</li>
+<li>升级SDK</li>
+<li>线上切换 Riemann</li>
+</ul>
+
+<h2>v 5.2.0</h2>
+
+<p><code>发布时间：2016.09.08</code></p>
+
+<ul>
+<li>新增用户个人中心功能</li>
+<li>添加 HDFS 仪表盘</li>
+<li>重构 RenamingThreadFactory</li>
+<li>指标报警中修改时间窗口，与 NO DATA 设置</li>
+</ul>
+
+<h2>v 5.1.0</h2>
+
+<p><code>发布时间：2016.08.30</code></p>
+
+<ul>
+<li>修改了登录和注册的样式</li>
+<li>修改了仪表盘中曲线的颜色</li>
+<li>修复了拓扑图在分组下的显示问题</li>
+</ul>
+
+<h2>v 5.0.0</h2>
+
+<p><code>发布时间：2016.08.18</code></p>
+
+<ul>
+<li>Ruby 后端重构</li>
+</ul>
+
+<h2>v 4.6.4</h2>
+
+<p><code>发布时间：2016.08.10</code></p>
+
+<ul>
+<li>新增了 3 种监控图表类型：事件流、报警状态、图标</li>
+<li>优化了报警策略的搜索功能</li>
+<li>优化了新增监控图表的样式</li>
+<li>修复了仪表盘体验不佳的问题</li>
+<li>修复了时间相关的单位问题</li>
+<li>修复了报警的性能问题</li>
+</ul>
+
+<h2>v 4.6.3</h2>
+
+<p><code>发布时间：2016.07.18</code></p>
+
+<ul>
+<li>新增仪表盘的全屏和关灯功能</li>
+<li>新增各语言 SDK：Python, NodeJS, Ruby, Java, DotNET, PHP</li>
+<li>新增 30 天的数据查询</li>
+<li>修复了指标的单位问题</li>
+<li>修复了整数类指标 Y 轴的小数问题</li>
+</ul>
+
+<h2>v 4.6.2</h2>
+
+<p><code>发布时间：2016.07.05</code></p>
+
+<ul>
+<li>新增非聚合报警功能</li>
+<li>新增指标浏览器可以将生成图表添加到仪表盘或保存为模板功能</li>
+<li>新增团队内部用户标签功能</li>
+<li>修复 Agent 写入 Metric 数目问题</li>
+<li>修复平台拓扑部分着色问题</li>
+</ul>
+
+<h2>v 4.6.1</h2>
+
+<p><code>发布时间：2016.06.02</code></p>
+
+<ul>
+<li>仪表盘 chart 重构，新增热力图，topN 2种数据展示形式</li>
+<li>修复自定义仪表盘指标 group by 显示的问题</li>
+<li>修复纯 Windwos 环境下创建仪表盘默认选择 load.1 指标加载失败问题</li>
+</ul>
+
+<h2>v 4.6.0</h2>
+
+<p><code>发布时间：2016.05.16</code></p>
+
+<ul>
+<li>新增支持 Supervisord，Gunicorn，Gearman，Cacti</li>
+<li>新增对接瀑布 IM</li>
+<li>支持指标编辑，设置备注</li>
+<li>增加指标浏览器，可以快速选择指标并批量保存到仪表盘中</li>
+<li>增加 Java/Nodejs/DotNET SDK 文档支持</li>
+</ul>
+
+<h2>v 4.5.2</h2>
+
+<p><code>发布时间：2016.04.28</code></p>
+
+<ul>
+<li>修复事件流400错误</li>
+<li>修复报警策略条件选择 &ldquo;总是&rdquo; 无法保存</li>
+</ul>
+
+<h2>v 4.5.1</h2>
+
+<p><code>发布时间：2016.04.25</code></p>
+
+<ul>
+<li>集成阿里云基础服务，资源限制</li>
+<li>升级 Highcharts 最新版</li>
+<li>分享图表的移动端适配</li>
+<li>优化饼图的展示方式和分享的饼图展示有问题</li>
+<li>报警策略可创建的条数限制调整为50条</li>
+</ul>
+
+<h2>v 4.5.0</h2>
+
+<p><code>发布时间：2016.04.19</code></p>
+
+<ul>
+<li>修改 System 总览，即使不配置仪表盘也很直观的展示 System 数据</li>
+<li>增加 Java SDK 支持</li>
+<li>增加图表的饼图展示形式</li>
+<li>增加 Hostmap 过滤功能</li>
+<li>增加图表下方叠加事件功能</li>
+<li>增加仪表盘分享功能</li>
+<li>增加首页面引导功能</li>
+<li>增加阿里云平台服务监控功能</li>
+<li>增加支持文件监控及多核监控</li>
+<li>增加支持 Nagios 监控</li>
+<li>改进仪表盘状态值显示</li>
+<li>优化仪表盘列表和报警策略列表加载速度</li>
+<li>主机标签 host 和 hostname 统一合并成 host</li>
+</ul>
+
+<h2>v 4.4.1</h2>
+
+<p><code>发布时间：2016.04.01</code></p>
+
+<ul>
+<li>修复报警策略中 tags 过多时样式问题</li>
+<li>修复 44.0 版本 chrome 仪表盘加载不出数据问题</li>
+<li>改进 demo 和 user 权限的用户在进行相关操作时需要给出提示功能</li>
+<li>改进打开仪表盘时，图表拖动时再调用 update 接口功能</li>
+<li>改进头部切换团队的 click 事件成为 mouseover 事件</li>
+<li><strong>愚</strong>乐无极限</li>
+</ul>
+
+<h2>v 4.4.0</h2>
+
+<p><code>发布时间：2016.03.30</code></p>
+
+<ul>
+<li>添加单指标功能，添加 rate 方法</li>
+<li>添加仪表盘 (状态数值) 图表 (Query Value )</li>
+<li>添加指标盘标记线</li>
+<li>添加事件流分页功能</li>
+<li>添加系统指标解释</li>
+<li>增加端口监控，进程监控</li>
+<li>增加 snmp 监控</li>
+<li>增加拓扑图（hostmap）无限分组功能</li>
+<li>支持事件流 chart api</li>
+<li>改进事件流布局</li>
+<li>修改报警，仪表盘等 bug</li>
+<li>修复 Windows 版探针内存溢出问题</li>
+</ul>
+
+<h2>v 4.3.0</h2>
+
+<p><code>发布时间：2016.03.08</code></p>
+
+<ul>
+<li>支持 Windows 32位和64位操作系统</li>
+<li>支持 SQL Server，IIS，WMI，Windows Event View，HAProxy 等平台服务</li>
+<li>修复 MongoDB 3.0+ 相关指标问题</li>
+<li>修复 Mesos 占用 CPU 过多问题</li>
+<li>修复 MySQL 监控问题</li>
+<li>完成帮助文档改版迁移</li>
+<li>修复 Disk 仪表盘单位显示问题</li>
+<li>修改产品设计状态，调整策略状态页</li>
+<li>禁用事件流自动刷新</li>
+<li><strong>妇女</strong>也顶半边天</li>
+</ul>
+
+<h2>v 4.2.3</h2>
+
+<p><code>发布时间：2016.01.25</code></p>
+
+<ul>
+<li>增加平台标签对仪表盘和报警的聚合功能</li>
+<li>修改报警页面状态不一致问题</li>
+<li>修复仪表盘页面添加图表中按照 tagkey 分组功能无效问题</li>
+</ul>
+
+<h2>v 4.2.2</h2>
+
+<p><code>发布时间：2016.01.15</code></p>
+
+<ul>
+<li>集成 BearyChat</li>
+<li>优化平台列表页搜索分组分页展示的功能</li>
+<li>修复平台列表页面显示 up，down，total数目问题</li>
+</ul>
+
+<h2>v 4.2.1</h2>
+
+<p><code>发布时间：2015.12.30</code></p>
+
+<ul>
+<li>新增平台列表分页功能</li>
+<li>修复了报警发送渠道的问题</li>
+<li>修复了用户系统的跳转问题</li>
+<li>修复了 Docker 中 Container 数量错误的问题</li>
+<li>修复了自定义数据仪表盘的显示问题</li>
+</ul>
+
+<h2>v 4.2.0</h2>
+
+<p><code>发布时间：2015.12.22</code></p>
+
+<ul>
+<li>新增平台服务：简聊</li>
+<li>新增 SDK 来自定义上传数据</li>
+<li>修复了平台拓扑的显示问题</li>
+<li>修复了面积图出现空心的情况</li>
+<li>修复了标签在仪表盘中显示错误的问题</li>
+<li>以及对前后端进行了部分重构</li>
+</ul>
+
+<h2>v 4.1.0</h2>
+
+<p><code>发布时间：2015.12.10</code></p>
+
+<ul>
+<li>新增事件流名称搜索</li>
+<li>新增创建空仪表盘时添加一个默认参数</li>
+<li>新增平台列表的搜索和分组</li>
+<li>新增帮助中心的文档搜索和在线客服</li>
+<li>修改平台概览中线性插值为显示 Null Point</li>
+<li>修改规避邮件风暴的策略</li>
+<li>修复部分报警策略添加的样式问题</li>
+<li>修复部分图表出现空心情况的问题</li>
+<li>修复平台概览中时间轴不统一的问题</li>
+<li>修复了一些 BUG 和样式问题</li>
+</ul>
+
+<h2>v 4.0.0</h2>
+
+<p><code>发布时间：2015.12.02</code></p>
+
+<ul>
+<li>新增基于任一指标的静态门限报警</li>
+<li>新增报警策略功能</li>
+<li>新增报警策略触发中和所有策略的列表</li>
+<li>新增报警策略的状态页面</li>
+<li>新增事件流页面，记录报警触发的事件，和 Agent 启动，以及用户对策略的修改</li>
+<li>新增邮件的报警渠道</li>
+<li>新增报警策略禁用的功能</li>
+<li>新增平台概览中对平台添加标签的功能</li>
+<li>新增基于平台标签，对拓扑进行分组显示的功能</li>
+<li>修复左侧导航的显示样式</li>
+<li>修复后端的数据流机制</li>
+<li>修复数值太小的问题，修改至科学计数法</li>
+<li>以及修复前端样式和一些 BUG</li>
+</ul>
+
+<h2>v 3.0.0</h2>
+
+<p><code>发布时间：2015.11.19</code></p>
+
+<ul>
+<li>新增平台拓扑 • Beta</li>
+<li>新增支持 Chef</li>
+<li>新增支持 Puppet</li>
+<li>修复 Agent Info 指令问题</li>
+<li>修复 Kafka 配置问题</li>
+<li>迁移文档中心</li>
+<li>以及样式调优和修复一些 Bug</li>
+</ul>
+
+<h2>v 2.2.0</h2>
+
+<p><code>发布时间：2015.11.05</code></p>
+
+<ul>
+<li>新增 Apache Solr 监控服务</li>
+<li>新增 Mesos 监控服务</li>
+<li>新增 System Disk I/O 平台服务仪表盘</li>
+<li>新增 System Networking 平台服务仪表盘</li>
+<li>新增 JVM 平台服务仪表盘</li>
+<li>新增 JMX 平台服务仪表盘</li>
+<li>新增柱状图和区域图展现形式</li>
+<li>新增 Metric 数值的科学计数法显示</li>
+<li>支持仪表盘悬停面板的拖拽</li>
+<li>修复了部分单位显示错误问题</li>
+<li>修复了悬停面板的防遮挡算法</li>
+<li>修复了 Process Memory Usage 图表的显示问题</li>
+<li>修复了细节问题和 BUG</li>
+</ul>
+
+<h2>v 2.1.0</h2>
+
+<p><code>发布时间：2015.10.21</code></p>
+
+<ul>
+<li>新增 ZooKeeper 监控服务</li>
+<li>新增仪表盘拖拽排序</li>
+<li>新增仪表盘单个图表的最大化展示</li>
+<li>新增平台服务按照是否安装分组展示</li>
+<li>添加系统进程内存占比 TreeMap</li>
+<li>新增仪表盘鼠标悬浮时页面底部显示指标详情</li>
+<li>数据查询接口增强，支持相同 <code>tag_key</code> 进行数据并集，不同 <code>tag_key</code> 进行数据交集</li>
+<li>Chart 编辑器优化，只显示关联数据</li>
+<li>参数编辑器和图表编辑器添加 Loading</li>
+<li>优化前端数据曲线补点功能</li>
+<li>UI 细节优化</li>
+<li>平台列表只显示 3 天内有过数据的平台</li>
+<li>DEMO 用户操作权限改进</li>
+<li>仪表盘全屏后屏蔽编辑类按钮</li>
+<li>图表显示单位优化</li>
+</ul>
+
+<h2>v 2.0.0</h2>
+
+<p><code>发布时间：2015.09.29</code></p>
+
+<ul>
+<li>新增 Amazon Linux 监控</li>
+<li>新增自定义仪表盘，实现不同用户的增删改自定义仪表盘</li>
+<li>实现类 SQL 的 Metric 查询方式</li>
+<li>添加 Metric 至自定义仪表盘</li>
+<li>不同用户拥有收藏仪表盘的列表，至一级导航右侧显示</li>
+<li>自定义仪表盘中参数配置，来实现 Metric 数值的动态查询</li>
+<li>重新规划平台服务仪表盘中 Metric 的显示方式</li>
+<li>针对平台服务仪表盘来，创建副本，生成备份</li>
+<li>仪表盘搜索</li>
+<li>仪表盘与用户系统对接，标识仪表盘归属</li>
+</ul>
+
+<h2>v 1.1.0</h2>
+
+<p><code>发布时间：2015.09.07</code></p>
+
+<ul>
+<li>添加平台服务仪表盘，显示该平台服务的所有 Metrics</li>
+<li>支持 15 天内，Metric 数据的查询</li>
+<li>平台列表页面的样式调优</li>
+<li>平台服务存在配置错误时，给予提示信息</li>
+<li>平台服务配置错误时，加上了更新时间</li>
+<li>平台右侧抽屉中的服务详情，添加了 Metric 搜索</li>
+<li>服务详情中，添加了「加载更多」按钮</li>
+<li>服务详情中，添加「前往平台服务仪表盘」按钮</li>
+<li>修复 Agen info 指令无法执行的错误</li>
+</ul>
+
+<h2>v 1.0.0</h2>
+
+<p><code>发布时间：2015.08.20</code></p>
+
+<ul>
+<li>新增 64 位系统 CentOS，RedHat，Fedora，Ubuntu 监控</li>
+<li>支持 ActiveMQ 监控</li>
+<li>支持 Apache Tomcat 监控</li>
+<li>支持 Apache Kafka 监控</li>
+<li>支持 Cassandra 监控</li>
+<li>支持 Couchbase 监控</li>
+<li>支持 Docker 监控</li>
+<li>支持 ElasticSearch 监控</li>
+<li>支持 PHP-FPM 监控</li>
+<li>支持 RabbitMQ 监控</li>
+<li>平台列表显示平台的操作系统类型</li>
+<li>右侧抽屉新增问题详情，记录平台服务配置的错误日志</li>
+<li>服务详情中 Metric 显示调优</li>
+<li>系统信息中添加进行运行状态</li>
+</ul>
+
+<h2>v 0.1.0</h2>
+
+<ul>
+<li>新增 CentOS 监控</li>
+<li>新增 RedHat 监控</li>
+<li>新增 Fedora 监控</li>
+<li>新增 Ubuntu 监控</li>
+<li>支持 Apache 监控</li>
+<li>支持 Memcached 监控</li>
+<li>支持 MongoDB 监控</li>
+<li>支持 MySQL 监控</li>
+<li>支持 Redis 监控</li>
+<li>支持 NGINX 监控</li>
+<li>支持 PostgreSQL 监控</li>
+<li>新增平台列表，显示已安装 Agent 的平台</li>
+<li>平台列表显示 平台状态、CPU 使用率、IO Wait 和 Load 15 信息</li>
+<li>平台列表显示已开启配置的平台服务信息</li>
+<li>右侧抽屉新增服务详情信息，显示操作系统和平台服务的 Metric</li>
+<li>右侧抽屉新增系统信息，显示平台 CPU、文件系统、内存、网络和平台信息</li>
+</ul>
+
+            <hr style="margin-top: 50px;" />
+<div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
+  <p style="font-size: 16px;">
+    如果您对 Cloudinsight 感兴趣，可以选择试用我们的产品，只需要点击下面的按钮免费注册即可。
+  </p>
+  <br />
+  <p>
+    <a href="https://cloud.oneapm.com/user/register?ref=https://cloud.oneapm.com&from=ci-docs" class="btn btn-info btn-lg" target="_blank">
+      立即注册 Cloudinsight
+    </a>
+  </p>
+</div>
+<hr />
+<!-- 多说评论框 start -->
+<div class="ds-thread"
+     id="ds-thread"
+     data-thread-key=""
+     data-title=""
+     data-url="http://docs-ci.oneapm.com/release-note.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+  var titleTag = document.getElementsByTagName("h1")[0];
+
+  if (titleTag) {
+    title = document.getElementsByTagName("h1")[0].innerText;
+  } else {
+    title = "Cloudinsight - Release Note";
+  }
+
+  var duoshuoTag = document.getElementById('ds-thread');
+  duoshuoTag.setAttribute('data-thread-key', title.replace(/\s/g, ''));
+  duoshuoTag.setAttribute('data-title', title);
+
+  var duoshuoQuery = {short_name:"docs-ci"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+            <div class="return"></div>
+          </div>
+          <div class="footer-in">
+            <div class="footer-nav-block">
+    <div class="container">
+        <div class="footer-nav">
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="/quick-start/">文档</a>
+                    </li>
+                    <li>
+                        <a href="/quick-start/">快速入门</a>
+                    </li>
+                    <li>
+                        <a href="/agent/">安装配置</a>
+                    </li>
+                    <li>
+                        <a href="/platform/">操作指南</a>
+                    </li>
+                    <li>
+                        <a href="/best-practise/">实践案例</a>
+                    </li>
+                    <li>
+                        <a href="/qa/">常见问题</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">产品</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">基础组件监控</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/api_sdk.html">API 与 SDK</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/cialert.html">异常数据告警</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/price.html">报价</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">关于</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">团队介绍</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/cooperation.html">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-support">
+            <ul class="footer-support-list">
+                <li><img src="/images/home/support.svg"></li>
+                <li class="support-title">技术支持</li>
+                <li class="support-mail">support@oneapm.com</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-block">
+    <div class="container">
+        <div class="copyright-link">
+            <div class="socialLink">
+                <a href="https://github.com/cloudinsight/cloudinsight.github.io" class="social-btn github" target="_blank">
+                    <img src="/images/home/github.svg">
+                    <p class="hidden-xs hidden-xxs">Github</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="#" class="social-btn qr">
+                    <img src="/images/home/wechat.svg">
+                    <p class="hidden-xs hidden-xxs">微信</p>
+                    <div class="QRcode">
+                        <img src="/images/home/wechatQR.svg">
+                    </div>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://my.oschina.net/cloudinsight/blog" class="social-btn" target="_blank">
+                    <img src="/images/home/oschina.svg">
+                    <p class="hidden-xs hidden-xxs">开源中国</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://www.weibo.com/cloudinsight" class="social-btn" target="_blank">
+                    <img src="/images/home/weibo.svg">
+                    <p class="hidden-xs hidden-xxs">微博</p>
+                </a>
+            </div>
+        </div>
+        <div class="copyright-text">
+            <a href="http://cloudinsight.oneapm.com/">
+                <img src="/images/home/cilogomulti_btn.svg" class="footer-logo">
+            </a>
+            <p class="copyright">
+                Copyright © 2008-
+                <span id="cr-end-time"></span>
+                北京蓝海讯通科技股份有限公司
+                <br>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14028342号-2</a>
+                京公网安备 11010802016192
+                <br>
+            </p>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      $(function() {
+        $(".navbar-default .navbar-nav .guide").addClass("active");
+        (function () {
+          $('.panel-default').mouseenter(function () {
+            if(!$(this).hasClass('active')){
+              $(this).children().addClass('in');
+            }
+          })
+          $('.panel-default').mouseleave(function () {
+              if(!$(this).hasClass('active')) {
+                $(this).children().removeClass('in');
+              }
+            })
+          var key=window.location.pathname;
+          var lastindex;
+          var keyInfo;
+          if(key.indexOf('quick-start') !== -1){
+            keyInfo="'"+key+"'";
+            $('ol').eq(0).children().map(function () {
+              $(this).css({
+                'cursor':'pointer',
+                'color':'#005FA8'
+              })
+            })
+            $('ol').eq(0).children().eq(0).click(function () {
+              $('.page-body').animate({ scrollTop: 300 }, 500)
+            })
+            $('ol').eq(0).children().eq(1).click(function () {
+              $('.page-body').animate({ scrollTop: 1830 }, 500)
+            })
+            $('ol').eq(0).children().eq(2).click(function () {
+              $('.page-body').animate({ scrollTop: 4202 }, 500)
+            })
+            $('ol').eq(0).children().eq(3).click(function () {
+              $('.page-body').animate({ scrollTop: 5942 }, 500)
+            })
+            $('ol').eq(0).children().eq(4).click(function () {
+              $('.page-body').animate({ scrollTop: 10066 }, 500)
+            })
+          }else if(key.indexOf('/',1) !== -1){
+            lastindex=key.indexOf('/',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"'";
+          }else {
+            lastindex=key.indexOf('.',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"html'";
+          }
+          var panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent();
+          panelHead.siblings().addClass('in');
+          panelHead.parent().siblings('div').map(function () {
+            $(this).removeClass('active');
+          });
+          panelHead.parent().addClass('active');
+        })();
+      });
+    </script>
+  </body>
+</html>

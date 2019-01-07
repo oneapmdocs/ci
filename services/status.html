@@ -1,0 +1,754 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="网站监控,服务器监控,数据库监控,自定义指标,服务监控,中间件监控,数据可视化,大数据监控,页面性能监控">
+<meta name="description" content="Cloudinsight 是一款集监控与数据可视化，数据管理为一身的平台，可以进行基础组件的监控，自定义数据仪表盘的展示，对任意指标报警，是IT运维人员，以及开发人员的必备工具服务">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<!-- Use title if it's in the page YAML frontmatter -->
+<title>Cloudinsight 文档</title>
+
+  <script type="text/javascript">
+    if (window.location.hostname === 'www.oneapm.com') {
+      var pathnameSegs = window.location.pathname.split("/docs/ci");
+      var realPathname = pathnameSegs[pathnameSegs.length - 1];
+      window.location.href = 'http://docs-ci.oneapm.com' + realPathname;
+    } else if (window.location.hostname !== 'docs-ci.oneapm.com') {
+      window.location.href = 'http://docs-ci.oneapm.com' + window.location.pathname;
+    }
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?dc7d70374ed3b2f6ce76527be8b9c93a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+<!-- growingio -->
+<script type='text/javascript'>
+  var _vds = _vds || [];
+  window._vds = _vds;
+  (function(){
+    _vds.push(['setAccountId', '9b345c730c9983fa']);
+    (function() {
+      var vds = document.createElement('script');
+      vds.type='text/javascript';
+      vds.async = true;
+      vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(vds, s);
+    })();
+  })();
+</script>
+
+
+<link href="/stylesheets/site.css" rel="stylesheet" />
+<script src="/javascripts/jquery-2.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/all.js"></script>
+<style media="screen">
+  .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+.highlight .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #6c8b9f;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #b2fd6d;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .err {
+  color: #fefeec;
+  background-color: #cc0000;
+}
+.highlight .gr {
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .k, .highlight .kd, .highlight .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+.highlight .o, .highlight .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .p, .highlight .pi {
+  color: #4df4ff;
+}
+.highlight .gd {
+  color: #cc0000;
+}
+.highlight .gi {
+  color: #b2fd6d;
+}
+.highlight .ge {
+  font-style: italic;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gt {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .kc {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nc {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nd {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sb, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .sr, .highlight .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+.highlight .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .nb {
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #BBBBBB;
+}
+.highlight .go {
+  color: #BBBBBB;
+}
+.highlight .nf {
+  color: #a8e1fe;
+}
+.highlight .py {
+  color: #a8e1fe;
+}
+.highlight .na {
+  color: #a8e1fe;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+
+  <body class="page-services services_status">
+        <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ6GBS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ6GBS');</script>
+    <!-- End Google Tag Manager -->
+
+<header class="main-header clearfix">
+	<div class="main-navblock col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><div>
+			<a href="../index.html" class="logo-container">
+				<div class="oneapm-logo"></div>
+			</a>
+		</div>
+		<!--<a href="#" class="burger-wrapper">-->
+			<!--<div class="burger"></div>-->
+		<!--</a>-->
+		<!--<div class="nav-container">-->
+			<!--<ul class="nav-list">-->
+				<!--<li>-->
+					<!--<a href="/quick-start/">快速入门</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/agent/">安装配置</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/platform/">操作指南</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/best-practise/">实践案例</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/qa/">常见问题</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+			<!--<ul class="login-list">-->
+				<!--<li>-->
+					<!--<a href="http://user.oneapm.com/pages/v2/login_ci" class="btn outline-dark" id="loginIn">登录</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="https://cloud.oneapm.com/user/register" class="btn inside-yellow" id="signUp">注册</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+		<!--</div>-->
+	</div>
+</header>
+<div class="flagInfo clearfix">
+    <div class="flag-left"></div>
+    <div class="flag-right">Cloudinsight Agent 在 4.7.0 版本，将 Agent 名称从 oneapm-ci-agent 更换至 cloudinsight-agent。若您在使用过程中，出现无法正常工作的情况，请加入售后群：433349863</div>
+    <span class="cl">X</span>
+</div>
+<script type="text/javascript" src="//d.oneapm.com/sso/nav.js"></script>
+
+
+    <div class="container page-container">
+      <div class="row">
+        <div class="col-lg-3 page-sidebar hidden-ssm hidden-xs">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" href="/agent/">
+          Agent 安装与设置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/agent/redhat.html">RedHat / CentOS / Fedora 安装</a></li>
+          <li><a href="/agent/ubuntu.html">Debian / Ubuntu 安装</a></li>
+          <li><a href="/agent/amazon.html">Amazon Linux 安装</a></li>
+          <li><a href="/agent/windows.html">Windows 安装</a></li>
+          <li><a href="/agent/docker.html">Docker 安装</a></li>
+          <li><a href="/agent/chef.html">Chef 安装</a></li>
+          <li><a href="/agent/inner.html">内网环境安装探针</a></li>
+          <li><a href="/agent/agent-instrument.html">Agent 操作与配置</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed"  href="/api/">
+          API与SDK
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/api/sdk.html">SDK</a></li>
+          <li><a href="/api/python.html">Python</a></li>
+          <li><a href="/api/nodejs.html">Node.js</a></li>
+          <li><a href="/api/ruby.html">Ruby</a></li>
+          <li><a href="/api/java.html">Java</a></li>
+          <li><a href="/api/dotnet.html">DotNET</a></li>
+          <li><a href="/api/php.html">PHP</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/cloud-integration/">
+          云厂商接入
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/cloud-integration/aliyun.html">阿里云</a></li>
+          <li><a href="/cloud-integration/ucloud.html">UCloud</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services/">
+          平台服务基础配置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services/status.html">状态页监控</a></li>
+          <li><a href="/services/jmx.html">JMX 远程监控</a></li>
+          <li><a href="/services/authorize.html">数据库授权监控</a></li>
+          <li><a href="/services/database.html">数据库配置</a></li>
+          <li><a href="/services/agent-check.html">自定义 AgentCheck</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services_example/">
+          平台服务配置示例
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services_example/activemq.html">artivemq</a></li>
+          <li><a href="/services_example/apache.html">apache</a></li>
+          <li><a href="/services_example/bearychat.html">bearychat</a></li>
+          <li><a href="/services_example/cacti.html">cacti</a></li>
+          <li><a href="/services_example/cassandra.html">cassandra</a></li>
+          <li><a href="/services_example/couchbase.html">couchbase</a></li>
+          <li><a href="/services_example/couchdb.html">couchdb</a></li>
+          <li><a href="/services_example/docker.html">docker</a></li>
+          <li><a href="/services_example/elasticsearch.html">elasticsearch</a></li>
+          <li><a href="/services_example/event_viewer.html">event_viewer</a></li>
+          <li><a href="/services_example/gearman.html">gearman</a></li>
+          <li><a href="/services_example/gunicorn.html">gunicorn</a></li>
+          <li><a href="/services_example/haproxy.html">haproxy</a></li>
+          <li><a href="/services_example/http.html">http</a></li>
+          <li><a href="/services_example/iis.html">iis</a></li>
+          <li><a href="/services_example/jianliao.html">jianliao</a></li>
+          <li><a href="/services_example/kafka.html">kafka</a></li>
+          <li><a href="/services_example/memcached.html">memcached</a></li>
+          <li><a href="/services_example/mesos.html">mesos</a></li>
+          <li><a href="/services_example/mongodb.html">mongodb</a></li>
+          <li><a href="/services_example/mysql.html">mysql</a></li>
+          <li><a href="/services_example/nagios.html">nagios</a></li>
+          <li><a href="/services_example/network.html">network</a></li>
+          <li><a href="/services_example/nginx.html">nginx</a></li>
+          <li><a href="/services_example/openstack.html">openstack</a></li>
+          <li><a href="/services_example/php-fpm.html">php-fpm</a></li>
+          <li><a href="/services_example/postgresql.html">postgresql</a></li>
+          <li><a href="/services_example/process.html">process</a></li>
+          <li><a href="/services_example/pubu.html">pubu</a></li>
+          <li><a href="/services_example/rabbitmq.html">rabbitmq</a></li>
+          <li><a href="/services_example/redis.html">redis</a></li>
+          <li><a href="/services_example/snmp.html">snmp</a></li>
+          <li><a href="/services_example/solr.html">solr</a></li>
+          <li><a href="/services_example/sqlserver.html">sqlserver</a></li>
+          <li><a href="/services_example/ssh.html">ssh</a></li>
+          <li><a href="/services_example/supervisord.html">supervisord</a></li>
+          <li><a href="/services_example/tcp.html">tcp</a></li>
+          <li><a href="/services_example/tomcat.html">tomcat</a></li>
+          <li><a href="/services_example/wmi.html">wmi</a></li>
+          <li><a href="/services_example/zookeeper.html">zookeeper</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="col-lg-9 page-body">
+          <div class="body-box">
+            <h1>状态页监控</h1>
+
+<h2>介绍</h2>
+
+<p>Cloudinsight 对 NGINX PHP-FPM 和 Apache 采用状态页监控，来采集其性能数据。</p>
+
+<p>以 NGINX 为例：</p>
+
+<p><img src="/images/service/status_nginx.png" alt="Status nginx" /></p>
+
+<p>NGINX 自带监控模块，输出 NGINX 状态页，来表征其运行情况。</p>
+
+<p>而 Cloudinsight Agent 从状态页对数值进行周期性的巡检，来采集指标；并添加上数据聚合所需要的各类标签信息，上传至 Cloudinsight 后端。</p>
+
+<hr>
+
+<h2>启动 <code>status</code> 模块</h2>
+
+<p>以下平台服务需要，开启 <code>status</code> 模块，来让 Cloudinsight Agent 采集数据：</p>
+
+<ul>
+<li><a href="/services_example/apache.html">Apache</a></li>
+<li><a href="/services_example/nginx.html">NGINX</a></li>
+<li><a href="/services_example/php-fpm.html">PHP-FPM</a></li>
+</ul>
+
+<p>以下我们以 NGINX 配置中的第一步，开启 <code>status</code> 模块为例，为大家介绍如何开启 <code>status</code> 模块。</p>
+
+<h3>配置 NGINX 监控</h3>
+
+<p>在配置 NGINX 中，第一步需要开启 <code>status</code> 模块：</p>
+
+<blockquote>
+<p>确保 <code>http_stub_status_module</code> 已安装在 NGINX 服务器上。</p>
+</blockquote>
+
+<p>具体如何操作呢？</p>
+
+<h4>1. 检查是否支持 `http<em>stub</em>status_module&rsquo;</h4>
+
+<p>开启 Cloudinsight NGINX 监控，需要 NGINX 的 <code>http_stub_status_module</code>，您可以通过以下指令来检查，当前版本的 NGINX 是否支持：</p>
+<div class="highlight"><pre class="highlight plaintext"><code>nginx -V |&amp; grep http_stub_status_module
+</code></pre></div>
+<p>若输出 <code>configure arguments:</code> 并且后接一些参数，则代表当前版本支持 <code>http_stub_status_module</code>，并且已经开启该模块。</p>
+
+<h4>2. 设置模块的配置</h4>
+
+<p>当 NGINX 的状态页可用，可以配置其参数，并确定 URL 地址：</p>
+<div class="highlight"><pre class="highlight plaintext"><code>server {
+  listen 80;
+  server_name localhost;
+
+  access_log off;
+  allow 127.0.0.1;
+  deny all;
+
+  location /nginx_status {
+    stub_status on;
+  }
+}
+</code></pre></div>
+<p>如上述输出所示，当前 NGINX 状态页运行在本地 <code>localhost</code> 上。</p>
+
+<h4>3. 关联 URL</h4>
+
+<p>打开 Cloudinsight NGINX 配置文件 <code>conf.d/nginx.yaml</code>，添加状态页 URL 地址：</p>
+
+<p><img src="/images/service/Apache4042.png" alt="Apache4042" /></p>
+
+<h2>其他配置选项</h2>
+
+<p>有关 NGINX 其他配置选型，请查看以下信息：</p>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+
+<span class="na">instances</span><span class="pi">:</span>
+  <span class="c1"># For every instance, you need an `nginx_status_url` and can optionally</span>
+  <span class="c1"># supply a list of tags. This plugin requires nginx to be compiled with</span>
+  <span class="c1"># the nginx stub status module option, and activated with the correct</span>
+  <span class="c1"># configuration stanza. On debian/ubuntu, this is included in the</span>
+  <span class="c1"># `nginx-extras` package. For more details, see:</span>
+  <span class="c1">#</span>
+  <span class="c1"># http://support.oneapm.com/</span>
+  <span class="c1">#</span>
+
+  <span class="pi">-</span> <span class="na">nginx_status_url</span><span class="pi">:</span> <span class="s">http://localhost/nginx_status/</span>             <span class="c1"># NGINX 状态页 URL</span>
+  <span class="c1"># ssl_validation: False                                        # 是否启用 SSL，默认为True</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">instance:foo</span>                                             <span class="c1"># 自定义标签，用于在 Cloudinsight 平台对 NGINX 服务器进行分组</span>
+  <span class="c1">#</span>
+  <span class="c1"># - nginx_status_url: http://example2.com:1234/nginx_status/   ＃ 监控多个 NGINX 实例时进行配置</span>
+  <span class="c1"># ssl_validation: False</span>
+  <span class="c1"># tags:</span>
+  <span class="c1"># - instance:bar</span>
+</code></pre></div>
+            <hr style="margin-top: 50px;" />
+<div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
+  <p style="font-size: 16px;">
+    如果您对 Cloudinsight 感兴趣，可以选择试用我们的产品，只需要点击下面的按钮免费注册即可。
+  </p>
+  <br />
+  <p>
+    <a href="https://cloud.oneapm.com/user/register?ref=https://cloud.oneapm.com&from=ci-docs" class="btn btn-info btn-lg" target="_blank">
+      立即注册 Cloudinsight
+    </a>
+  </p>
+</div>
+<hr />
+<!-- 多说评论框 start -->
+<div class="ds-thread"
+     id="ds-thread"
+     data-thread-key=""
+     data-title=""
+     data-url="http://docs-ci.oneapm.com/services/status.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+  var titleTag = document.getElementsByTagName("h1")[0];
+
+  if (titleTag) {
+    title = document.getElementsByTagName("h1")[0].innerText;
+  } else {
+    title = "";
+  }
+
+  var duoshuoTag = document.getElementById('ds-thread');
+  duoshuoTag.setAttribute('data-thread-key', title.replace(/\s/g, ''));
+  duoshuoTag.setAttribute('data-title', title);
+
+  var duoshuoQuery = {short_name:"docs-ci"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+            <div class="return"></div>
+          </div>
+          <div class="footer-in">
+            <div class="footer-nav-block">
+    <div class="container">
+        <div class="footer-nav">
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="/quick-start/">文档</a>
+                    </li>
+                    <li>
+                        <a href="/quick-start/">快速入门</a>
+                    </li>
+                    <li>
+                        <a href="/agent/">安装配置</a>
+                    </li>
+                    <li>
+                        <a href="/platform/">操作指南</a>
+                    </li>
+                    <li>
+                        <a href="/best-practise/">实践案例</a>
+                    </li>
+                    <li>
+                        <a href="/qa/">常见问题</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">产品</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">基础组件监控</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/api_sdk.html">API 与 SDK</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/cialert.html">异常数据告警</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/price.html">报价</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">关于</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">团队介绍</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/cooperation.html">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-support">
+            <ul class="footer-support-list">
+                <li><img src="/images/home/support.svg"></li>
+                <li class="support-title">技术支持</li>
+                <li class="support-mail">support@oneapm.com</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-block">
+    <div class="container">
+        <div class="copyright-link">
+            <div class="socialLink">
+                <a href="https://github.com/cloudinsight/cloudinsight.github.io" class="social-btn github" target="_blank">
+                    <img src="/images/home/github.svg">
+                    <p class="hidden-xs hidden-xxs">Github</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="#" class="social-btn qr">
+                    <img src="/images/home/wechat.svg">
+                    <p class="hidden-xs hidden-xxs">微信</p>
+                    <div class="QRcode">
+                        <img src="/images/home/wechatQR.svg">
+                    </div>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://my.oschina.net/cloudinsight/blog" class="social-btn" target="_blank">
+                    <img src="/images/home/oschina.svg">
+                    <p class="hidden-xs hidden-xxs">开源中国</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://www.weibo.com/cloudinsight" class="social-btn" target="_blank">
+                    <img src="/images/home/weibo.svg">
+                    <p class="hidden-xs hidden-xxs">微博</p>
+                </a>
+            </div>
+        </div>
+        <div class="copyright-text">
+            <a href="http://cloudinsight.oneapm.com/">
+                <img src="/images/home/cilogomulti_btn.svg" class="footer-logo">
+            </a>
+            <p class="copyright">
+                Copyright © 2008-
+                <span id="cr-end-time"></span>
+                北京蓝海讯通科技股份有限公司
+                <br>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14028342号-2</a>
+                京公网安备 11010802016192
+                <br>
+            </p>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      $(function() {
+        $(".navbar-default .navbar-nav .guide").addClass("active");
+        (function () {
+          $('.panel-default').mouseenter(function () {
+            if(!$(this).hasClass('active')){
+              $(this).children().addClass('in');
+            }
+          })
+          $('.panel-default').mouseleave(function () {
+              if(!$(this).hasClass('active')) {
+                $(this).children().removeClass('in');
+              }
+            })
+          var key=window.location.pathname;
+          var lastindex;
+          var keyInfo;
+          if(key.indexOf('quick-start') !== -1){
+            keyInfo="'"+key+"'";
+            $('ol').eq(0).children().map(function () {
+              $(this).css({
+                'cursor':'pointer',
+                'color':'#005FA8'
+              })
+            })
+            $('ol').eq(0).children().eq(0).click(function () {
+              $('.page-body').animate({ scrollTop: 300 }, 500)
+            })
+            $('ol').eq(0).children().eq(1).click(function () {
+              $('.page-body').animate({ scrollTop: 1830 }, 500)
+            })
+            $('ol').eq(0).children().eq(2).click(function () {
+              $('.page-body').animate({ scrollTop: 4202 }, 500)
+            })
+            $('ol').eq(0).children().eq(3).click(function () {
+              $('.page-body').animate({ scrollTop: 5942 }, 500)
+            })
+            $('ol').eq(0).children().eq(4).click(function () {
+              $('.page-body').animate({ scrollTop: 10066 }, 500)
+            })
+          }else if(key.indexOf('/',1) !== -1){
+            lastindex=key.indexOf('/',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"'";
+          }else {
+            lastindex=key.indexOf('.',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"html'";
+          }
+          var panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent();
+          panelHead.siblings().addClass('in');
+          panelHead.parent().siblings('div').map(function () {
+            $(this).removeClass('active');
+          });
+          panelHead.parent().addClass('active');
+        })();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1537 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="ElasticSearch,ElasticSearch监控,ElasticSearch监控工具,ElasticSearch指标">
+<meta name="description" content="Cloudinsight 是一款集监控与数据可视化，数据管理为一身的平台，可以进行基础组件的监控，自定义数据仪表盘的展示，对任意指标报警，是IT运维人员，以及开发人员的必备工具服务">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<!-- Use title if it's in the page YAML frontmatter -->
+<title>如何监控ElasticSearch|ElasticSearch监控|ElasticSearch性能指标|Cloudinsight监控ElasticSearch</title>
+
+  <script type="text/javascript">
+    if (window.location.hostname === 'www.oneapm.com') {
+      var pathnameSegs = window.location.pathname.split("/docs/ci");
+      var realPathname = pathnameSegs[pathnameSegs.length - 1];
+      window.location.href = 'http://docs-ci.oneapm.com' + realPathname;
+    } else if (window.location.hostname !== 'docs-ci.oneapm.com') {
+      window.location.href = 'http://docs-ci.oneapm.com' + window.location.pathname;
+    }
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?dc7d70374ed3b2f6ce76527be8b9c93a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+<!-- growingio -->
+<script type='text/javascript'>
+  var _vds = _vds || [];
+  window._vds = _vds;
+  (function(){
+    _vds.push(['setAccountId', '9b345c730c9983fa']);
+    (function() {
+      var vds = document.createElement('script');
+      vds.type='text/javascript';
+      vds.async = true;
+      vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(vds, s);
+    })();
+  })();
+</script>
+
+
+<link href="/stylesheets/site.css" rel="stylesheet" />
+<script src="/javascripts/jquery-2.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/all.js"></script>
+<style media="screen">
+  .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+.highlight .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #6c8b9f;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #b2fd6d;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .err {
+  color: #fefeec;
+  background-color: #cc0000;
+}
+.highlight .gr {
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .k, .highlight .kd, .highlight .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+.highlight .o, .highlight .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .p, .highlight .pi {
+  color: #4df4ff;
+}
+.highlight .gd {
+  color: #cc0000;
+}
+.highlight .gi {
+  color: #b2fd6d;
+}
+.highlight .ge {
+  font-style: italic;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gt {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .kc {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nc {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nd {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sb, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .sr, .highlight .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+.highlight .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .nb {
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #BBBBBB;
+}
+.highlight .go {
+  color: #BBBBBB;
+}
+.highlight .nf {
+  color: #a8e1fe;
+}
+.highlight .py {
+  color: #a8e1fe;
+}
+.highlight .na {
+  color: #a8e1fe;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+
+  <body class="page-services_example services_example_elasticsearch">
+        <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ6GBS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ6GBS');</script>
+    <!-- End Google Tag Manager -->
+
+<header class="main-header clearfix">
+	<div class="main-navblock col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><div>
+			<a href="../index.html" class="logo-container">
+				<div class="oneapm-logo"></div>
+			</a>
+		</div>
+		<!--<a href="#" class="burger-wrapper">-->
+			<!--<div class="burger"></div>-->
+		<!--</a>-->
+		<!--<div class="nav-container">-->
+			<!--<ul class="nav-list">-->
+				<!--<li>-->
+					<!--<a href="/quick-start/">快速入门</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/agent/">安装配置</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/platform/">操作指南</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/best-practise/">实践案例</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/qa/">常见问题</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+			<!--<ul class="login-list">-->
+				<!--<li>-->
+					<!--<a href="http://user.oneapm.com/pages/v2/login_ci" class="btn outline-dark" id="loginIn">登录</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="https://cloud.oneapm.com/user/register" class="btn inside-yellow" id="signUp">注册</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+		<!--</div>-->
+	</div>
+</header>
+<div class="flagInfo clearfix">
+    <div class="flag-left"></div>
+    <div class="flag-right">Cloudinsight Agent 在 4.7.0 版本，将 Agent 名称从 oneapm-ci-agent 更换至 cloudinsight-agent。若您在使用过程中，出现无法正常工作的情况，请加入售后群：433349863</div>
+    <span class="cl">X</span>
+</div>
+<script type="text/javascript" src="//d.oneapm.com/sso/nav.js"></script>
+
+
+    <div class="container page-container">
+      <div class="row">
+        <div class="col-lg-3 page-sidebar hidden-ssm hidden-xs">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" href="/agent/">
+          Agent 安装与设置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/agent/redhat.html">RedHat / CentOS / Fedora 安装</a></li>
+          <li><a href="/agent/ubuntu.html">Debian / Ubuntu 安装</a></li>
+          <li><a href="/agent/amazon.html">Amazon Linux 安装</a></li>
+          <li><a href="/agent/windows.html">Windows 安装</a></li>
+          <li><a href="/agent/docker.html">Docker 安装</a></li>
+          <li><a href="/agent/chef.html">Chef 安装</a></li>
+          <li><a href="/agent/inner.html">内网环境安装探针</a></li>
+          <li><a href="/agent/agent-instrument.html">Agent 操作与配置</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed"  href="/api/">
+          API与SDK
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/api/sdk.html">SDK</a></li>
+          <li><a href="/api/python.html">Python</a></li>
+          <li><a href="/api/nodejs.html">Node.js</a></li>
+          <li><a href="/api/ruby.html">Ruby</a></li>
+          <li><a href="/api/java.html">Java</a></li>
+          <li><a href="/api/dotnet.html">DotNET</a></li>
+          <li><a href="/api/php.html">PHP</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/cloud-integration/">
+          云厂商接入
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/cloud-integration/aliyun.html">阿里云</a></li>
+          <li><a href="/cloud-integration/ucloud.html">UCloud</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services/">
+          平台服务基础配置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services/status.html">状态页监控</a></li>
+          <li><a href="/services/jmx.html">JMX 远程监控</a></li>
+          <li><a href="/services/authorize.html">数据库授权监控</a></li>
+          <li><a href="/services/database.html">数据库配置</a></li>
+          <li><a href="/services/agent-check.html">自定义 AgentCheck</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services_example/">
+          平台服务配置示例
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services_example/activemq.html">artivemq</a></li>
+          <li><a href="/services_example/apache.html">apache</a></li>
+          <li><a href="/services_example/bearychat.html">bearychat</a></li>
+          <li><a href="/services_example/cacti.html">cacti</a></li>
+          <li><a href="/services_example/cassandra.html">cassandra</a></li>
+          <li><a href="/services_example/couchbase.html">couchbase</a></li>
+          <li><a href="/services_example/couchdb.html">couchdb</a></li>
+          <li><a href="/services_example/docker.html">docker</a></li>
+          <li><a href="/services_example/elasticsearch.html">elasticsearch</a></li>
+          <li><a href="/services_example/event_viewer.html">event_viewer</a></li>
+          <li><a href="/services_example/gearman.html">gearman</a></li>
+          <li><a href="/services_example/gunicorn.html">gunicorn</a></li>
+          <li><a href="/services_example/haproxy.html">haproxy</a></li>
+          <li><a href="/services_example/hdfs.html">hdfs</a></li>
+          <li><a href="/services_example/http.html">http</a></li>
+          <li><a href="/services_example/iis.html">iis</a></li>
+          <li><a href="/services_example/jianliao.html">jianliao</a></li>
+          <li><a href="/services_example/kafka.html">kafka</a></li>
+          <li><a href="/services_example/memcached.html">memcached</a></li>
+          <li><a href="/services_example/mesos.html">mesos</a></li>
+          <li><a href="/services_example/mongodb.html">mongodb</a></li>
+          <li><a href="/services_example/mysql.html">mysql</a></li>
+          <li><a href="/services_example/nagios.html">nagios</a></li>
+          <li><a href="/services_example/network.html">network</a></li>
+          <li><a href="/services_example/nginx.html">nginx</a></li>
+          <li><a href="/services_example/openstack.html">openstack</a></li>
+          <li><a href="/services_example/php-fpm.html">php-fpm</a></li>
+          <li><a href="/services_example/postgresql.html">postgresql</a></li>
+          <li><a href="/services_example/process.html">process</a></li>
+          <li><a href="/services_example/pubu.html">pubu</a></li>
+          <li><a href="/services_example/rabbitmq.html">rabbitmq</a></li>
+          <li><a href="/services_example/redis.html">redis</a></li>
+          <li><a href="/services_example/snmp.html">snmp</a></li>
+          <li><a href="/services_example/solr.html">solr</a></li>
+          <li><a href="/services_example/sqlserver.html">sqlserver</a></li>
+          <li><a href="/services_example/ssh.html">ssh</a></li>
+          <li><a href="/services_example/supervisord.html">supervisord</a></li>
+          <li><a href="/services_example/tcp.html">tcp</a></li>
+          <li><a href="/services_example/tomcat.html">tomcat</a></li>
+          <li><a href="/services_example/wmi.html">wmi</a></li>
+          <li><a href="/services_example/zookeeper.html">zookeeper</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="col-lg-9 page-body">
+          <div class="body-box">
+            <h1>ElasticSearch</h1>
+
+<p>ElasticSearch 是一个基于 Lucene 的搜索服务器。它基于 RESTful web 接口，提供了一个分布式多用户能力的全文搜索引擎。</p>
+
+<p>Cloudinsight 监控 ElasticSearch 集群分片情况，操作花费时间等性能状况。</p>
+
+<p><img src="/images/service_example/elasticsearch.png" alt="Elasticsearch" /></p>
+
+<hr>
+
+<h2>性能指标</h2>
+
+<p>Cloudinsight 采集 ElasticSearch 以下性能指标：</p>
+
+<table><thead>
+<tr>
+<th>指标</th>
+<th>单位</th>
+<th>具体含义</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elasticsearch.active_primary_shards</td>
+<td>shards</td>
+<td>集群中活跃的主分片数量</td>
+</tr>
+<tr>
+<td>elasticsearch.active_shards</td>
+<td>shards</td>
+<td>集群中活跃分片数量</td>
+</tr>
+<tr>
+<td>elasticsearch.cache.field.evictions</td>
+<td>evictions</td>
+<td>field 缓存里被驱逐的数据量</td>
+</tr>
+<tr>
+<td>elasticsearch.cache.field.size</td>
+<td>bytes</td>
+<td>field 缓存大小</td>
+</tr>
+<tr>
+<td>elasticsearch.cache.filter.count</td>
+<td>items</td>
+<td>filter 缓存中的 item 数量</td>
+</tr>
+<tr>
+<td>elasticsearch.cache.filter.evictions</td>
+<td>evictions</td>
+<td>filter 缓存里被驱逐的数据量</td>
+</tr>
+<tr>
+<td>elasticsearch.cache.filter.size</td>
+<td>bytes</td>
+<td>filter 缓存大小</td>
+</tr>
+<tr>
+<td>elasticsearch.cluster_status</td>
+<td></td>
+<td>该 elasticsearch 集群健康数字：红=0，黄色=1，绿=2</td>
+</tr>
+<tr>
+<td>elasticsearch.docs.count</td>
+<td>documents</td>
+<td>集群中所有分片的文档数量</td>
+</tr>
+<tr>
+<td>elasticsearch.docs.deleted</td>
+<td>documents</td>
+<td>集群中所有分片删除的文档数量</td>
+</tr>
+<tr>
+<td>elasticsearch.fielddata.evictions</td>
+<td>evictions</td>
+<td>fielddata 缓存里被驱逐的数据量</td>
+</tr>
+<tr>
+<td>elasticsearch.fielddata.size</td>
+<td>bytes</td>
+<td>fielddata 缓存大小</td>
+</tr>
+<tr>
+<td>elasticsearch.flush.total</td>
+<td>flushes</td>
+<td>自开始以来，索引 flush 到磁盘的总数量（进行一次提交并删除事务日志的操作叫做 flush）</td>
+</tr>
+<tr>
+<td>elasticsearch.flush.total.time</td>
+<td>seconds</td>
+<td>将索引 flush 到磁盘所用的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.available_in_bytes</td>
+<td>bytes</td>
+<td>此文件存储上 Java 虚拟机可用的字节总数</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.disk_io_op</td>
+<td>operations</td>
+<td>文件存储上的 I/O 操作的总次数</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.disk_io_size_in_bytes</td>
+<td>bytes</td>
+<td>文件存储上的所有 I/O 操作使用的总字节数</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.disk_read_size_in_bytes</td>
+<td>bytes</td>
+<td>从文件存储读取的总字节数</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.disk_reads</td>
+<td>reads</td>
+<td>从文件存储器读取的总次数</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.disk_write_size_in_bytes</td>
+<td>bytes</td>
+<td>写入文件存储器的总字节数</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.disk_writes</td>
+<td>writes</td>
+<td>写入文件存储器的总次数</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.free_in_bytes</td>
+<td>bytes</td>
+<td>文件存储中未分配字节的总数</td>
+</tr>
+<tr>
+<td>elasticsearch.fs.total.total_in_bytes</td>
+<td>bytes</td>
+<td>文件存储的总大小</td>
+</tr>
+<tr>
+<td>elasticsearch.get.current</td>
+<td>requests</td>
+<td>当前正在运行的 get 请求数</td>
+</tr>
+<tr>
+<td>elasticsearch.get.exists.time</td>
+<td>seconds</td>
+<td>文档存在时花费在 get 请求上的时间</td>
+</tr>
+<tr>
+<td>elasticsearch.get.exists.total</td>
+<td>requests</td>
+<td>文档存在时 get 请求次数</td>
+</tr>
+<tr>
+<td>elasticsearch.get.missing.time</td>
+<td>seconds</td>
+<td>文档丢失时花费在 get 请求上的时间</td>
+</tr>
+<tr>
+<td>elasticsearch.get.missing.total</td>
+<td>requests</td>
+<td>文档丢失时 get 请求次数</td>
+</tr>
+<tr>
+<td>elasticsearch.get.time</td>
+<td>seconds</td>
+<td>花费在 get 请求上的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.get.total</td>
+<td>requests</td>
+<td>总的 get 请求次数</td>
+</tr>
+<tr>
+<td>elasticsearch.http.current_open</td>
+<td>connections</td>
+<td>当前打开的 http 连接数</td>
+</tr>
+<tr>
+<td>elasticsearch.http.total_opened</td>
+<td>connections</td>
+<td>打开 http 的总连接数</td>
+</tr>
+<tr>
+<td>elasticsearch.id_cache.size</td>
+<td>bytes</td>
+<td>id 缓存的大小</td>
+</tr>
+<tr>
+<td>elasticsearch.indexing.delete.current</td>
+<td>documents</td>
+<td>当前从一个 index 中删除的文档数量</td>
+</tr>
+<tr>
+<td>elasticsearch.indexing.delete.time</td>
+<td>seconds</td>
+<td>从一个 index 中删除文档花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.indexing.delete.total</td>
+<td>documents</td>
+<td>从一个 index 中删除的文档总数量</td>
+</tr>
+<tr>
+<td>elasticsearch.indexing.index.current</td>
+<td>documents</td>
+<td>当前从一个 index 中索引的文档数量</td>
+</tr>
+<tr>
+<td>elasticsearch.indexing.index.time</td>
+<td>seconds</td>
+<td>从一个 index 索引文档所花费的时间</td>
+</tr>
+<tr>
+<td>elasticsearch.indexing.index.total</td>
+<td>documents</td>
+<td>一个 index 中被索引的文档总数量</td>
+</tr>
+<tr>
+<td>elasticsearch.indices.segments.count</td>
+<td>segments</td>
+<td>一个 index 分片中的段数</td>
+</tr>
+<tr>
+<td>elasticsearch.indices.segments.fixed_bit_set_memory_in_bytes</td>
+<td>bytes</td>
+<td>内存中固定位设置使用的大小</td>
+</tr>
+<tr>
+<td>elasticsearch.indices.segments.index_writer_max_memory_in_bytes</td>
+<td>bytes</td>
+<td>索引编写器使用的最大内存</td>
+</tr>
+<tr>
+<td>elasticsearch.indices.segments.index_writer_memory_in_bytes</td>
+<td>bytes</td>
+<td>索引编写器使用的内存</td>
+</tr>
+<tr>
+<td>elasticsearch.indices.segments.memory_in_bytes</td>
+<td>bytes</td>
+<td>索引段使用的内存</td>
+</tr>
+<tr>
+<td>elasticsearch.indices.segments.version_map_memory_in_bytes</td>
+<td>bytes</td>
+<td>段版本映射使用的内存</td>
+</tr>
+<tr>
+<td>elasticsearch.indices.translog.operations</td>
+<td>operations</td>
+<td>事务日志中的操作数量</td>
+</tr>
+<tr>
+<td>elasticsearch.indices.translog.size_in_bytes</td>
+<td>bytes</td>
+<td>事务日志的大小</td>
+</tr>
+<tr>
+<td>elasticsearch.initializing_shards</td>
+<td>shards</td>
+<td>当前初始化分片的数量</td>
+</tr>
+<tr>
+<td>elasticsearch.merges.current</td>
+<td>merges</td>
+<td>当前的活跃段合并数量</td>
+</tr>
+<tr>
+<td>elasticsearch.merges.current.docs</td>
+<td>documents</td>
+<td>当前跨段合并的文档数量</td>
+</tr>
+<tr>
+<td>elasticsearch.merges.current.size</td>
+<td>bytes</td>
+<td>当前被合并的段的大小</td>
+</tr>
+<tr>
+<td>elasticsearch.merges.total</td>
+<td>merges</td>
+<td>所有段的合并数量</td>
+</tr>
+<tr>
+<td>elasticsearch.merges.total.docs</td>
+<td>documents</td>
+<td>跨所有合并段的文档数量</td>
+</tr>
+<tr>
+<td>elasticsearch.merges.total.size</td>
+<td>bytes</td>
+<td>所有合并段的大小</td>
+</tr>
+<tr>
+<td>elasticsearch.merges.total.time</td>
+<td>seconds</td>
+<td>花在合并段上的时间</td>
+</tr>
+<tr>
+<td>elasticsearch.number_of_data_nodes</td>
+<td>nodes</td>
+<td>集群中数据节点总数</td>
+</tr>
+<tr>
+<td>elasticsearch.number_of_nodes</td>
+<td>nodes</td>
+<td>集群中节点总数</td>
+</tr>
+<tr>
+<td>elasticsearch.pending_tasks_priority_high</td>
+<td>tasks</td>
+<td>高优先级的未完成的 task 数量</td>
+</tr>
+<tr>
+<td>elasticsearch.pending_tasks_priority_urgent</td>
+<td>tasks</td>
+<td>紧急优先未完成的 task 数量</td>
+</tr>
+<tr>
+<td>elasticsearch.pending_tasks_total</td>
+<td>tasks</td>
+<td>总的未完成的 task 数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.docs.count</td>
+<td>documents</td>
+<td>主分片中的文档总数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.docs.deleted</td>
+<td>documents</td>
+<td>从主分片中删除的文档总数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.flush.total</td>
+<td>flushes</td>
+<td>自从开始以来，从主分片 flush 到磁盘的索引的总次数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.flush.total.time</td>
+<td>seconds</td>
+<td>从主分片 flush 索引到磁盘花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.get.current</td>
+<td>requests</td>
+<td>主分片上当前正在运行的 get 请求数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.get.exists.time</td>
+<td>requests</td>
+<td>从文档存在的主分片 get 请求所花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.get.exists.total</td>
+<td>requests</td>
+<td>文档存在的主分片上的 get 请求总数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.get.missing.time</td>
+<td>seconds</td>
+<td>从文档丢失的主分片 get 请求所花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.get.missing.total</td>
+<td>requests</td>
+<td>文档丢失的主分片上的 get 请求总数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.get.time</td>
+<td>seconds</td>
+<td>从主分片 get 请求所花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.get.total</td>
+<td>requests</td>
+<td>从主分片 get 请求的总次数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.indexing.delete.current</td>
+<td>documents</td>
+<td>当前正从主分片上的一个 index 中删除的文档数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.indexing.delete.time</td>
+<td>seconds</td>
+<td>从主分片上的一个 index 中删除文档所花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.indexing.delete.total</td>
+<td>documents</td>
+<td>从主分片上的一个 index 中删除的文档总数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.indexing.index.current</td>
+<td>documents</td>
+<td>当前正从主分片上的一个 index 中索引的文档数</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.indexing.index.time</td>
+<td>seconds</td>
+<td>主分片上一个 index 索引文档所花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.indexing.index.total</td>
+<td>documents</td>
+<td>主分片上一个 index 索引文档的总数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.merges.current</td>
+<td>merges</td>
+<td>主分片上当前的活跃段合并数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.merges.current.docs</td>
+<td>documents</td>
+<td>主分片上当前跨段合并的文档数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.merges.current.size</td>
+<td>bytes</td>
+<td>主分片上当前被合并的段的大小</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.merges.total</td>
+<td>merges</td>
+<td>主分片上所有段的合并数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.merges.total.docs</td>
+<td>documents</td>
+<td>主分片上跨所有合并段的文档数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.merges.total.size</td>
+<td>bytes</td>
+<td>主分片上所有合并段的大小</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.merges.total.time</td>
+<td>seconds</td>
+<td>主分片上花在合并段上的时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.refresh.total</td>
+<td>refreshes</td>
+<td>主分片上 index 刷新总数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.refresh.total.time</td>
+<td>seconds</td>
+<td>主分片上 index 刷新花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.search.fetch.current</td>
+<td>fetches</td>
+<td>当前运行在主分片上查询取回操作的数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.search.fetch.time</td>
+<td>seconds</td>
+<td>在主分片上查询取回操作的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.search.fetch.total</td>
+<td>fetches</td>
+<td>在主分片上查询取回操作的总数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.search.query.current</td>
+<td>queries</td>
+<td>当前运行在主分片上查询操作的数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.search.query.time</td>
+<td>seconds</td>
+<td>在主分片上查询操作的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.search.query.total</td>
+<td>queries</td>
+<td>在主分片上查询操作的数量</td>
+</tr>
+<tr>
+<td>elasticsearch.primaries.store.size</td>
+<td>bytes</td>
+<td>所有主分片的总大小</td>
+</tr>
+<tr>
+<td>elasticsearch.process.open_fd</td>
+<td>files</td>
+<td>打开和当前进程相关的文件描述符的数量，如果不支持，则为 -1</td>
+</tr>
+<tr>
+<td>elasticsearch.refresh.total</td>
+<td>refreshes</td>
+<td>索引刷新的总次数</td>
+</tr>
+<tr>
+<td>elasticsearch.refresh.total.time</td>
+<td>seconds</td>
+<td>索引刷新花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.relocating_shards</td>
+<td>shards</td>
+<td>从一个节点搬到另一个节点的分片数量</td>
+</tr>
+<tr>
+<td>elasticsearch.search.fetch.current</td>
+<td>fetches</td>
+<td>当前运行的搜索返回操作的数量</td>
+</tr>
+<tr>
+<td>elasticsearch.search.fetch.open_contexts</td>
+<td>queries</td>
+<td>活跃的搜索数量</td>
+</tr>
+<tr>
+<td>elasticsearch.search.fetch.time</td>
+<td>seconds</td>
+<td>在搜索返回操作上花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.search.fetch.total</td>
+<td>fetches</td>
+<td>搜索返回操作总数量</td>
+</tr>
+<tr>
+<td>elasticsearch.search.query.current</td>
+<td>queries</td>
+<td>当前运行的查询操作的数量</td>
+</tr>
+<tr>
+<td>elasticsearch.search.query.time</td>
+<td>seconds</td>
+<td>在查询操作上花费的总时间</td>
+</tr>
+<tr>
+<td>elasticsearch.search.query.total</td>
+<td>queries</td>
+<td>查询的操作的总数量</td>
+</tr>
+<tr>
+<td>elasticsearch.store.size</td>
+<td>bytes</td>
+<td>存储的总大小</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.bulk.active</td>
+<td>threads</td>
+<td>bulk 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.bulk.queue</td>
+<td>threads</td>
+<td>bulk 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.bulk.rejected</td>
+<td>threads</td>
+<td>bulk 线程池中被拒绝的线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.bulk.threads</td>
+<td>threads</td>
+<td>bulk 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.flush.active</td>
+<td>threads</td>
+<td>flush 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.flush.queue</td>
+<td>threads</td>
+<td>flush 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.flush.threads</td>
+<td>threads</td>
+<td>flush 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.generic.active</td>
+<td>threads</td>
+<td>generic 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.generic.queue</td>
+<td>threads</td>
+<td>generic 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.generic.threads</td>
+<td>threads</td>
+<td>generic 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.get.active</td>
+<td>threads</td>
+<td>get 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.get.queue</td>
+<td>threads</td>
+<td>get 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.get.threads</td>
+<td>threads</td>
+<td>get 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.index.active</td>
+<td>threads</td>
+<td>index 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.index.queue</td>
+<td>threads</td>
+<td>index 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.index.threads</td>
+<td>threads</td>
+<td>index 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.management.active</td>
+<td>threads</td>
+<td>management 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.management.queue</td>
+<td>threads</td>
+<td>management 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.management.threads</td>
+<td>threads</td>
+<td>management 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.merge.active</td>
+<td>threads</td>
+<td>merge 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.merge.queue</td>
+<td>threads</td>
+<td>merge 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.merge.threads</td>
+<td>threads</td>
+<td>merge 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.percolate.active</td>
+<td>threads</td>
+<td>percolate 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.percolate.queue</td>
+<td>threads</td>
+<td>percolate 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.percolate.threads</td>
+<td>threads</td>
+<td>percolate 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.refresh.active</td>
+<td>threads</td>
+<td>refresh 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.refresh.queue</td>
+<td>threads</td>
+<td>refresh 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.refresh.threads</td>
+<td>threads</td>
+<td>refresh 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.search.active</td>
+<td>threads</td>
+<td>search 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.search.queue</td>
+<td>threads</td>
+<td>search 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.search.threads</td>
+<td>threads</td>
+<td>search 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.snapshot.active</td>
+<td>threads</td>
+<td>snapshot 线程池中的活跃线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.snapshot.queue</td>
+<td>threads</td>
+<td>snapshot 线程池中的排队线程数</td>
+</tr>
+<tr>
+<td>elasticsearch.thread_pool.snapshot.threads</td>
+<td>threads</td>
+<td>snapshot 线程池中线程总数</td>
+</tr>
+<tr>
+<td>elasticsearch.transport.rx_count</td>
+<td>packets</td>
+<td>集群通信中接收的数据包总数</td>
+</tr>
+<tr>
+<td>elasticsearch.transport.rx_size</td>
+<td>bytes</td>
+<td>集群通信中接收的数据的总大小</td>
+</tr>
+<tr>
+<td>elasticsearch.transport.server_open</td>
+<td>connections</td>
+<td>为集群通信打开的连接数</td>
+</tr>
+<tr>
+<td>elasticsearch.transport.tx_count</td>
+<td>packets</td>
+<td>集群通信中发送的数据包总数</td>
+</tr>
+<tr>
+<td>elasticsearch.transport.tx_size</td>
+<td>bytes</td>
+<td>集群通信中发送的数据的总大小</td>
+</tr>
+<tr>
+<td>elasticsearch.unassigned_shards</td>
+<td>shards</td>
+<td>未分配给节点的分片数量</td>
+</tr>
+<tr>
+<td>jvm.gc.collection_count</td>
+<td>garbage collections</td>
+<td>JVM 运行的垃圾回收的总次数</td>
+</tr>
+<tr>
+<td>jvm.gc.collection_time</td>
+<td>seconds</td>
+<td>在 JVM 中进行垃圾回收所花费的总时间</td>
+</tr>
+<tr>
+<td>jvm.gc.collectors.old.collection_time</td>
+<td>seconds</td>
+<td>JVM 中花费在 Old GC 上的总时间（即 Major GC）</td>
+</tr>
+<tr>
+<td>jvm.gc.collectors.old.count</td>
+<td>garbage collections</td>
+<td>JVM 中 Old GC 总次数（即 Major GC）</td>
+</tr>
+<tr>
+<td>jvm.gc.collectors.young.collection_time</td>
+<td>seconds</td>
+<td>JVM 中花费在 Young GC 上的总时间（即 Minor GC）</td>
+</tr>
+<tr>
+<td>jvm.gc.collectors.young.count</td>
+<td>garbage collections</td>
+<td>JVM 中 Young GC 总次数（即 Minor GC）</td>
+</tr>
+<tr>
+<td>jvm.gc.concurrent_mark_sweep.collection_time</td>
+<td>seconds</td>
+<td>JVM 中花费在 CMS GC 上的总时间</td>
+</tr>
+<tr>
+<td>jvm.gc.concurrent_mark_sweep.count</td>
+<td>garbage collections</td>
+<td>JVM 中 CMS GC 的总次数</td>
+</tr>
+<tr>
+<td>jvm.gc.par_new.collection_time</td>
+<td>seconds</td>
+<td>JVM 中花费在 ParNew GC 上的总时间</td>
+</tr>
+<tr>
+<td>jvm.gc.par_new.count</td>
+<td>garbage collections</td>
+<td>JVM 中 ParNew GC 的总次数</td>
+</tr>
+<tr>
+<td>jvm.mem.heap_committed</td>
+<td>bytes</td>
+<td>保证可用于 JVM 堆的内存量</td>
+</tr>
+<tr>
+<td>jvm.mem.heap_in_use</td>
+<td></td>
+<td>JVM 堆当前使用的内存量化为 0 到 1 之间的值</td>
+</tr>
+<tr>
+<td>jvm.mem.heap_max</td>
+<td>bytes</td>
+<td>JVM 堆可以使用的最大内存量</td>
+</tr>
+<tr>
+<td>jvm.mem.heap_used</td>
+<td>bytes</td>
+<td>JVM 堆当前使用的内存量</td>
+</tr>
+<tr>
+<td>jvm.mem.non_heap_committed</td>
+<td>bytes</td>
+<td>保证可用于 JVM 非堆的内存量</td>
+</tr>
+<tr>
+<td>jvm.mem.non_heap_used</td>
+<td>bytes</td>
+<td>JVM 中非堆内存使用量</td>
+</tr>
+<tr>
+<td>jvm.threads.count</td>
+<td>threads</td>
+<td>JVM 中活动线程的数量</td>
+</tr>
+<tr>
+<td>jvm.threads.peak_count</td>
+<td>threads</td>
+<td>JVM 使用的线程的峰值数</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<h2>配置 Elastic Search 监控</h2>
+
+<h3>编辑配置文件</h3>
+
+<p>编辑配置文件 <code>conf.d/elastic.yaml</code>，使 Cloudinsight Agent 可以与 Elasticsearch 通信。</p>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+
+<span class="na">instances</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">url</span><span class="pi">:</span> <span class="s">http://localhost:9200</span>
+</code></pre></div>
+<h3>重启 Agent</h3>
+
+<p>重启 Cloudinsight Agent，使配置生效。</p>
+
+<p>您也可以通过查看 Agent Info 信息，来验证配置是否成功。当出现以下信息，则代表安装成功。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Checks
+======
+
+[...]
+
+elastic
+------
+  - instance #0 [OK]
+  - Collected 8 metrics &amp; 0 events
+</code></pre></div>
+<p>有关 Agent Info 信息的查看，请访问帮助中心，查看  <a href="/quick-start/instrument.html">Cloudinsight Agent 常用操作</a>。</p>
+
+<hr>
+
+<h2>常见问题</h2>
+
+<ul>
+<li>若要在同一个服务器上监控多个相同的平台服务，参考<a href="http://docs-ci.oneapm.com/qa/more.html">如何监控多个平台服务</a>。</li>
+<li>有任何关于产品的使用疑惑，参考<a href="http://docs-ci.oneapm.com/qa/">常见问题</a>。</li>
+</ul>
+
+            <hr style="margin-top: 50px;" />
+<div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
+  <p style="font-size: 16px;">
+    如果您对 Cloudinsight 感兴趣，可以选择试用我们的产品，只需要点击下面的按钮免费注册即可。
+  </p>
+  <br />
+  <p>
+    <a href="https://cloud.oneapm.com/user/register?ref=https://cloud.oneapm.com&from=ci-docs" class="btn btn-info btn-lg" target="_blank">
+      立即注册 Cloudinsight
+    </a>
+  </p>
+</div>
+<hr />
+<!-- 多说评论框 start -->
+<div class="ds-thread"
+     id="ds-thread"
+     data-thread-key=""
+     data-title=""
+     data-url="http://docs-ci.oneapm.com/services_example/elasticsearch.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+  var titleTag = document.getElementsByTagName("h1")[0];
+
+  if (titleTag) {
+    title = document.getElementsByTagName("h1")[0].innerText;
+  } else {
+    title = "如何监控ElasticSearch|ElasticSearch监控|ElasticSearch性能指标|Cloudinsight监控ElasticSearch";
+  }
+
+  var duoshuoTag = document.getElementById('ds-thread');
+  duoshuoTag.setAttribute('data-thread-key', title.replace(/\s/g, ''));
+  duoshuoTag.setAttribute('data-title', title);
+
+  var duoshuoQuery = {short_name:"docs-ci"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+            <div class="return"></div>
+          </div>
+          <div class="footer-in">
+            <div class="footer-nav-block">
+    <div class="container">
+        <div class="footer-nav">
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="/quick-start/">文档</a>
+                    </li>
+                    <li>
+                        <a href="/quick-start/">快速入门</a>
+                    </li>
+                    <li>
+                        <a href="/agent/">安装配置</a>
+                    </li>
+                    <li>
+                        <a href="/platform/">操作指南</a>
+                    </li>
+                    <li>
+                        <a href="/best-practise/">实践案例</a>
+                    </li>
+                    <li>
+                        <a href="/qa/">常见问题</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">产品</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">基础组件监控</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/api_sdk.html">API 与 SDK</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/cialert.html">异常数据告警</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/price.html">报价</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">关于</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">团队介绍</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/cooperation.html">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-support">
+            <ul class="footer-support-list">
+                <li><img src="/images/home/support.svg"></li>
+                <li class="support-title">技术支持</li>
+                <li class="support-mail">support@oneapm.com</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-block">
+    <div class="container">
+        <div class="copyright-link">
+            <div class="socialLink">
+                <a href="https://github.com/cloudinsight/cloudinsight.github.io" class="social-btn github" target="_blank">
+                    <img src="/images/home/github.svg">
+                    <p class="hidden-xs hidden-xxs">Github</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="#" class="social-btn qr">
+                    <img src="/images/home/wechat.svg">
+                    <p class="hidden-xs hidden-xxs">微信</p>
+                    <div class="QRcode">
+                        <img src="/images/home/wechatQR.svg">
+                    </div>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://my.oschina.net/cloudinsight/blog" class="social-btn" target="_blank">
+                    <img src="/images/home/oschina.svg">
+                    <p class="hidden-xs hidden-xxs">开源中国</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://www.weibo.com/cloudinsight" class="social-btn" target="_blank">
+                    <img src="/images/home/weibo.svg">
+                    <p class="hidden-xs hidden-xxs">微博</p>
+                </a>
+            </div>
+        </div>
+        <div class="copyright-text">
+            <a href="http://cloudinsight.oneapm.com/">
+                <img src="/images/home/cilogomulti_btn.svg" class="footer-logo">
+            </a>
+            <p class="copyright">
+                Copyright © 2008-
+                <span id="cr-end-time"></span>
+                北京蓝海讯通科技股份有限公司
+                <br>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14028342号-2</a>
+                京公网安备 11010802016192
+                <br>
+            </p>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      $(function() {
+        $(".navbar-default .navbar-nav .guide").addClass("active");
+        (function () {
+          $('.panel-default').mouseenter(function () {
+            if(!$(this).hasClass('active')){
+              $(this).children().addClass('in');
+            }
+          })
+          $('.panel-default').mouseleave(function () {
+              if(!$(this).hasClass('active')) {
+                $(this).children().removeClass('in');
+              }
+            })
+          var key=window.location.pathname;
+          var lastindex;
+          var keyInfo;
+          if(key.indexOf('quick-start') !== -1){
+            keyInfo="'"+key+"'";
+            $('ol').eq(0).children().map(function () {
+              $(this).css({
+                'cursor':'pointer',
+                'color':'#005FA8'
+              })
+            })
+            $('ol').eq(0).children().eq(0).click(function () {
+              $('.page-body').animate({ scrollTop: 300 }, 500)
+            })
+            $('ol').eq(0).children().eq(1).click(function () {
+              $('.page-body').animate({ scrollTop: 1830 }, 500)
+            })
+            $('ol').eq(0).children().eq(2).click(function () {
+              $('.page-body').animate({ scrollTop: 4202 }, 500)
+            })
+            $('ol').eq(0).children().eq(3).click(function () {
+              $('.page-body').animate({ scrollTop: 5942 }, 500)
+            })
+            $('ol').eq(0).children().eq(4).click(function () {
+              $('.page-body').animate({ scrollTop: 10066 }, 500)
+            })
+          }else if(key.indexOf('/',1) !== -1){
+            lastindex=key.indexOf('/',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"'";
+          }else {
+            lastindex=key.indexOf('.',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"html'";
+          }
+          var panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent();
+          panelHead.siblings().addClass('in');
+          panelHead.parent().siblings('div').map(function () {
+            $(this).removeClass('active');
+          });
+          panelHead.parent().addClass('active');
+        })();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,641 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="网站监控,服务器监控,数据库监控,自定义指标,服务监控,中间件监控,数据可视化,大数据监控,页面性能监控">
+<meta name="description" content="Cloudinsight 是一款集监控与数据可视化，数据管理为一身的平台，可以进行基础组件的监控，自定义数据仪表盘的展示，对任意指标报警，是IT运维人员，以及开发人员的必备工具服务">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<!-- Use title if it's in the page YAML frontmatter -->
+<title>Cloudinsight - 常见问题</title>
+
+  <script type="text/javascript">
+    if (window.location.hostname === 'www.oneapm.com') {
+      var pathnameSegs = window.location.pathname.split("/docs/ci");
+      var realPathname = pathnameSegs[pathnameSegs.length - 1];
+      window.location.href = 'http://docs-ci.oneapm.com' + realPathname;
+    } else if (window.location.hostname !== 'docs-ci.oneapm.com') {
+      window.location.href = 'http://docs-ci.oneapm.com' + window.location.pathname;
+    }
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?dc7d70374ed3b2f6ce76527be8b9c93a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+<!-- growingio -->
+<script type='text/javascript'>
+  var _vds = _vds || [];
+  window._vds = _vds;
+  (function(){
+    _vds.push(['setAccountId', '9b345c730c9983fa']);
+    (function() {
+      var vds = document.createElement('script');
+      vds.type='text/javascript';
+      vds.async = true;
+      vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(vds, s);
+    })();
+  })();
+</script>
+
+
+<link href="/stylesheets/site.css" rel="stylesheet" />
+<script src="/javascripts/jquery-2.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/all.js"></script>
+<style media="screen">
+  .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+.highlight .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #6c8b9f;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #b2fd6d;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .err {
+  color: #fefeec;
+  background-color: #cc0000;
+}
+.highlight .gr {
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .k, .highlight .kd, .highlight .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+.highlight .o, .highlight .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .p, .highlight .pi {
+  color: #4df4ff;
+}
+.highlight .gd {
+  color: #cc0000;
+}
+.highlight .gi {
+  color: #b2fd6d;
+}
+.highlight .ge {
+  font-style: italic;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gt {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .kc {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nc {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nd {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sb, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .sr, .highlight .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+.highlight .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .nb {
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #BBBBBB;
+}
+.highlight .go {
+  color: #BBBBBB;
+}
+.highlight .nf {
+  color: #a8e1fe;
+}
+.highlight .py {
+  color: #a8e1fe;
+}
+.highlight .na {
+  color: #a8e1fe;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+
+  <body class="page-qa qa_centos-5">
+        <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ6GBS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ6GBS');</script>
+    <!-- End Google Tag Manager -->
+
+<header class="main-header clearfix">
+	<div class="main-navblock col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><div>
+			<a href="../index.html" class="logo-container">
+				<div class="oneapm-logo"></div>
+			</a>
+		</div>
+		<!--<a href="#" class="burger-wrapper">-->
+			<!--<div class="burger"></div>-->
+		<!--</a>-->
+		<!--<div class="nav-container">-->
+			<!--<ul class="nav-list">-->
+				<!--<li>-->
+					<!--<a href="/quick-start/">快速入门</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/agent/">安装配置</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/platform/">操作指南</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/best-practise/">实践案例</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/qa/">常见问题</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+			<!--<ul class="login-list">-->
+				<!--<li>-->
+					<!--<a href="http://user.oneapm.com/pages/v2/login_ci" class="btn outline-dark" id="loginIn">登录</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="https://cloud.oneapm.com/user/register" class="btn inside-yellow" id="signUp">注册</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+		<!--</div>-->
+	</div>
+</header>
+<div class="flagInfo clearfix">
+    <div class="flag-left"></div>
+    <div class="flag-right">Cloudinsight Agent 在 4.7.0 版本，将 Agent 名称从 oneapm-ci-agent 更换至 cloudinsight-agent。若您在使用过程中，出现无法正常工作的情况，请加入售后群：433349863</div>
+    <span class="cl">X</span>
+</div>
+<script type="text/javascript" src="//d.oneapm.com/sso/nav.js"></script>
+
+
+    <div class="container page-container">
+      <div class="row">
+        <div class="col-xs-3 page-sidebar hidden-ssm hidden-xs">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" href="/qa/product_index.html">
+          产品
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/qa/down_summary.html">应用安装失败全解析</a></li>
+          <li><a href="/qa/metrics.html">指标含义看不懂</a></li>
+          <li><a href="/qa/load.html">load.1 ,5 , 15  是什么意思？</a></li>
+          <li><a href="/qa/agent.html">Cloudinsight 探针是怎样工作的？</a></li>
+          <li><a href="/qa/name.html">怎么修改应用名称？</a></li>
+          <li><a href="/qa/host_unavailable.html">如何在主机不可用时收到报警? </a></li>
+          <li><a href="/qa/windows_v.html">Cloudinsight 支持哪些 Windows 版本？</a></li>
+          <li><a href="/qa/tag.html">tag 使用指南</a></li>
+          <li><a href="/qa/network_adapter.html">怎么识别多网卡流量情况? </a></li>
+          <li><a href="/qa/browser.html">浏览器不能显示 Cloudinsight 数据</a></li>
+          <li><a href="/qa/more.html">如何监控多个平台服务</a></li>
+          <li><a href="/qa/core.html">如何监控多核 CPU</a></li>
+          <li><a href="/qa/process.html">怎么监控进程，挂掉的时候可以收到报警？</a></li>
+          <li><a href="/qa/metric.html">怎么批量创建不同主机，相同指标的图表？</a></li>
+          <li><a href="/qa/mount_point.html">如何针对不同挂载目录查看磁盘的使用率情况？</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed"  href="/qa/agent_index.html">
+          Agent 使用
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/qa/agent_update.html">怎么更新探针</a></li>
+          <li><a href="/qa/agent_uninstall.html">探针卸载操作</a></li>
+          <li><a href="/qa/http_emitter.html">http_emitter: TypeError(/expected string)</a></li>
+          <li><a href="/qa/emitter.html">emitter.py 报错 Unable to post payload</a></li>
+          <li><a href="/qa/address_already_in_use.html">端口被占用：Errno 98 Address already in use</a></li>
+          <li><a href="/qa/hostname.html">Unable to reliably determine host name</a></li>
+          <li><a href="/qa/kill_automatic.html">Ci 探针启动成功不久就自动关闭</a></li>
+          <li><a href="/qa/centos-7.html">解决 CentOS 7 安装 Cloudinsight 报错问题</a></li>
+          <li><a href="/qa/ubuntu-error.html">nmet dependencies Ubuntu 安装报错</a></li>
+          <li><a href="/qa/centos-5.html">解决 CentOS 5 安装 Cloudinsight 报错问题</a></li>
+          <li><a href="/qa/remove-agent.html">卸载了探针，官网上怎么还是有主机数据，多长时间就没有了</a></li>
+          <li><a href="/qa/syslog.html">Error setting up syslog</a></li>
+          <li><a href="/qa/time.html">探针启动成功，没有任何报错，但数据加载却显示 "暂无数据"</a></li>
+          <li><a href="/qa/win_2008.html">Windows 2008 R2 安装失败</a></li>
+          <li><a href="/qa/win_install.html">Windows 安装探针失败</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/qa/service_index.html">
+          平台服务配置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/qa/yaml.html">YAML 格式须知</a></li>
+          <li><a href="/qa/snmp.html">SNMP 如何配置监控</a></li>
+          <li><a href="/qa/apache_404.html">Apache: 页面出现 404 Client Error</a></li>
+          <li><a href="/qa/tomcat_cannot_connect_to_instance_localhost.html">Tomcat: Cannot Connect to Instance Localhost</a></li>
+          <li><a href="/qa/yaml_loading.html">配置 yaml 文件出错：数据持续加载中</a></li>
+          <li><a href="/qa/mysql-error.html">MySQL 异常报错</a></li>
+          <li><a href="/qa/java_path.html">Cloudn’t launch JMXTerm . Is Java in your PATH ?</a></li>
+          <li><a href="/qa/mysql_m_s.html">MySQL 主从复制</a></li>
+          <li><a href="/qa/docker_daemon.html">Docker -- Unable to connect to socket. oneapm-ci-agent user must be part of the 'docker' group</a></li>
+          <li><a href="/qa/process_error.html">进程配置完成后没有监控到相应数据</a></li>
+          <li><a href="/qa/yaml_mapping.html">mapping values are not allowed in this context\n in "byte string", line 5 ,column11</a></li>
+          <li><a href="/qa/nginx_ssl.html">Nginx SSL：CERTIFICATE_VERIFY_FAILED certificate verify failed (_ssl.c:590)</a></li>
+          <li><a href="/qa/iis_error.html">IIS -- com_error: (-2147217392, 'OLE error 0x80041010', None, None)</a></li>
+          <li><a href="/qa/sqlserver_error.html">SQL Server -- Unable to connect to SQL Server for instance 127.0.0.1,1433 - master</a></li>
+          <li><a href="/qa/wmi_nodata.html">WMI Check 平台列表无数据</a></li>
+          <li><a href="/qa/win_event_log_nodata.html">Windows Event Log 平台列表无数据</a></li>
+          <li><a href="/qa/gunicorn_error.html">Gunicorn -- Found no master process with name: gunicorn: master[app]</a></li>
+          <li><a href="/qa/gunicorn_faq.html">配置 Gunicorn 监控后，只能看到两个指标，怎么看到其他指标？</a></li>
+          <li><a href="/qa/ssh_error.html">SSH -- Server '127.0.0.1' not found in known_hosts'</a></li>
+          <li><a href="/qa/sdk_faq.html">SDK -- 在一台机器安装探针，想通过另外一台机器的 SDK 向其发送数据，需如何配置？</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="col-xs-9 page-body">
+          <div class="body-box">
+            <h1>解决 CentOS 5 安装 Cloudinsight 报错问题</h1>
+
+<p>CentOS 5 安装 Cloudinsight 时报错如图 ：</p>
+
+<p><img src="/images/qa/centos5.png" alt="Centos5" /></p>
+
+<p>查看 cloudinsight-agent-install.log 的日志，部分如下：</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+http://yum.oneapm.com/x86_64/repodata/ae9772f136d882fd8f61b9c71e29c2630db3d5b211ef4ddc2b976af3006ebe1a-primary.sqlite.bz2: [Errno -3] Error performing checksum
+Trying other mirror.
+http://yum.oneapm.com/x86_64/repodata/ae9772f136d882fd8f61b9c71e29c2630db3d5b211ef4ddc2b976af3006ebe1a-primary.sqlite.bz2: [Errno -3] Error performing checksum
+Trying other mirror.
+Error: failure: repodata/ae9772f136d882fd8f61b9c71e29c2630db3d5b211ef4ddc2b976af3006ebe1a-primary.sqlite.bz2 from cloudinsight-agent: [Errno 256] No more mirrors to try.
+[31m
+
+</code></pre></div>
+<p>以上出错原因是发布 Cloudinsight 探针包时默认的 checksum（检验码）是 sha256 ,而 CentOS 5/rhel 5 版本不符合这个，所以安装不了这个安装包。</p>
+
+<hr>
+
+<h2>解决方法</h2>
+
+<p><strong>首先删掉因安装 Ci 添加的 yum 源</strong></p>
+<div class="highlight"><pre class="highlight plaintext"><code>rm -rf  /etc/yum.repos.d/cloudinsight-agent.repo
+</code></pre></div>
+<p><strong>然后安装一个 hash加密的模块：</strong>
+<code>
+yum install python-hashlib
+</code></p>
+
+<p><strong>最后一键复制安装探针</strong></p>
+
+<p><img src="/images/qa/IR2.png" alt="Ir2" /></p>
+
+<p>就这样。</p>
+
+            <hr style="margin-top: 50px;" />
+<div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
+  <p style="font-size: 16px;">
+    如果您对 Cloudinsight 感兴趣，可以选择试用我们的产品，只需要点击下面的按钮免费注册即可。
+  </p>
+  <br />
+  <p>
+    <a href="https://cloud.oneapm.com/user/register?ref=https://cloud.oneapm.com&from=ci-docs" class="btn btn-info btn-lg" target="_blank">
+      立即注册 Cloudinsight
+    </a>
+  </p>
+</div>
+<hr />
+<!-- 多说评论框 start -->
+<div class="ds-thread"
+     id="ds-thread"
+     data-thread-key=""
+     data-title=""
+     data-url="http://docs-ci.oneapm.com/qa/centos-5.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+  var titleTag = document.getElementsByTagName("h1")[0];
+
+  if (titleTag) {
+    title = document.getElementsByTagName("h1")[0].innerText;
+  } else {
+    title = "Cloudinsight - 常见问题";
+  }
+
+  var duoshuoTag = document.getElementById('ds-thread');
+  duoshuoTag.setAttribute('data-thread-key', title.replace(/\s/g, ''));
+  duoshuoTag.setAttribute('data-title', title);
+
+  var duoshuoQuery = {short_name:"docs-ci"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+            <div class="return"></div>
+          </div>
+          <div class="footer-in">
+            <div class="footer-nav-block">
+    <div class="container">
+        <div class="footer-nav">
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="/quick-start/">文档</a>
+                    </li>
+                    <li>
+                        <a href="/quick-start/">快速入门</a>
+                    </li>
+                    <li>
+                        <a href="/agent/">安装配置</a>
+                    </li>
+                    <li>
+                        <a href="/platform/">操作指南</a>
+                    </li>
+                    <li>
+                        <a href="/best-practise/">实践案例</a>
+                    </li>
+                    <li>
+                        <a href="/qa/">常见问题</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">产品</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">基础组件监控</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/api_sdk.html">API 与 SDK</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/cialert.html">异常数据告警</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/price.html">报价</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">关于</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">团队介绍</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/cooperation.html">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-support">
+            <ul class="footer-support-list">
+                <li><img src="/images/home/support.svg"></li>
+                <li class="support-title">技术支持</li>
+                <li class="support-mail">support@oneapm.com</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-block">
+    <div class="container">
+        <div class="copyright-link">
+            <div class="socialLink">
+                <a href="https://github.com/cloudinsight/cloudinsight.github.io" class="social-btn github" target="_blank">
+                    <img src="/images/home/github.svg">
+                    <p class="hidden-xs hidden-xxs">Github</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="#" class="social-btn qr">
+                    <img src="/images/home/wechat.svg">
+                    <p class="hidden-xs hidden-xxs">微信</p>
+                    <div class="QRcode">
+                        <img src="/images/home/wechatQR.svg">
+                    </div>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://my.oschina.net/cloudinsight/blog" class="social-btn" target="_blank">
+                    <img src="/images/home/oschina.svg">
+                    <p class="hidden-xs hidden-xxs">开源中国</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://www.weibo.com/cloudinsight" class="social-btn" target="_blank">
+                    <img src="/images/home/weibo.svg">
+                    <p class="hidden-xs hidden-xxs">微博</p>
+                </a>
+            </div>
+        </div>
+        <div class="copyright-text">
+            <a href="http://cloudinsight.oneapm.com/">
+                <img src="/images/home/cilogomulti_btn.svg" class="footer-logo">
+            </a>
+            <p class="copyright">
+                Copyright © 2008-
+                <span id="cr-end-time"></span>
+                北京蓝海讯通科技股份有限公司
+                <br>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14028342号-2</a>
+                京公网安备 11010802016192
+                <br>
+            </p>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(function() {
+          $(".navbar-default .navbar-nav .guide").addClass("active");
+          (function () {
+            $('.panel-default').mouseenter(function () {
+              if(!$(this).hasClass('active')){
+                $(this).children().addClass('in');
+              }
+            });
+            $('.panel-default').mouseleave(function () {
+              if(!$(this).hasClass('active')) {
+                $(this).children().removeClass('in');
+              }
+            });
+            var key=window.location.pathname;
+            var keyInfo="'"+key+"'";
+            var panelHead;
+            if(keyInfo.indexOf('index') !== -1){
+              panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent();
+              panelHead.siblings().addClass('in');
+              panelHead.parent().siblings('div').map(function () {
+                $(this).removeClass('active');
+              });
+              panelHead.parent().addClass('active');
+            }else if(keyInfo.indexOf('.') <0) {
+              keyInfo="'"+key+"product_index.html"+"'";
+              panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent();
+              panelHead.siblings().addClass('in');
+              panelHead.parent().siblings('div').map(function () {
+                $(this).removeClass('active');
+              });
+              panelHead.parent().addClass('active');
+            }else {
+                panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent().parent().parent();
+                panelHead.addClass('in');
+                panelHead.parent().siblings('div').map(function () {
+                  $(this).removeClass('active');
+                });
+                panelHead.parent().addClass('active');
+              }
+          })();
+        });
+    </script>
+  </body>
+</html>

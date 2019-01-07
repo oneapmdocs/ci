@@ -1,0 +1,1590 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="MongoDB,MongoDB监控工具,MongoDB监控,MongoDB指标">
+<meta name="description" content="Cloudinsight 是一款集监控与数据可视化，数据管理为一身的平台，可以进行基础组件的监控，自定义数据仪表盘的展示，对任意指标报警，是IT运维人员，以及开发人员的必备工具服务">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<!-- Use title if it's in the page YAML frontmatter -->
+<title>如何监控MongoDB|MongoDB监控|MongoDB性能指标|CloudInsight监控MongoDB</title>
+
+  <script type="text/javascript">
+    if (window.location.hostname === 'www.oneapm.com') {
+      var pathnameSegs = window.location.pathname.split("/docs/ci");
+      var realPathname = pathnameSegs[pathnameSegs.length - 1];
+      window.location.href = 'http://docs-ci.oneapm.com' + realPathname;
+    } else if (window.location.hostname !== 'docs-ci.oneapm.com') {
+      window.location.href = 'http://docs-ci.oneapm.com' + window.location.pathname;
+    }
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?dc7d70374ed3b2f6ce76527be8b9c93a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+<!-- growingio -->
+<script type='text/javascript'>
+  var _vds = _vds || [];
+  window._vds = _vds;
+  (function(){
+    _vds.push(['setAccountId', '9b345c730c9983fa']);
+    (function() {
+      var vds = document.createElement('script');
+      vds.type='text/javascript';
+      vds.async = true;
+      vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(vds, s);
+    })();
+  })();
+</script>
+
+
+<link href="/stylesheets/site.css" rel="stylesheet" />
+<script src="/javascripts/jquery-2.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/all.js"></script>
+<style media="screen">
+  .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+.highlight .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #6c8b9f;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #b2fd6d;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .err {
+  color: #fefeec;
+  background-color: #cc0000;
+}
+.highlight .gr {
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .k, .highlight .kd, .highlight .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+.highlight .o, .highlight .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .p, .highlight .pi {
+  color: #4df4ff;
+}
+.highlight .gd {
+  color: #cc0000;
+}
+.highlight .gi {
+  color: #b2fd6d;
+}
+.highlight .ge {
+  font-style: italic;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gt {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .kc {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nc {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nd {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sb, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .sr, .highlight .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+.highlight .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .nb {
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #BBBBBB;
+}
+.highlight .go {
+  color: #BBBBBB;
+}
+.highlight .nf {
+  color: #a8e1fe;
+}
+.highlight .py {
+  color: #a8e1fe;
+}
+.highlight .na {
+  color: #a8e1fe;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+
+  <body class="page-services_example services_example_mongodb">
+        <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ6GBS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ6GBS');</script>
+    <!-- End Google Tag Manager -->
+
+<header class="main-header clearfix">
+	<div class="main-navblock col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><div>
+			<a href="../index.html" class="logo-container">
+				<div class="oneapm-logo"></div>
+			</a>
+		</div>
+		<!--<a href="#" class="burger-wrapper">-->
+			<!--<div class="burger"></div>-->
+		<!--</a>-->
+		<!--<div class="nav-container">-->
+			<!--<ul class="nav-list">-->
+				<!--<li>-->
+					<!--<a href="/quick-start/">快速入门</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/agent/">安装配置</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/platform/">操作指南</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/best-practise/">实践案例</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/qa/">常见问题</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+			<!--<ul class="login-list">-->
+				<!--<li>-->
+					<!--<a href="http://user.oneapm.com/pages/v2/login_ci" class="btn outline-dark" id="loginIn">登录</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="https://cloud.oneapm.com/user/register" class="btn inside-yellow" id="signUp">注册</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+		<!--</div>-->
+	</div>
+</header>
+<div class="flagInfo clearfix">
+    <div class="flag-left"></div>
+    <div class="flag-right">Cloudinsight Agent 在 4.7.0 版本，将 Agent 名称从 oneapm-ci-agent 更换至 cloudinsight-agent。若您在使用过程中，出现无法正常工作的情况，请加入售后群：433349863</div>
+    <span class="cl">X</span>
+</div>
+<script type="text/javascript" src="//d.oneapm.com/sso/nav.js"></script>
+
+
+    <div class="container page-container">
+      <div class="row">
+        <div class="col-lg-3 page-sidebar hidden-ssm hidden-xs">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" href="/agent/">
+          Agent 安装与设置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/agent/redhat.html">RedHat / CentOS / Fedora 安装</a></li>
+          <li><a href="/agent/ubuntu.html">Debian / Ubuntu 安装</a></li>
+          <li><a href="/agent/amazon.html">Amazon Linux 安装</a></li>
+          <li><a href="/agent/windows.html">Windows 安装</a></li>
+          <li><a href="/agent/docker.html">Docker 安装</a></li>
+          <li><a href="/agent/chef.html">Chef 安装</a></li>
+          <li><a href="/agent/inner.html">内网环境安装探针</a></li>
+          <li><a href="/agent/agent-instrument.html">Agent 操作与配置</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed"  href="/api/">
+          API与SDK
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/api/sdk.html">SDK</a></li>
+          <li><a href="/api/python.html">Python</a></li>
+          <li><a href="/api/nodejs.html">Node.js</a></li>
+          <li><a href="/api/ruby.html">Ruby</a></li>
+          <li><a href="/api/java.html">Java</a></li>
+          <li><a href="/api/dotnet.html">DotNET</a></li>
+          <li><a href="/api/php.html">PHP</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/cloud-integration/">
+          云厂商接入
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/cloud-integration/aliyun.html">阿里云</a></li>
+          <li><a href="/cloud-integration/ucloud.html">UCloud</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services/">
+          平台服务基础配置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services/status.html">状态页监控</a></li>
+          <li><a href="/services/jmx.html">JMX 远程监控</a></li>
+          <li><a href="/services/authorize.html">数据库授权监控</a></li>
+          <li><a href="/services/database.html">数据库配置</a></li>
+          <li><a href="/services/agent-check.html">自定义 AgentCheck</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services_example/">
+          平台服务配置示例
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services_example/activemq.html">artivemq</a></li>
+          <li><a href="/services_example/apache.html">apache</a></li>
+          <li><a href="/services_example/bearychat.html">bearychat</a></li>
+          <li><a href="/services_example/cacti.html">cacti</a></li>
+          <li><a href="/services_example/cassandra.html">cassandra</a></li>
+          <li><a href="/services_example/couchbase.html">couchbase</a></li>
+          <li><a href="/services_example/couchdb.html">couchdb</a></li>
+          <li><a href="/services_example/docker.html">docker</a></li>
+          <li><a href="/services_example/elasticsearch.html">elasticsearch</a></li>
+          <li><a href="/services_example/event_viewer.html">event_viewer</a></li>
+          <li><a href="/services_example/gearman.html">gearman</a></li>
+          <li><a href="/services_example/gunicorn.html">gunicorn</a></li>
+          <li><a href="/services_example/haproxy.html">haproxy</a></li>
+          <li><a href="/services_example/hdfs.html">hdfs</a></li>
+          <li><a href="/services_example/http.html">http</a></li>
+          <li><a href="/services_example/iis.html">iis</a></li>
+          <li><a href="/services_example/jianliao.html">jianliao</a></li>
+          <li><a href="/services_example/kafka.html">kafka</a></li>
+          <li><a href="/services_example/memcached.html">memcached</a></li>
+          <li><a href="/services_example/mesos.html">mesos</a></li>
+          <li><a href="/services_example/mongodb.html">mongodb</a></li>
+          <li><a href="/services_example/mysql.html">mysql</a></li>
+          <li><a href="/services_example/nagios.html">nagios</a></li>
+          <li><a href="/services_example/network.html">network</a></li>
+          <li><a href="/services_example/nginx.html">nginx</a></li>
+          <li><a href="/services_example/openstack.html">openstack</a></li>
+          <li><a href="/services_example/php-fpm.html">php-fpm</a></li>
+          <li><a href="/services_example/postgresql.html">postgresql</a></li>
+          <li><a href="/services_example/process.html">process</a></li>
+          <li><a href="/services_example/pubu.html">pubu</a></li>
+          <li><a href="/services_example/rabbitmq.html">rabbitmq</a></li>
+          <li><a href="/services_example/redis.html">redis</a></li>
+          <li><a href="/services_example/snmp.html">snmp</a></li>
+          <li><a href="/services_example/solr.html">solr</a></li>
+          <li><a href="/services_example/sqlserver.html">sqlserver</a></li>
+          <li><a href="/services_example/ssh.html">ssh</a></li>
+          <li><a href="/services_example/supervisord.html">supervisord</a></li>
+          <li><a href="/services_example/tcp.html">tcp</a></li>
+          <li><a href="/services_example/tomcat.html">tomcat</a></li>
+          <li><a href="/services_example/wmi.html">wmi</a></li>
+          <li><a href="/services_example/zookeeper.html">zookeeper</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="col-lg-9 page-body">
+          <div class="body-box">
+            <h1>MongoDB</h1>
+
+<p>MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。支持的数据结构非常松散，类似 json 的 bson 格式，因此可以存储比较复杂的数据类型。</p>
+
+<p>Cloudinsight 监控 MongoDB 操作情况，可视化 MongoDB 性能状况。</p>
+
+<p><img src="/images/service_example/mongodb.png" alt="Mongodb" /></p>
+
+<hr>
+
+<h2>性能指标</h2>
+
+<p>Cloudinsight 采集 MongoDB 以下性能指标：</p>
+
+<table><thead>
+<tr>
+<th>指标</th>
+<th>单位</th>
+<th>具体含义</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mongodb.asserts.msgps</td>
+<td>assertions/second</td>
+<td>每秒钟提出的消息断言（message assertions）数量</td>
+</tr>
+<tr>
+<td>mongodb.asserts.regularps</td>
+<td>assertions/second</td>
+<td>每秒钟提出的常规断言（regular assertions）数量</td>
+</tr>
+<tr>
+<td>mongodb.asserts.rolloversps</td>
+<td>assertions/second</td>
+<td>计数器 roll over 的次数/秒,计数器每 2^30 个断言(assertions)就会清零</td>
+</tr>
+<tr>
+<td>mongodb.asserts.userps</td>
+<td>assertions/second</td>
+<td>每秒钟提出的用户断言（user assertions）数量</td>
+</tr>
+<tr>
+<td>mongodb.asserts.warningps</td>
+<td>assertions/second</td>
+<td>每秒钟提出的警告（warnings）数量</td>
+</tr>
+<tr>
+<td>mongodb.backgroundflushing.average_ms</td>
+<td>milliseconds</td>
+<td>每次 flush 到磁盘的平均时间</td>
+</tr>
+<tr>
+<td>mongodb.backgroundflushing.flushesps</td>
+<td>flushes/second</td>
+<td>数据库将所有写入 flush 到磁盘的次数</td>
+</tr>
+<tr>
+<td>mongodb.backgroundflushing.last_ms</td>
+<td>milliseconds</td>
+<td>最后一次 flush 操作完成所花费的时间</td>
+</tr>
+<tr>
+<td>mongodb.backgroundflushing.total_ms</td>
+<td>milliseconds</td>
+<td>&lsquo;mongod&#39;进程将数据写入磁盘(i.e. flushing)的总时间</td>
+</tr>
+<tr>
+<td>mongodb.connections.available</td>
+<td>connections</td>
+<td>数据库可以提供的未使用的可用传入连接数（incoming connections）</td>
+</tr>
+<tr>
+<td>mongodb.connections.current</td>
+<td>connections</td>
+<td>从客户端到数据库服务器的连接数</td>
+</tr>
+<tr>
+<td>mongodb.cursors.timedout</td>
+<td>cursors</td>
+<td>自服务器进程启动以来超时的 cursors 总数</td>
+</tr>
+<tr>
+<td>mongodb.cursors.totalopen</td>
+<td>cursors</td>
+<td>MongoDB 为客户端维护的 cursors 数量</td>
+</tr>
+<tr>
+<td>mongodb.dur.commits</td>
+<td>transactions</td>
+<td>在上一个日志组（journal group）提交间隔期间写入日志的事务（transactions）数</td>
+</tr>
+<tr>
+<td>mongodb.dur.commitsinwritelock</td>
+<td>commits</td>
+<td>保持写入锁时发生的提交数量</td>
+</tr>
+<tr>
+<td>mongodb.dur.compression</td>
+<td>fractions</td>
+<td>写入日志（journal）的数据的压缩比（compression ratio）</td>
+</tr>
+<tr>
+<td>mongodb.dur.earlycommits</td>
+<td>commits</td>
+<td>MongoDB 在计划日记组（scheduled journal group）提交间隔之前请求提交的次数</td>
+</tr>
+<tr>
+<td>mongodb.dur.journaledmb</td>
+<td>mebibytes</td>
+<td>在最后一次日记组提交时间间隔（journal group commit interval）中写入的数据量</td>
+</tr>
+<tr>
+<td>mongodb.dur.timems.commits</td>
+<td>milliseconds</td>
+<td>提交所花费的时间</td>
+</tr>
+<tr>
+<td>mongodb.dur.timems.commitsinwritelock</td>
+<td>milliseconds</td>
+<td>写锁时发生的提交所花费的时间</td>
+</tr>
+<tr>
+<td>mongodb.dur.timems.dt</td>
+<td>milliseconds</td>
+<td>MongoDB 收集 dur.timeMS 数据花费的时间</td>
+</tr>
+<tr>
+<td>mongodb.dur.timems.preplogbuffer</td>
+<td>milliseconds</td>
+<td>准备写入日志所花费的时间</td>
+</tr>
+<tr>
+<td>mongodb.dur.timems.remapprivateview</td>
+<td>milliseconds</td>
+<td>重映射 copy-on-write 内存映射视图（mapped views）所花费的时间</td>
+</tr>
+<tr>
+<td>mongodb.dur.timems.writetodatafiles</td>
+<td>milliseconds</td>
+<td>在日志记录（journaling）后写入数据文件所花费的时间</td>
+</tr>
+<tr>
+<td>mongodb.dur.timems.writetojournal</td>
+<td>milliseconds</td>
+<td>写入日志的时间</td>
+</tr>
+<tr>
+<td>mongodb.dur.writetodatafilesmb</td>
+<td>mebibytes</td>
+<td>在上一个日志组提交间隔（journal group commit interval）期间从日志写入数据文件的数据量</td>
+</tr>
+<tr>
+<td>mongodb.extra_info.page_faultsps</td>
+<td>faults/second</td>
+<td>每秒钟需要磁盘操作的页(page)故障数</td>
+</tr>
+<tr>
+<td>mongodb.globallock.activeclients.readers</td>
+<td>connections</td>
+<td>执行读取操作的活动客户端连接的计数</td>
+</tr>
+<tr>
+<td>mongodb.globallock.activeclients.total</td>
+<td>connections</td>
+<td>连接到数据库的活动客户端的总数</td>
+</tr>
+<tr>
+<td>mongodb.globallock.activeclients.writers</td>
+<td>connections</td>
+<td>执行写入操作的活动客户端连接的计数</td>
+</tr>
+<tr>
+<td>mongodb.globallock.currentqueue.readers</td>
+<td>operations</td>
+<td>当前在队列中等待读锁（read lock）的操作数</td>
+</tr>
+<tr>
+<td>mongodb.globallock.currentqueue.total</td>
+<td>operations</td>
+<td>队列中等待锁的操作总数</td>
+</tr>
+<tr>
+<td>mongodb.globallock.currentqueue.writers</td>
+<td>operations</td>
+<td>当前在队列中等待写锁的操作数</td>
+</tr>
+<tr>
+<td>mongodb.globallock.locktime</td>
+<td>milliseconds</td>
+<td>全局锁（globalLock）从数据库最近一次启动到现在保持的时长</td>
+</tr>
+<tr>
+<td>mongodb.globallock.ratio</td>
+<td>fractions</td>
+<td>全局锁（globalLock）保持的时间占比</td>
+</tr>
+<tr>
+<td>mongodb.globallock.totaltime</td>
+<td>microseconds</td>
+<td>全局锁（globalLock）从数据库上次启动并被其创建以来到现在保持的时长</td>
+</tr>
+<tr>
+<td>mongodb.indexcounters.accessesps</td>
+<td>events/second</td>
+<td>操作（operations）每秒访问索引的次数</td>
+</tr>
+<tr>
+<td>mongodb.indexcounters.hitsps</td>
+<td>hits/second</td>
+<td>每秒钟某个索引被访问并且 mongodb 能够从内存中返回其索引值的次数</td>
+</tr>
+<tr>
+<td>mongodb.indexcounters.missesps</td>
+<td>misses/second</td>
+<td>每秒钟操作尝试访问不在内存中的索引的次数</td>
+</tr>
+<tr>
+<td>mongodb.indexcounters.missratio</td>
+<td>fractions</td>
+<td>索引命中与未命中的比率</td>
+</tr>
+<tr>
+<td>mongodb.indexcounters.resetsps</td>
+<td>events/second</td>
+<td>每秒重置索引计数器的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.collection.acquirecount.exclusiveps</td>
+<td>locks/second</td>
+<td>在 Exclusive (X) 模式下获取集合锁类型（collection lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.collection.acquirecount.intent_exclusiveps</td>
+<td>locks/second</td>
+<td>在 Intent Exclusive (IX) 模式下获取集合锁类型（collection lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.collection.acquirecount.intent_sharedps</td>
+<td>locks/second</td>
+<td>在 Intent Shared (IS) 模式下获取集合锁类型（collection lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.collection.acquirecount.sharedps</td>
+<td>locks/second</td>
+<td>在 Shared (S) 模式下获取集合锁类型（collection lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.collection.acquirewaitcount.exclusiveps</td>
+<td>waits/second</td>
+<td>在 Exclusive（X）模式中，因为锁保持在冲突模式而使获取集合锁类型（collection lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.collection.acquirewaitcount.sharedps</td>
+<td>waits/second</td>
+<td>在 Shared (S) 模式中，因为锁保持在冲突模式而使获取集合锁类型（collection lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.collection.timeacquiringmicros.exclusiveps</td>
+<td>fractions</td>
+<td>在 Exclusive (X) 模式下等待集合锁类型（collection lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.collection.timeacquiringmicros.sharedps</td>
+<td>fractions</td>
+<td>在 Shared (S) 模式下等待集合锁类型（collection lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.acquirecount.exclusiveps</td>
+<td>locks/second</td>
+<td>在 Exclusive (X) 模式下获取数据库锁类型（database lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.acquirecount.intent_exclusiveps</td>
+<td>locks/second</td>
+<td>在 Intent Exclusive (IX) 模式下获取数据库锁类型（database lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.acquirecount.intent_sharedps</td>
+<td>locks/second</td>
+<td>在 Intent Shared (IS) 模式下获取数据库锁类型（database lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.acquirecount.sharedps</td>
+<td>locks/second</td>
+<td>在 Shared (S) 模式下获取数据库锁类型（database lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.acquirewaitcount.exclusiveps</td>
+<td>waits/second</td>
+<td>在 Exclusive（X）模式中，因为锁保持在冲突模式而使获取数据库锁类型（database lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.acquirewaitcount.intent_exclusiveps</td>
+<td>waits/second</td>
+<td>在 Intent Exclusive (IX) 模式中，因为锁保持在冲突模式而使获取数据库锁类型（database lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.acquirewaitcount.intent_sharedps</td>
+<td>waits/second</td>
+<td>在 Intent Shared (IS) 模式中，因为锁保持在冲突模式而使获取数据库锁类型（database lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.acquirewaitcount.sharedps</td>
+<td>waits/second</td>
+<td>在 Shared (S) 模式中，因为锁保持在冲突模式而使获取数据库锁类型（database lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.timeacquiringmicros.exclusiveps</td>
+<td>fractions</td>
+<td>在 Exclusive (X) 模式下等待数据库锁类型（database lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.timeacquiringmicros.intent_exclusiveps</td>
+<td>fractions</td>
+<td>在 Intent Exclusive (IX) 模式下等待数据库锁类型（database lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.timeacquiringmicros.intent_sharedps</td>
+<td>fractions</td>
+<td>在 Intent Shared (IS) 模式下等待数据库锁类型（database lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.database.timeacquiringmicros.sharedps</td>
+<td>fractions</td>
+<td>在 Shared (S) 模式下等待数据库锁类型（database lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.acquirecount.exclusiveps</td>
+<td>locks/second</td>
+<td>在 Exclusive (X) 模式下获取全局锁类型（global lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.acquirecount.intent_exclusiveps</td>
+<td>locks/second</td>
+<td>在 Intent Exclusive (IX) 模式下获取全局锁类型（global lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.acquirecount.intent_sharedps</td>
+<td>locks/second</td>
+<td>在 Intent Shared (IS) 模式下获取全局锁类型（global lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.acquirecount.sharedps</td>
+<td>locks/second</td>
+<td>在 Shared (S) 模式下获取全局锁类型（global lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.acquirewaitcount.exclusiveps</td>
+<td>waits/second</td>
+<td>在 Exclusive（X）模式中，因为锁保持在冲突模式而使获取全局锁类型（global lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.acquirewaitcount.intent_exclusiveps</td>
+<td>waits/second</td>
+<td>在 Intent Exclusive (IX) 模式中，因为锁保持在冲突模式而使获取全局锁类型（global lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.acquirewaitcount.intent_sharedps</td>
+<td>waits/second</td>
+<td>在 Intent Shared (IS) 模式中，因为锁保持在冲突模式而使获取全局锁类型（global lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.acquirewaitcount.sharedps</td>
+<td>waits/second</td>
+<td>在 Shared (S) 模式中，因为锁保持在冲突模式而使获取全局锁类型（global lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.timeacquiringmicros.exclusiveps</td>
+<td>fractions</td>
+<td>在 Exclusive (X) 模式下等待全局锁类型（global lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.timeacquiringmicros.intent_exclusiveps</td>
+<td>fractions</td>
+<td>在 Intent Exclusive (IX) 模式下等待全局锁类型（global lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.timeacquiringmicros.intent_sharedps</td>
+<td>fractions</td>
+<td>在 Intent Shared (IS) 模式下等待全局锁类型（global lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.global.timeacquiringmicros.sharedps</td>
+<td>fractions</td>
+<td>在 Shared (S) 模式下等待全局锁类型（global lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.metadata.acquirecount.exclusiveps</td>
+<td>locks/second</td>
+<td>在 Exclusive (X) 模式下获取元数据锁类型（metadata lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.metadata.acquirecount.sharedps</td>
+<td>locks/second</td>
+<td>在 Shared (S) 模式下获取元数据锁类型（metadata lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.mmapv1journal.acquirecount.intent_exclusiveps</td>
+<td>locks/second</td>
+<td>在 Intent Exclusive (IX) 模式下获取 MMAPv1 存储引擎锁类型（MMAPv1 storage engine lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.mmapv1journal.acquirecount.intent_sharedps</td>
+<td>locks/second</td>
+<td>在 Intent Shared (IS) 模式下获取 MMAPv1 存储引擎锁类型（MMAPv1 storage engine lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.mmapv1journal.acquirewaitcount.intent_exclusiveps</td>
+<td>waits/second</td>
+<td>在 Intent Exclusive (IX) 模式中，因为锁保持在冲突模式而使获取 MMAPv1 存储引擎锁类型（MMAPv1 storage engine lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.mmapv1journal.acquirewaitcount.intent_sharedps</td>
+<td>waits/second</td>
+<td>在 Intent Shared (IS) 模式中，因为锁保持在冲突模式而使获取 MMAPv1 存储引擎锁类型（MMAPv1 storage engine lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.mmapv1journal.timeacquiringmicros.intent_exclusiveps</td>
+<td>fractions</td>
+<td>在 Intent Exclusive (IX) 模式下等待 MMAPv1 存储引擎锁类型（MMAPv1 storage engine lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.mmapv1journal.timeacquiringmicros.intent_sharedps</td>
+<td>fractions</td>
+<td>在 Intent Shared (IS) 模式下等待 MMAPv1 存储引擎锁类型（MMAPv1 storage engine lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.oplog.acquirecount.intent_exclusiveps</td>
+<td>locks/second</td>
+<td>在 Intent Exclusive (IX) 模式下获取 oplog 锁类型（oplog lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.oplog.acquirecount.sharedps</td>
+<td>locks/second</td>
+<td>在 Shared (S) 模式下获取 oplog 锁类型（oplog lock type）的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.oplog.acquirewaitcount.intent_exclusiveps</td>
+<td>waits/second</td>
+<td>在 Intent Exclusive (IX) 模式中，因为锁保持在冲突模式而使获取 oplog 锁类型（oplog lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.oplog.acquirewaitcount.sharedps</td>
+<td>waits/second</td>
+<td>在 Shared (S) 模式中，因为锁保持在冲突模式而使获取 oplog 锁类型（oplog lock type）需要等待的次数</td>
+</tr>
+<tr>
+<td>mongodb.locks.oplog.timeacquiringmicros.intent_exclusiveps</td>
+<td>fractions</td>
+<td>在 Intent Exclusive (IX) 模式下等待 oplog 锁类型（oplog lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.locks.oplog.timeacquiringmicros.sharedps</td>
+<td>fractions</td>
+<td>Shared (S) 模式下等待 oplog 锁类型（oplog lock type）采集的时间</td>
+</tr>
+<tr>
+<td>mongodb.mem.mapped</td>
+<td>mebibytes</td>
+<td>数据库映射的内存总数</td>
+</tr>
+<tr>
+<td>mongodb.mem.mappedwithjournal</td>
+<td>mebibytes</td>
+<td>映射内存量，包括用于日志记录的内存</td>
+</tr>
+<tr>
+<td>mongodb.mem.resident</td>
+<td>mebibytes</td>
+<td>数据库进程在使用的内存总数</td>
+</tr>
+<tr>
+<td>mongodb.mem.virtual</td>
+<td>mebibytes</td>
+<td>数据库进程使用的虚拟内存总数</td>
+</tr>
+<tr>
+<td>mongodb.metrics.cursor.open.notimeout</td>
+<td>cursors</td>
+<td>为防止在一段时间不活动后超时而设置选项 &ldquo;DBQuery.Option.no Timeout&rdquo; 的打开游标（open cursors）数</td>
+</tr>
+<tr>
+<td>mongodb.metrics.cursor.open.pinned</td>
+<td>cursors</td>
+<td>&ldquo;pinned&rdquo; 的打开游标（open cursors）数</td>
+</tr>
+<tr>
+<td>mongodb.metrics.cursor.open.total</td>
+<td>cursors</td>
+<td>MongoDB 为客户端维护的游标数</td>
+</tr>
+<tr>
+<td>mongodb.metrics.cursor.timedoutps</td>
+<td>cursors/second</td>
+<td>每秒钟内的超时游标数</td>
+</tr>
+<tr>
+<td>mongodb.metrics.document.deletedps</td>
+<td>documents/second</td>
+<td>文档删除数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.document.insertedps</td>
+<td>documents/second</td>
+<td>文档增加数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.document.returnedps</td>
+<td>documents/second</td>
+<td>文档被请求返回数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.document.updatedps</td>
+<td>documents/second</td>
+<td>文档更新数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.getlasterror.wtime.numps</td>
+<td>operations/second</td>
+<td>需要等待一个或多个从库获悉这个写操作的 getLastError 操作的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.getlasterror.wtime.totalmillisps</td>
+<td>fractions</td>
+<td>执行需要等待一个或多个从库获悉这个写操作的 getLastError 操作的时间/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.getlasterror.wtimeoutsps</td>
+<td>events/second</td>
+<td>由于 getLastError 超过超时阈值导致写相关的操作超时的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.operation.fastmodps</td>
+<td>operations/second</td>
+<td>不导致文档增加或者需要更新索引的更新操作的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.operation.idhackps</td>
+<td>queries/second</td>
+<td>包含 _id 字段的请求次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.operation.scanandorderps</td>
+<td>queries/second</td>
+<td>返回不能用索引排序的有序数字的请求次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.queryexecutor.scannedps</td>
+<td>operations/second</td>
+<td>在请求和请求的评估过程中被扫描的索引个数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.record.movesps</td>
+<td>operations/second</td>
+<td>文档在磁盘上移动的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.apply.batches.numps</td>
+<td>operations/second</td>
+<td>对所有数据库执行的批处理的个数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.apply.batches.totalmillisps</td>
+<td>fractions</td>
+<td>执行来自 oplog 的操作的时间/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.apply.opsps</td>
+<td>operations/second</td>
+<td>执行的 oplog 操作的个数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.buffer.count</td>
+<td>operations</td>
+<td>oplog 缓存中的操作数</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.buffer.maxsizebytes</td>
+<td>bytes</td>
+<td>缓存的最大值，单位 byte</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.buffer.sizebytes</td>
+<td>bytes</td>
+<td>oplog 缓存的当前大小，单位b yte</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.network.bytesps</td>
+<td>bytes/second</td>
+<td>从&quot;从服务器同步源&quot;读取的数据总量/秒，单位 byte</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.network.getmores.numps</td>
+<td>operations/second</td>
+<td>getmore 操作的个数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.network.getmores.totalmillisps</td>
+<td>fractions</td>
+<td>从 getmore 操作收集数据时间/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.network.opsps</td>
+<td>operations/second</td>
+<td>从&quot;从服务器&quot;读取的操作的个数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.repl.network.readerscreatedps</td>
+<td>processes/second</td>
+<td>oplog 查询进程创建的个数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.ttl.deleteddocumentsps</td>
+<td>documents/second</td>
+<td>从有 ttl 索引的 collections 中删除文档的次数数/秒</td>
+</tr>
+<tr>
+<td>mongodb.metrics.ttl.passesps</td>
+<td>operations/second</td>
+<td>后台进程从有 ttl 索引的 collections 中删除文档的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.opcounters.commandps</td>
+<td>commands/second</td>
+<td>传给数据库的命令的总数/秒</td>
+</tr>
+<tr>
+<td>mongodb.opcounters.deleteps</td>
+<td>operations/second</td>
+<td>删除操作的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.opcounters.getmoreps</td>
+<td>operations/second</td>
+<td>getmore 操作的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.opcounters.insertps</td>
+<td>operations/second</td>
+<td>插入操作的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.opcounters.queryps</td>
+<td>queries/second</td>
+<td>查询操作的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.opcounters.updateps</td>
+<td>operations/second</td>
+<td>更新操作的次数/秒</td>
+</tr>
+<tr>
+<td>mongodb.opcountersrepl.commandps</td>
+<td>commands/second</td>
+<td>每秒向数据库发出的 replicated 命令的总数</td>
+</tr>
+<tr>
+<td>mongodb.opcountersrepl.deleteps</td>
+<td>operations/second</td>
+<td>每秒的 replicated 删除操作数</td>
+</tr>
+<tr>
+<td>mongodb.opcountersrepl.getmoreps</td>
+<td>operations/second</td>
+<td>每秒的 replicated getmore 操作数</td>
+</tr>
+<tr>
+<td>mongodb.opcountersrepl.insertps</td>
+<td>operations/second</td>
+<td>每秒的 replicated 插入操作数</td>
+</tr>
+<tr>
+<td>mongodb.opcountersrepl.queryps</td>
+<td>queries/second</td>
+<td>每秒的 replicated 查询总数</td>
+</tr>
+<tr>
+<td>mongodb.opcountersrepl.updateps</td>
+<td>operations/second</td>
+<td>每秒的 replicated 更新操作数</td>
+</tr>
+<tr>
+<td>mongodb.oplog.logsizemb</td>
+<td>mebibytes</td>
+<td>oplog 总大小</td>
+</tr>
+<tr>
+<td>mongodb.oplog.timediff</td>
+<td>seconds</td>
+<td>oplog window：oplog 中的第一个和最后一个操作之间的差异</td>
+</tr>
+<tr>
+<td>mongodb.oplog.usedsizemb</td>
+<td>mebibytes</td>
+<td>oplog 使用空间总量</td>
+</tr>
+<tr>
+<td>mongodb.replset.health</td>
+<td></td>
+<td>副本集（replica set）的成员健康值：conveys if the member is up (i.e. 1) or down (i.e. 0)</td>
+</tr>
+<tr>
+<td>mongodb.replset.replicationlag</td>
+<td>seconds</td>
+<td>主服务器上的向辅助服务器副本的写操作延迟</td>
+</tr>
+<tr>
+<td>mongodb.stats.datasize</td>
+<td>bytes</td>
+<td>库中的数据量，包括 the padding factor</td>
+</tr>
+<tr>
+<td>mongodb.stats.indexes</td>
+<td>indices</td>
+<td>库中总索引数</td>
+</tr>
+<tr>
+<td>mongodb.stats.indexsize</td>
+<td>bytes</td>
+<td>库中所有创建的索引总数</td>
+</tr>
+<tr>
+<td>mongodb.stats.objects</td>
+<td>objects</td>
+<td>库中所有的文档数</td>
+</tr>
+<tr>
+<td>mongodb.stats.storagesize</td>
+<td>bytes</td>
+<td>分配给库中的 collections 的存储空间</td>
+</tr>
+<tr>
+<td>mongodb.uptime</td>
+<td>seconds</td>
+<td>mongodb 进程启动时长</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.bytes_currently_in_cache</td>
+<td>bytes</td>
+<td>当前在缓存中的数据大小</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.failed_eviction_of_pages_exceeding_the_in_memory_maximumps</td>
+<td>pages/second</td>
+<td>每秒钟超过内存中最大值的被逐出失败的页数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.in_memory_page_splits</td>
+<td>splits</td>
+<td>内存中 splits 的页数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.maximum_bytes_configured</td>
+<td>bytes</td>
+<td>最大缓存空间</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.maximum_page_size_at_eviction</td>
+<td>bytes</td>
+<td>逐出页的最大 size</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.modified_pages_evicted</td>
+<td>pages</td>
+<td>从缓存中逐出的已被修改的页数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.pages_currently_held_in_cache</td>
+<td>pages</td>
+<td>缓存中当前保存的页数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.pages_evicted_by_application_threadsps</td>
+<td>pages/second</td>
+<td>每秒钟被应用程序线程逐出的页数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.pages_evicted_exceeding_the_in_memory_maximumps</td>
+<td>pages/second</td>
+<td>每秒种，由于超过缓存空间上限而被逐出的页数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.tracked_dirty_bytes_in_cache</td>
+<td>bytes</td>
+<td>缓存中脏数据（dirty data）的大小</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.cache.unmodified_pages_evicted</td>
+<td>pages</td>
+<td>从缓存中逐出的未修改的页数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.concurrenttransactions.read.available</td>
+<td>tickets</td>
+<td>剩余可用的 read tickets（concurrent transactions）数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.concurrenttransactions.read.out</td>
+<td>tickets</td>
+<td>已使用的 read tickets（concurrent transactions）数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.concurrenttransactions.read.totaltickets</td>
+<td>tickets</td>
+<td>可用的 read tickets（concurrent transactions）总数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.concurrenttransactions.write.available</td>
+<td>tickets</td>
+<td>剩余可用的 write tickets（concurrent transactions）数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.concurrenttransactions.write.out</td>
+<td>tickets</td>
+<td>已使用的 write tickets（concurrent transactions）数</td>
+</tr>
+<tr>
+<td>mongodb.wiredtiger.concurrenttransactions.write.totaltickets</td>
+<td>tickets</td>
+<td>可用的 write tickets（concurrent transactions）总数</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<h2>配置 MongoDB 监控</h2>
+
+<h3>创建 Cloudinsight 访问权限</h3>
+
+<p class="notes clearfix"> 
+   <span class="notesHead"></span>
+    <span class="notesContent">注：只有在 MongoDB 开启了权限认证时，才需要为 Cloudinsight 配置授权。未开启，请跳过此步骤。<span> 
+</p>
+
+<p>为 Cloudinsight 创建只读权限的 Admin 用户。Cloudinsight 需要 admin 权限才能完整采集 MongoDB 性能数据。</p>
+
+<p>在 Mongo Shell 中执行以下指令。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>use admin
+db.auth("admin", "admin-password")
+db.addUser("oneapm", "YourPassword", true)
+</code></pre></div>
+<p>如果您使用的是 2.6 和以上版本的 MongoDB，那请执行以下指令，来创建只读 Admin 权限。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>use admin
+db.auth("admin", "admin-password")
+db.createUser({"user":"oneapm", "pwd": "YourPassword", "roles" : [ 'read', 'clusterMonitor']})
+</code></pre></div>
+<p>您可以通过以下指令，查看用户是否创建成功，权限是否正确。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>python -c 'from pymongo import Connection; print Connection().admin.authenticate("oneapm", "YourPassword")' | \
+grep True &amp;&amp; \
+echo -e "\033[0;32moneapm user - OK\033[0m" || \
+echo -e "\033[0;31moneapm user - Missing\033[0m"
+</code></pre></div>
+<p>更多 MongoDB 用户的创建管理，请访问 <a href="https://docs.mongodb.org/manual/administration/security/">MongoDB 官方文档</a>。</p>
+
+<h3>编辑配置文件</h3>
+
+<p>编辑配置文件 <a href="/services/">conf.d/mongo.yaml</a>，使 Cloudinsight Agent 可以与 MongoDB 通信。</p>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+
+<span class="na">instances</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">server</span><span class="pi">:</span> <span class="s">mongodb://oneapm:YourPassword@localhost:27016</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">tag_key1:tag_value1</span>
+      <span class="pi">-</span> <span class="s">tag_key2:tag_value2</span>
+  <span class="pi">-</span> <span class="na">server</span><span class="pi">:</span> <span class="s">mongodb://oneapm:YourPassword@localhost:27017</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">tag_key1:tag_value1</span>
+      <span class="pi">-</span> <span class="s">tag_key2:tag_value2</span>
+</code></pre></div>
+<h3>重启 Agent</h3>
+
+<p>重启 Cloudinsight Agent，使配置生效。</p>
+
+<p>您也可以通过查看 Agent Info 信息，来验证配置是否成功。当出现以下信息，则代表安装成功。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Checks
+======
+
+[...]
+
+mongo
+-----
+  - instance #0 [OK]
+  - Collected 8 metrics &amp; 0 events
+</code></pre></div>
+<p>有关 Agent Info 信息的查看，请访问帮助中心，查看  <a href="/quick-start/instrument.html">Cloudinsight Agent 常用操作</a>。</p>
+
+<hr>
+
+<h2>默认标签</h2>
+
+<p>Cloudinsight 采集 MongoDB 以下默认主机标签：</p>
+
+<table><thead>
+<tr>
+<th>标签种类</th>
+<th>标签含义</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>server</td>
+<td>数据库实例地址（例如 &ldquo;mongodb://localhost:27017&quot;）</td>
+</tr>
+<tr>
+<td>replset_state</td>
+<td>集群节点（primary 或 secondary）</td>
+</tr>
+<tr>
+<td>db</td>
+<td>数据库（例如 &quot;admin&quot;）</td>
+</tr>
+<tr>
+<td>collection</td>
+<td>集合（例如 &quot;system.roles&quot;）</td>
+</tr>
+<tr>
+<td>cluster</td>
+<td>集群数据库（例如 &quot;db:local&quot;）</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<h2>常见问题</h2>
+
+<ul>
+<li>若要在同一个服务器上监控多个相同的平台服务，参考<a href="http://docs-ci.oneapm.com/qa/more.html">如何监控多个平台服务</a>。</li>
+<li>有任何关于产品的使用疑惑，参考<a href="http://docs-ci.oneapm.com/qa/">常见问题</a>。</li>
+</ul>
+
+            <hr style="margin-top: 50px;" />
+<div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
+  <p style="font-size: 16px;">
+    如果您对 Cloudinsight 感兴趣，可以选择试用我们的产品，只需要点击下面的按钮免费注册即可。
+  </p>
+  <br />
+  <p>
+    <a href="https://cloud.oneapm.com/user/register?ref=https://cloud.oneapm.com&from=ci-docs" class="btn btn-info btn-lg" target="_blank">
+      立即注册 Cloudinsight
+    </a>
+  </p>
+</div>
+<hr />
+<!-- 多说评论框 start -->
+<div class="ds-thread"
+     id="ds-thread"
+     data-thread-key=""
+     data-title=""
+     data-url="http://docs-ci.oneapm.com/services_example/mongodb.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+  var titleTag = document.getElementsByTagName("h1")[0];
+
+  if (titleTag) {
+    title = document.getElementsByTagName("h1")[0].innerText;
+  } else {
+    title = "如何监控MongoDB|MongoDB监控|MongoDB性能指标|CloudInsight监控MongoDB";
+  }
+
+  var duoshuoTag = document.getElementById('ds-thread');
+  duoshuoTag.setAttribute('data-thread-key', title.replace(/\s/g, ''));
+  duoshuoTag.setAttribute('data-title', title);
+
+  var duoshuoQuery = {short_name:"docs-ci"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+            <div class="return"></div>
+          </div>
+          <div class="footer-in">
+            <div class="footer-nav-block">
+    <div class="container">
+        <div class="footer-nav">
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="/quick-start/">文档</a>
+                    </li>
+                    <li>
+                        <a href="/quick-start/">快速入门</a>
+                    </li>
+                    <li>
+                        <a href="/agent/">安装配置</a>
+                    </li>
+                    <li>
+                        <a href="/platform/">操作指南</a>
+                    </li>
+                    <li>
+                        <a href="/best-practise/">实践案例</a>
+                    </li>
+                    <li>
+                        <a href="/qa/">常见问题</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">产品</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">基础组件监控</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/api_sdk.html">API 与 SDK</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/cialert.html">异常数据告警</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/price.html">报价</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">关于</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">团队介绍</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/cooperation.html">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-support">
+            <ul class="footer-support-list">
+                <li><img src="/images/home/support.svg"></li>
+                <li class="support-title">技术支持</li>
+                <li class="support-mail">support@oneapm.com</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-block">
+    <div class="container">
+        <div class="copyright-link">
+            <div class="socialLink">
+                <a href="https://github.com/cloudinsight/cloudinsight.github.io" class="social-btn github" target="_blank">
+                    <img src="/images/home/github.svg">
+                    <p class="hidden-xs hidden-xxs">Github</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="#" class="social-btn qr">
+                    <img src="/images/home/wechat.svg">
+                    <p class="hidden-xs hidden-xxs">微信</p>
+                    <div class="QRcode">
+                        <img src="/images/home/wechatQR.svg">
+                    </div>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://my.oschina.net/cloudinsight/blog" class="social-btn" target="_blank">
+                    <img src="/images/home/oschina.svg">
+                    <p class="hidden-xs hidden-xxs">开源中国</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://www.weibo.com/cloudinsight" class="social-btn" target="_blank">
+                    <img src="/images/home/weibo.svg">
+                    <p class="hidden-xs hidden-xxs">微博</p>
+                </a>
+            </div>
+        </div>
+        <div class="copyright-text">
+            <a href="http://cloudinsight.oneapm.com/">
+                <img src="/images/home/cilogomulti_btn.svg" class="footer-logo">
+            </a>
+            <p class="copyright">
+                Copyright © 2008-
+                <span id="cr-end-time"></span>
+                北京蓝海讯通科技股份有限公司
+                <br>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14028342号-2</a>
+                京公网安备 11010802016192
+                <br>
+            </p>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      $(function() {
+        $(".navbar-default .navbar-nav .guide").addClass("active");
+        (function () {
+          $('.panel-default').mouseenter(function () {
+            if(!$(this).hasClass('active')){
+              $(this).children().addClass('in');
+            }
+          })
+          $('.panel-default').mouseleave(function () {
+              if(!$(this).hasClass('active')) {
+                $(this).children().removeClass('in');
+              }
+            })
+          var key=window.location.pathname;
+          var lastindex;
+          var keyInfo;
+          if(key.indexOf('quick-start') !== -1){
+            keyInfo="'"+key+"'";
+            $('ol').eq(0).children().map(function () {
+              $(this).css({
+                'cursor':'pointer',
+                'color':'#005FA8'
+              })
+            })
+            $('ol').eq(0).children().eq(0).click(function () {
+              $('.page-body').animate({ scrollTop: 300 }, 500)
+            })
+            $('ol').eq(0).children().eq(1).click(function () {
+              $('.page-body').animate({ scrollTop: 1830 }, 500)
+            })
+            $('ol').eq(0).children().eq(2).click(function () {
+              $('.page-body').animate({ scrollTop: 4202 }, 500)
+            })
+            $('ol').eq(0).children().eq(3).click(function () {
+              $('.page-body').animate({ scrollTop: 5942 }, 500)
+            })
+            $('ol').eq(0).children().eq(4).click(function () {
+              $('.page-body').animate({ scrollTop: 10066 }, 500)
+            })
+          }else if(key.indexOf('/',1) !== -1){
+            lastindex=key.indexOf('/',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"'";
+          }else {
+            lastindex=key.indexOf('.',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"html'";
+          }
+          var panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent();
+          panelHead.siblings().addClass('in');
+          panelHead.parent().siblings('div').map(function () {
+            $(this).removeClass('active');
+          });
+          panelHead.parent().addClass('active');
+        })();
+      });
+    </script>
+  </body>
+</html>

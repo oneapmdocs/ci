@@ -1,0 +1,946 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="网站监控,服务器监控,数据库监控,自定义指标,服务监控,中间件监控,数据可视化,大数据监控,页面性能监控">
+<meta name="description" content="Cloudinsight 是一款集监控与数据可视化，数据管理为一身的平台，可以进行基础组件的监控，自定义数据仪表盘的展示，对任意指标报警，是IT运维人员，以及开发人员的必备工具服务">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<!-- Use title if it's in the page YAML frontmatter -->
+<title>Cloudinsight - 次世代系统监控、数据管理、数据可视化平台 - 快速入门</title>
+
+  <script type="text/javascript">
+    if (window.location.hostname === 'www.oneapm.com') {
+      var pathnameSegs = window.location.pathname.split("/docs/ci");
+      var realPathname = pathnameSegs[pathnameSegs.length - 1];
+      window.location.href = 'http://docs-ci.oneapm.com' + realPathname;
+    } else if (window.location.hostname !== 'docs-ci.oneapm.com') {
+      window.location.href = 'http://docs-ci.oneapm.com' + window.location.pathname;
+    }
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?dc7d70374ed3b2f6ce76527be8b9c93a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+<!-- growingio -->
+<script type='text/javascript'>
+  var _vds = _vds || [];
+  window._vds = _vds;
+  (function(){
+    _vds.push(['setAccountId', '9b345c730c9983fa']);
+    (function() {
+      var vds = document.createElement('script');
+      vds.type='text/javascript';
+      vds.async = true;
+      vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(vds, s);
+    })();
+  })();
+</script>
+
+
+<link href="/stylesheets/site.css" rel="stylesheet" />
+<script src="/javascripts/jquery-2.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/all.js"></script>
+<style media="screen">
+  .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+.highlight .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #6c8b9f;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #b2fd6d;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .err {
+  color: #fefeec;
+  background-color: #cc0000;
+}
+.highlight .gr {
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .k, .highlight .kd, .highlight .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+.highlight .o, .highlight .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .p, .highlight .pi {
+  color: #4df4ff;
+}
+.highlight .gd {
+  color: #cc0000;
+}
+.highlight .gi {
+  color: #b2fd6d;
+}
+.highlight .ge {
+  font-style: italic;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gt {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .kc {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nc {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nd {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sb, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .sr, .highlight .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+.highlight .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .nb {
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #BBBBBB;
+}
+.highlight .go {
+  color: #BBBBBB;
+}
+.highlight .nf {
+  color: #a8e1fe;
+}
+.highlight .py {
+  color: #a8e1fe;
+}
+.highlight .na {
+  color: #a8e1fe;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+
+  <body class="page-quick-start quick-start_index">
+        <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ6GBS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ6GBS');</script>
+    <!-- End Google Tag Manager -->
+
+<header class="main-header clearfix">
+	<div class="main-navblock col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><div>
+			<a href="../index.html" class="logo-container">
+				<div class="oneapm-logo"></div>
+			</a>
+		</div>
+		<!--<a href="#" class="burger-wrapper">-->
+			<!--<div class="burger"></div>-->
+		<!--</a>-->
+		<!--<div class="nav-container">-->
+			<!--<ul class="nav-list">-->
+				<!--<li>-->
+					<!--<a href="/quick-start/">快速入门</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/agent/">安装配置</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/platform/">操作指南</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/best-practise/">实践案例</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/qa/">常见问题</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+			<!--<ul class="login-list">-->
+				<!--<li>-->
+					<!--<a href="http://user.oneapm.com/pages/v2/login_ci" class="btn outline-dark" id="loginIn">登录</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="https://cloud.oneapm.com/user/register" class="btn inside-yellow" id="signUp">注册</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+		<!--</div>-->
+	</div>
+</header>
+<div class="flagInfo clearfix">
+    <div class="flag-left"></div>
+    <div class="flag-right">Cloudinsight Agent 在 4.7.0 版本，将 Agent 名称从 oneapm-ci-agent 更换至 cloudinsight-agent。若您在使用过程中，出现无法正常工作的情况，请加入售后群：433349863</div>
+    <span class="cl">X</span>
+</div>
+<script type="text/javascript" src="//d.oneapm.com/sso/nav.js"></script>
+
+
+    <div class="container page-container">
+      <div class="row">
+        <div class="col-lg-3 page-sidebar hidden-ssm hidden-xs">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" href="/quick-start/">
+          快速入门
+        </a>
+      </h4>
+    </div>
+    <!--<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">-->
+      <!--<div class="panel-body">-->
+        <!--<ul>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</div>-->
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed"  href="/quick-start/videos.html">
+          视频演示
+        </a>
+      </h4>
+    </div>
+    <!--<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">-->
+      <!--<div class="panel-body">-->
+        <!--<ul>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</div>-->
+  </div>
+</div>
+
+        </div>
+        <div class="col-lg-9 page-body">
+          <div class="body-box">
+            <h1>开始使用 Cloudinsight</h1>
+
+<p>开始使用 Cloudinsight 分为几步：</p>
+
+<ol>
+<li>安装 Cloudinsight Agent</li>
+<li>修改 Agent 配置文件</li>
+<li>查看操作系统指标</li>
+<li>配置 Cloudinsight 监控服务</li>
+<li>查看监控服务数据</li>
+</ol>
+
+<hr>
+
+<h2>I.安装 Cloudinsight Agent</h2>
+
+<p>在 Cloudinsight 产品界面「设置 -&gt; 添加平台」中会显示安装 Agent 指令，我们以 Debian 为例：</p>
+
+<p><img src="/images/agent/IU2.png" alt="Iu2" /></p>
+
+<p>需要注意的事项：</p>
+
+<ol>
+<li><code>CI_LICENSE_KEY</code> 后面接的是您私有的 License Key，在您注册成功后自动生成，故请勿从他处复制或私自修改。</li>
+<li>若您的系统需要管理员权限，请在指令最前方加上 <code>sudo</code> 执行，并输入管理员密码。</li>
+</ol>
+
+<h3>常见的错误提示</h3>
+
+<p>在探针安装过程中，常见的几种错误类型（点击以下链接查看解决办法）：</p>
+
+<ul>
+<li><a href="/qa/hostname.html">您的主机名称为 localhost 无法通过安装 : Unable to reliably determine host name</a></li>
+<li><a href="/qa/http_emitter.html">机器编码不支持 <code>utf-8</code> 编码：TypeError(&lsquo;expected string or buffer&rsquo;)</a></li>
+</ul>
+
+<p>若您的错误类型不属于以上任何一种，您可以：</p>
+
+<ol>
+<li>查看 <a href="/qa/down_summary.html">Agent 安装常见错误 • 文档</a></li>
+<li>进行手动安装</li>
+<li><a href="http://support.oneapm.com/request/new/">提交工单给 Cloudinsight 技术支持人员</a></li>
+</ol>
+
+<h3>手动安装</h3>
+
+<h4>1.下载 Cloudinsight Agent 文件</h4>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get autoremove
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get autoclean
+<span class="nv">$ </span>wget http://apt.oneapm.com/pool/main/cloudinsight-agent_x.x.0-1_amd64.deb  （可以自行查看当前版本，其中amd64/i386分别对应64位/32位系统）
+</code></pre></div>
+<p class="notes clearfix"> 
+   <span class="notesHead"></span>
+    <span class="notesContent">注：请不要复制中文的解释字符：（可以自行查看当前版本）<span> 
+</p>
+
+<h4>2.安装 Cloudinsight Agent</h4>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>dpkg <span class="nt">-i</span> cloudinsight-agent_x.x.0-1_amd64.deb  （修改版本号）
+</code></pre></div>
+<p class="notes clearfix"> 
+   <span class="notesHead"></span>
+    <span class="notesContent">注：请不要复制中文的解释字符：（修改版本号）<span> 
+</p>
+
+<h4>3.配置 License Key</h4>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cd</span> /etc/cloudinsight-agent/
+<span class="nv">$ </span>cp cloudinsight-agent.conf.example   cloudinsight-agent.conf  
+<span class="nv">$ </span>vi cloudinsight-agent.conf  （修改成自己的 license_key）
+</code></pre></div>
+<p class="notes clearfix"> 
+   <span class="notesHead"></span>
+    <span class="notesContent">注：请不要复制中文的解释字符：（修改成自己的 license_key）<span> 
+</p>
+
+<h4>4.重启 Cloudinsight Agent</h4>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
+</code></pre></div>
+<hr>
+
+<h2>II.修改 Agent 配置文件</h2>
+
+<p>在使用 Cloudinsight 前，需要先了解 Agent 的目录结构，方便日后 Agent 错误排查，以及了解采集的数据。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/cloudinsight-agent : tree .
+.
+├── checks.d
+├── conf.d
+│   ├── activemq_58.yaml.example
+...
+│   ├── tomcat.yaml.example
+│   ├── win32_event_log.yaml.example
+│   ├── wmi_check.yaml.example
+│   └── zookeeper.yaml.example
+├── cloudinsight-agent.conf
+├── cloudinsight-agent.conf.example
+└── supervisor.conf
+
+2 directories, 49 files
+</code></pre></div>
+<p>Agent 安装在 <code>/etc/init.d/cloudinsight-agent</code> 路径，而配置文件的路径都在 <code>/etc/cloudinsight-agent</code>。</p>
+
+<p>所以所有的探针执行操作，都需要将路径定位至 <code>/etc/init.d/cloudinsight-agent</code> 路径，如 Agent 启动命令：</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent start
+</code></pre></div>
+<p>而修改配置文件，都在 <code>/etc/cloudinsight-agent</code> 路径下，如修改 Agent 中的 <code>Hostname</code>，需要：</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ vi /etc/cloudinsight-agent/cloudinsight-agent.conf
+</code></pre></div>
+<h3>配置文件类型</h3>
+
+<p>Agent 配置文件分为以下 3 类：</p>
+
+<ol>
+<li><code>cloudinsight-agent.conf</code> Agent 配置文件</li>
+<li><code>conf.d/XXXXX.yaml</code> 您需要监控的服务的配置文件</li>
+<li><code>supervisor.conf</code> supervisor 配置文件</li>
+</ol>
+
+<p class="notes clearfix"> 
+   <span class="notesHead"></span>
+    <span class="notesContent">注：Cloudinsight Agent 是通过 supervisor 进行进程管理，此处无需了解该配置。<span> 
+</p>
+
+<h3>第一次修改 Agent 配置文件</h3>
+
+<p>第一次打开 Agent 配置文件，建议阅读配置文件注释项，来了解配置项的含义。常用的配置项有：</p>
+
+<ul>
+<li><code>license_key</code> 您唯一识别号 License Key</li>
+<li><code>hostname</code> 给您主机起个名称，来区别其他主机上传的数据</li>
+<li><code>tags</code> 主机标签信息，用来标识该主机的一些属性信息，更为方便地管理主机</li>
+<li><code>collector_log_file</code> Agent 模块 collector 的日志文件路径，相同的还有 forwareder 和 statsd</li>
+<li><code>ci-url</code> 数据发送的目标服务器地址，默认为 Cloudinsight 后端地址</li>
+<li><code>listen_port</code> Agent 监听端口号，默认为 <code>10010</code></li>
+</ul>
+
+<h3>问题排查相关指令</h3>
+
+<p>一般来说，Agent 在安装后会默认启动。如上文所示，常见问题可以通过：<a href="/qa/down_summary.html">Agent 安装常见错误 • 文档</a> 进行排查。</p>
+
+<p>但是当您修改了 Agent 配置文件后，需要以下几种常用之类来帮助您更好地使用 Cloudinsight。</p>
+
+<h4>1.重启 Agent</h4>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
+</code></pre></div>
+<p>类似的指令还有：</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
+$ /etc/init.d/cloudinsight-agent stop
+</code></pre></div>
+<h4>2.快速查看 Agent 状态</h4>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent status
+</code></pre></div>
+<h4>3.查看 Agent 基本信息</h4>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
+</code></pre></div>
+<p>在 <code>info</code> 执行结果，您会看到：</p>
+
+<ol>
+<li>系统时钟信息</li>
+<li>Agent 采集的数据统计信息</li>
+<li>Agent 3 个模块：Forwareder, Collector 和 OneStatsd 的运行状态</li>
+</ol>
+
+<p>若出现异常情况会在 <code>info</code> 执行结果中标明。</p>
+
+<h4>4.打包日志文件提供给技术支持人员</h4>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>/etc/init.d/cloudinsight-agent flare
+</code></pre></div>
+<p>若 Cloudinsight 文档不能解决您的问题，可以通过<a href="http://support.oneapm.com/request/new/">提交工单给 Cloudinsight 技术支持人员</a>，来帮助您解决问题。</p>
+
+<p>但是技术人员需要查看您的日志文件，此时可以通过 <code>flare</code> 对日志文件进行打包。</p>
+
+<hr>
+
+<h2>III.查看操作系统指标</h2>
+
+<p>成功安装 Agent 后，打开 Cloudinsight 产品页，就会看到安装成功的主机的操作系统相关指标。</p>
+
+<p><img src="/images/quick_system_os.png" alt="Quick system os" /></p>
+
+<p style="text-align:center">图 1</p>
+
+<p>您可以在以下三个地方查看操作系统相关指标：</p>
+
+<ul>
+<li>平台 • 快速查看（如图 1）</li>
+<li>系统概览仪表盘（如图 2）：点击平台名称进入</li>
+<li>平台仪表盘（如图 3）：点击导航仪表盘进入</li>
+</ul>
+
+<p><img src="/images/quick_system_dash.png" alt="Quick system dash" /></p>
+
+<p style="text-align:center">图 2</p>
+
+<p><img src="/images/quick_dash_system.png" alt="Quick dash system" /></p>
+
+<p style="text-align:center">图 3</p>
+
+<p>若您对操作系统指标的含义、采集单位不是很熟悉，建议阅读：<a href="/platform/system.html">system 数据指标解释 • 文档</a>。</p>
+
+<hr>
+
+<h2>IV.配置 Cloudinsight 监控服务</h2>
+
+<p>至此，Cloudinsight Agent 安装成功。若您需要给探针添加数据库监控，如 MySQL, MongoDB 监控；或者 Tomcat 监控，HAProxy 监控。首先需要了解如何在 Agent 中配置这些服务。</p>
+
+<p>Agent 采集 MySQL, Tomcat 这些平台服务的数据指标，依赖于服务自身提供的数据对外接口。如 MySQL 需要配置 Agent 授权，提供数据给 Agent 并由 Agent 发送至 Cloudinsight 后端；而 Tomcat 依赖于 JMX 来提供数据。</p>
+
+<p>Cloudinsight Agent 采集平台服务数据的原理，分为以下 3 种：</p>
+
+<ul>
+<li><a href="/services/status.html">基于状态页的数据采集</a></li>
+<li><a href="/services/jmx.html">基于 JMX 的数据采集</a></li>
+<li><a href="/services/authorize.html">基于数据库授权的数据采集</a></li>
+</ul>
+
+<p>若想要全面了解 Cloudinsight Agent 如何采集数据，并且灵活配置平台服务监控，建议阅读以上文章。</p>
+
+<p>再次我们以 MySQL 和 Tomcat 为例，为大家介绍如何配置平台服务监控。</p>
+
+<h3>MySQL 监控</h3>
+
+<h4>1.给 Cloudinsight 创建一个名为 <code>oneapm</code> 的角色</h4>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>mysql <span class="nt">-e</span> <span class="s2">"CREATE USER 'oneapm'@'localhost' IDENTIFIED BY 'YourPassword';"</span>
+</code></pre></div>
+<p>至此，我们为 MySQL 配置了一个名为 <code>oneapm</code> 的角色，并且密码为 <code>YourPassword</code>。</p>
+
+<h4>2.为该角色赋予 <code>performance_scheme</code> 权限</h4>
+<div class="highlight"><pre class="highlight plaintext"><code>$ sudo mysql -e "GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'oneapm'@'localhost' WITH MAX_USER_CONNECTIONS 5;"
+$ sudo mysql -e "GRANT SELECT ON performance_schema.* TO 'oneapm'@'localhost';"
+</code></pre></div>
+<p>此处，<code>oneapm@localhost</code> 中地址可以修改为您实际环境中的地址；最大连接数默认为 <code>5</code>。</p>
+
+<h4>3.确认权限是否创建成功</h4>
+<div class="highlight"><pre class="highlight plaintext"><code>$ mysql -u oneapm --password=YourPassword -e "SHOW /*!50000 ENGINE*/ INNODB STATUS" | \
+grep Uptime &amp;&amp; echo -e "\033[0;32mMySQL user - OK\033[0m" || \
+echo -e "\033[0;31mCannot connect to MySQL\033[0m"
+mysql -u oneapm --password=YourPassword -e "show slave status" &amp;&amp; \
+echo -e "\033[0;32mMySQL grant - OK\033[0m" || \
+echo -e "\033[0;31mMissing REPLICATION CLIENT grant\033[0m"
+</code></pre></div>
+<p class="notes clearfix"> 
+   <span class="notesHead"></span>
+    <span class="notesContent">注：若您修改了密码和地址，请将其中的相关字段替换为您修改后的字符。<span> 
+</p>
+
+<p>若出现相关成功提示，则代表授权已经配置成功。至此，您已经为 MySQL 增加了一个可以访问 MySQL 相关性能数据的角色 <code>oneapm</code>。</p>
+
+<p>我们还需要修改 Agent 中 <code>mysql.yaml</code> 文件来开启 MySQL 监控。</p>
+
+<h4>4.配置 <code>mysql.yaml</code></h4>
+
+<p>将路径定位至 <code>/etc/cloudinsight-agent/conf.d</code></p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ cd /etc/cloudinsight-agent/conf.d
+</code></pre></div>
+<p>该目录下存储着 Cloudinsight 支持所有的平台服务监控的配置文件的示例文件，后缀为 <code>*.yaml.example</code>。</p>
+
+<p>若您不熟悉 <code>yaml</code> 语法，建议直接从示例文件中创建副本开启监控。</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>cp mysql.yaml.example mysql.yaml
+</code></pre></div>
+<p>或者阅读：<a href="/qa/yaml.html">YAML 格式须知 • 文档</a>。</p>
+
+<p>然后打开 <code>mysql.yaml</code>文件。建议阅读配置项的注释，了解配置项的涵义。</p>
+
+<p>常用的配置项有：</p>
+
+<ul>
+<li><code>server</code>：MySQL 服务地址</li>
+<li><code>user</code>：配置的角色名称</li>
+<li><code>pass</code>：配置的角色名称</li>
+<li><code>tags</code>：给该 MySQL 以及采集的数据加上标签信息</li>
+</ul>
+
+<p>若您的 MySQL 存在特殊情况，如 <code>sock</code> 路径不在默认路径下，或者需要关闭一些 MySQL 指标，都可以在配置文件中进行配置。</p>
+
+<h4>5.确定 Agent 是否采集到 MySQL 相关数据</h4>
+
+<p>执行 Agent Info 指令来查看，Agent 是否开始采集 MySQL 相关指标的数据。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
+</code></pre></div>
+<p>若出现以下提示信息，则代表 Agent 已经成功采集 MySQL 数据。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Checks
+======
+
+[...]
+
+mysql
+-----
+  - instance #0 [OK]
+  - Collected 8 metrics &amp; 0 events`
+</code></pre></div>
+<h3>Tomcat 监控</h3>
+
+<h4>1.开启 JMXRemote</h4>
+
+<p>监控 Tomcat 的第一步是要检查 JMXRemote 是否处于 <code>enable</code> 状态。若没有处于 <code>enable</code> 状态，您可以添加以下参数至 <code>setenv.sh</code> 文件：</p>
+<div class="highlight"><pre class="highlight plaintext"><code>set CATALINA_OPTS=-Dcom.sun.management.jmxremote
+  -Dcom.sun.management.jmxremote.port=%my.jmx.port%
+  -Dcom.sun.management.jmxremote.ssl=false
+  -Dcom.sun.management.jmxremote.authenticate=false
+</code></pre></div>
+<p>或者查阅 <a href="http://tomcat.apache.org/tomcat-6.0-doc/monitoring.html">Monitoring and Managing Tomcat • 官网文档</a></p>
+
+<h4>2.配置 <code>tomcat.yaml</code></h4>
+
+<p>将路径定位至 <code>/etc/cloudinsight-agent/conf.d</code></p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ cd /etc/cloudinsight-agent/conf.d
+</code></pre></div>
+<p>该目录下存储着 Cloudinsight 支持所有的平台服务监控的配置文件的示例文件，后缀为 <code>*.yaml.example</code>。</p>
+
+<p>若您不熟悉 <code>yaml</code> 语法，建议直接从示例文件中创建副本开启监控。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ cp tomcat.yaml.example tomcat.yaml
+</code></pre></div>
+<p>或者阅读：<a href="/qa/yaml.html">YAML 格式须知 • 文档</a>。</p>
+
+<p>然后打开 <code>tomcat.yaml</code>文件。建议阅读配置项的注释，了解配置项的涵义。</p>
+
+<p>常用的配置项有：</p>
+
+<ul>
+<li><code>host</code>：Tomcat 所在主机，默认为 localhost</li>
+<li><code>port</code>：JMX 远程连接端口</li>
+<li><code>user</code>：JMX 远程连接用户名</li>
+<li><code>password</code>：JMX 远程连接密码</li>
+<li><code>name</code>：Tomcat 实例名称，将在 Cloudinsight 平台生成对应的标签，如: <code>instance:tomcat_instance</code></li>
+<li><code>java_bin_path</code>：探针找不到 Java 可执行路径时，需配置此项</li>
+<li><code>java_options</code>：Java JVM 对应项</li>
+<li><code>trust_store_path</code>：若 JMX 远程连接开启 SSL，需配置此项</li>
+<li><code>trust_store_password</code>：SSL 证书密码</li>
+<li><code>tags</code>：标签信息</li>
+</ul>
+
+<p>由于 JMX 采集的指标特别多，而 Cloudinsight 认为只选取一些常用的指标，就可以满足大部分的用户场景。所以我们针对采集指标的数量，做了最大 350 条的限制。</p>
+
+<p>至此，我们需要为您介绍 Agent 操作中的 jmx 指令。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ sudo /etc/init.d/cloudinsight-agent jmx
+</code></pre></div>
+<p>如需要查看哪些指标因为数量限制未被 Agent 采集：</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ sudo /etc/init.d/cloudinsight-agent jmx list_limited_attributes
+</code></pre></div>
+<p>详细操作命令，以及如何自定义指标采集，请查阅：<a href="/services/jmx.html">JMX 远程监控 • 文档</a>。</p>
+
+<h4>3.确定 Agent 是否采集到 Tomcat 相关数据</h4>
+
+<p>执行 Agent Info 指令来查看，Agent 是否开始采集 Tomcat 相关指标的数据。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
+</code></pre></div>
+<p>若出现以下提示信息，则代表 Agent 已经成功采集 MySQL 数据。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Checks
+======
+
+[...]
+
+tomcat
+------
+  - instance #0 [OK]
+  - Collected 8 metrics &amp; 0 events
+</code></pre></div>
+<hr>
+
+<h2>V.查看监控服务数据</h2>
+
+<p>成功配置平台服务监控后，您就可以在 Cloudinsight 界面中看到相关指标了。</p>
+
+<p>您可以在平台列表中，点击 MySQL 平台服务，快速查看 MySQL 运行情况和相关指标，如图 4。</p>
+
+<p><img src="/images/quick_system_mysql.png" alt="Quick system mysql" /></p>
+
+<p style="text-align:center">图 4</p>
+
+<p>或者前往仪表盘页面，查看为您定制的平台服务仪表盘 • MySQL 概览，了解 MySQL 的关键指标。如图 5。</p>
+
+<p><img src="/images/quick_dash_mysql.png" alt="Quick dash mysql" /></p>
+
+<p style="text-align:center">图 5</p>
+
+<p>想要了解 MySQL 每个指标的含义和单位，来更好地创建自定义仪表盘。建议前往指标概览页面，查看 MySQL 相关指标的含义和采集单位。如图 6.</p>
+
+<p><img src="/images/quick_mysql_metric.png" alt="Quick mysql metric" /></p>
+
+<p style="text-align:center">图 6</p>
+
+<hr>
+
+<h2>延伸阅读</h2>
+
+<p>至此所有的快速入门指南，已经完毕。您可以点击以下链接，更为深入地了解 Cloudinsight。</p>
+
+<ul>
+<li><a href="/dashboard/custom.html">自定义仪表盘</a></li>
+<li><a href="../platform/">操作指南</a></li>
+<li><a href="../qa/">常见问题</a></li>
+<li><a href="../api/">API &amp; SDK</a></li>
+</ul>
+
+            <hr style="margin-top: 50px;" />
+<div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
+  <p style="font-size: 16px;">
+    如果您对 Cloudinsight 感兴趣，可以选择试用我们的产品，只需要点击下面的按钮免费注册即可。
+  </p>
+  <br />
+  <p>
+    <a href="https://cloud.oneapm.com/user/register?ref=https://cloud.oneapm.com&from=ci-docs" class="btn btn-info btn-lg" target="_blank">
+      立即注册 Cloudinsight
+    </a>
+  </p>
+</div>
+<hr />
+<!-- 多说评论框 start -->
+<div class="ds-thread"
+     id="ds-thread"
+     data-thread-key=""
+     data-title=""
+     data-url="http://docs-ci.oneapm.com/quick-start/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+  var titleTag = document.getElementsByTagName("h1")[0];
+
+  if (titleTag) {
+    title = document.getElementsByTagName("h1")[0].innerText;
+  } else {
+    title = "Cloudinsight - 次世代系统监控、数据管理、数据可视化平台 - 快速入门";
+  }
+
+  var duoshuoTag = document.getElementById('ds-thread');
+  duoshuoTag.setAttribute('data-thread-key', title.replace(/\s/g, ''));
+  duoshuoTag.setAttribute('data-title', title);
+
+  var duoshuoQuery = {short_name:"docs-ci"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+            <div class="return"></div>
+          </div>
+          <div class="footer-in">
+            <div class="footer-nav-block">
+    <div class="container">
+        <div class="footer-nav">
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="/quick-start/">文档</a>
+                    </li>
+                    <li>
+                        <a href="/quick-start/">快速入门</a>
+                    </li>
+                    <li>
+                        <a href="/agent/">安装配置</a>
+                    </li>
+                    <li>
+                        <a href="/platform/">操作指南</a>
+                    </li>
+                    <li>
+                        <a href="/best-practise/">实践案例</a>
+                    </li>
+                    <li>
+                        <a href="/qa/">常见问题</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">产品</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">基础组件监控</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/api_sdk.html">API 与 SDK</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/cialert.html">异常数据告警</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/price.html">报价</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">关于</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">团队介绍</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/cooperation.html">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-support">
+            <ul class="footer-support-list">
+                <li><img src="/images/home/support.svg"></li>
+                <li class="support-title">技术支持</li>
+                <li class="support-mail">support@oneapm.com</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-block">
+    <div class="container">
+        <div class="copyright-link">
+            <div class="socialLink">
+                <a href="https://github.com/cloudinsight/cloudinsight.github.io" class="social-btn github" target="_blank">
+                    <img src="/images/home/github.svg">
+                    <p class="hidden-xs hidden-xxs">Github</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="#" class="social-btn qr">
+                    <img src="/images/home/wechat.svg">
+                    <p class="hidden-xs hidden-xxs">微信</p>
+                    <div class="QRcode">
+                        <img src="/images/home/wechatQR.svg">
+                    </div>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://my.oschina.net/cloudinsight/blog" class="social-btn" target="_blank">
+                    <img src="/images/home/oschina.svg">
+                    <p class="hidden-xs hidden-xxs">开源中国</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://www.weibo.com/cloudinsight" class="social-btn" target="_blank">
+                    <img src="/images/home/weibo.svg">
+                    <p class="hidden-xs hidden-xxs">微博</p>
+                </a>
+            </div>
+        </div>
+        <div class="copyright-text">
+            <a href="http://cloudinsight.oneapm.com/">
+                <img src="/images/home/cilogomulti_btn.svg" class="footer-logo">
+            </a>
+            <p class="copyright">
+                Copyright © 2008-
+                <span id="cr-end-time"></span>
+                北京蓝海讯通科技股份有限公司
+                <br>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14028342号-2</a>
+                京公网安备 11010802016192
+                <br>
+            </p>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      $(function() {
+        $(".navbar-default .navbar-nav .guide").addClass("active");
+        (function () {
+          $('.panel-default').mouseenter(function () {
+            if(!$(this).hasClass('active')){
+              $(this).children().addClass('in');
+            }
+          })
+          $('.panel-default').mouseleave(function () {
+              if(!$(this).hasClass('active')) {
+                $(this).children().removeClass('in');
+              }
+            })
+          var key=window.location.pathname;
+          var lastindex;
+          var keyInfo;
+          if(key.indexOf('quick-start') !== -1){
+            keyInfo="'"+key+"'";
+            $('ol').eq(0).children().map(function () {
+              $(this).css({
+                'cursor':'pointer',
+                'color':'#005FA8'
+              })
+            })
+            $('ol').eq(0).children().eq(0).click(function () {
+              $('.page-body').animate({ scrollTop: 300 }, 500)
+            })
+            $('ol').eq(0).children().eq(1).click(function () {
+              $('.page-body').animate({ scrollTop: 1830 }, 500)
+            })
+            $('ol').eq(0).children().eq(2).click(function () {
+              $('.page-body').animate({ scrollTop: 4202 }, 500)
+            })
+            $('ol').eq(0).children().eq(3).click(function () {
+              $('.page-body').animate({ scrollTop: 5942 }, 500)
+            })
+            $('ol').eq(0).children().eq(4).click(function () {
+              $('.page-body').animate({ scrollTop: 10066 }, 500)
+            })
+          }else if(key.indexOf('/',1) !== -1){
+            lastindex=key.indexOf('/',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"'";
+          }else {
+            lastindex=key.indexOf('.',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"html'";
+          }
+          var panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent();
+          panelHead.siblings().addClass('in');
+          panelHead.parent().siblings('div').map(function () {
+            $(this).removeClass('active');
+          });
+          panelHead.parent().addClass('active');
+        })();
+      });
+    </script>
+  </body>
+</html>

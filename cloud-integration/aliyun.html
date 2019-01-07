@@ -1,0 +1,1134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="网站监控,服务器监控,数据库监控,自定义指标,服务监控,中间件监控,数据可视化,大数据监控,页面性能监控">
+<meta name="description" content="Cloudinsight 是一款集监控与数据可视化，数据管理为一身的平台，可以进行基础组件的监控，自定义数据仪表盘的展示，对任意指标报警，是IT运维人员，以及开发人员的必备工具服务">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<!-- Use title if it's in the page YAML frontmatter -->
+<title>Cloudinsight - 阿里云集成</title>
+
+  <script type="text/javascript">
+    if (window.location.hostname === 'www.oneapm.com') {
+      var pathnameSegs = window.location.pathname.split("/docs/ci");
+      var realPathname = pathnameSegs[pathnameSegs.length - 1];
+      window.location.href = 'http://docs-ci.oneapm.com' + realPathname;
+    } else if (window.location.hostname !== 'docs-ci.oneapm.com') {
+      window.location.href = 'http://docs-ci.oneapm.com' + window.location.pathname;
+    }
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?dc7d70374ed3b2f6ce76527be8b9c93a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+<!-- growingio -->
+<script type='text/javascript'>
+  var _vds = _vds || [];
+  window._vds = _vds;
+  (function(){
+    _vds.push(['setAccountId', '9b345c730c9983fa']);
+    (function() {
+      var vds = document.createElement('script');
+      vds.type='text/javascript';
+      vds.async = true;
+      vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(vds, s);
+    })();
+  })();
+</script>
+
+
+<link href="/stylesheets/site.css" rel="stylesheet" />
+<script src="/javascripts/jquery-2.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/all.js"></script>
+<style media="screen">
+  .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+.highlight .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #6c8b9f;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #b2fd6d;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .err {
+  color: #fefeec;
+  background-color: #cc0000;
+}
+.highlight .gr {
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .k, .highlight .kd, .highlight .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+.highlight .o, .highlight .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .p, .highlight .pi {
+  color: #4df4ff;
+}
+.highlight .gd {
+  color: #cc0000;
+}
+.highlight .gi {
+  color: #b2fd6d;
+}
+.highlight .ge {
+  font-style: italic;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gt {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .kc {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nc {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nd {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sb, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .sr, .highlight .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+.highlight .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .nb {
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #BBBBBB;
+}
+.highlight .go {
+  color: #BBBBBB;
+}
+.highlight .nf {
+  color: #a8e1fe;
+}
+.highlight .py {
+  color: #a8e1fe;
+}
+.highlight .na {
+  color: #a8e1fe;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+
+  <body class="page-cloud-integration cloud-integration_aliyun">
+        <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ6GBS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ6GBS');</script>
+    <!-- End Google Tag Manager -->
+
+<header class="main-header clearfix">
+	<div class="main-navblock col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><div>
+			<a href="../index.html" class="logo-container">
+				<div class="oneapm-logo"></div>
+			</a>
+		</div>
+		<!--<a href="#" class="burger-wrapper">-->
+			<!--<div class="burger"></div>-->
+		<!--</a>-->
+		<!--<div class="nav-container">-->
+			<!--<ul class="nav-list">-->
+				<!--<li>-->
+					<!--<a href="/quick-start/">快速入门</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/agent/">安装配置</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/platform/">操作指南</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/best-practise/">实践案例</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/qa/">常见问题</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+			<!--<ul class="login-list">-->
+				<!--<li>-->
+					<!--<a href="http://user.oneapm.com/pages/v2/login_ci" class="btn outline-dark" id="loginIn">登录</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="https://cloud.oneapm.com/user/register" class="btn inside-yellow" id="signUp">注册</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+		<!--</div>-->
+	</div>
+</header>
+<div class="flagInfo clearfix">
+    <div class="flag-left"></div>
+    <div class="flag-right">Cloudinsight Agent 在 4.7.0 版本，将 Agent 名称从 oneapm-ci-agent 更换至 cloudinsight-agent。若您在使用过程中，出现无法正常工作的情况，请加入售后群：433349863</div>
+    <span class="cl">X</span>
+</div>
+<script type="text/javascript" src="//d.oneapm.com/sso/nav.js"></script>
+
+
+    <div class="container page-container">
+      <div class="row">
+        <div class="col-xs-3 page-sidebar hidden-ssm hidden-xs">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" href="/agent/">
+          Agent 安装与设置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/agent/redhat.html">RedHat / CentOS / Fedora 安装</a></li>
+          <li><a href="/agent/ubuntu.html">Debian / Ubuntu 安装</a></li>
+          <li><a href="/agent/amazon.html">Amazon Linux 安装</a></li>
+          <li><a href="/agent/windows.html">Windows 安装</a></li>
+          <li><a href="/agent/docker.html">Docker 安装</a></li>
+          <li><a href="/agent/chef.html">Chef 安装</a></li>
+          <li><a href="/agent/inner.html">内网环境安装探针</a></li>
+          <li><a href="/agent/agent-instrument.html">Agent 操作与配置</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed"  href="/api/">
+          API与SDK
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/api/sdk.html">SDK</a></li>
+          <li><a href="/api/python.html">Python</a></li>
+          <li><a href="/api/nodejs.html">Node.js</a></li>
+          <li><a href="/api/ruby.html">Ruby</a></li>
+          <li><a href="/api/java.html">Java</a></li>
+          <li><a href="/api/dotnet.html">DotNET</a></li>
+          <li><a href="/api/php.html">PHP</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/cloud-integration/">
+          云厂商接入
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/cloud-integration/aliyun.html">阿里云</a></li>
+          <li><a href="/cloud-integration/ucloud.html">UCloud</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services/">
+          平台服务基础配置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services/status.html">状态页监控</a></li>
+          <li><a href="/services/jmx.html">JMX 远程监控</a></li>
+          <li><a href="/services/authorize.html">数据库授权监控</a></li>
+          <li><a href="/services/database.html">数据库配置</a></li>
+          <li><a href="/services/agent-check.html">自定义 AgentCheck</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services_example/">
+          平台服务配置示例
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services_example/activemq.html">artivemq</a></li>
+          <li><a href="/services_example/apache.html">apache</a></li>
+          <li><a href="/services_example/bearychat.html">bearychat</a></li>
+          <li><a href="/services_example/cacti.html">cacti</a></li>
+          <li><a href="/services_example/cassandra.html">cassandra</a></li>
+          <li><a href="/services_example/couchbase.html">couchbase</a></li>
+          <li><a href="/services_example/couchdb.html">couchdb</a></li>
+          <li><a href="/services_example/docker.html">docker</a></li>
+          <li><a href="/services_example/elasticsearch.html">elasticsearch</a></li>
+          <li><a href="/services_example/event_viewer.html">event_viewer</a></li>
+          <li><a href="/services_example/gearman.html">gearman</a></li>
+          <li><a href="/services_example/gunicorn.html">gunicorn</a></li>
+          <li><a href="/services_example/haproxy.html">haproxy</a></li>
+          <li><a href="/services_example/http.html">http</a></li>
+          <li><a href="/services_example/iis.html">iis</a></li>
+          <li><a href="/services_example/jianliao.html">jianliao</a></li>
+          <li><a href="/services_example/kafka.html">kafka</a></li>
+          <li><a href="/services_example/memcached.html">memcached</a></li>
+          <li><a href="/services_example/mesos.html">mesos</a></li>
+          <li><a href="/services_example/mongodb.html">mongodb</a></li>
+          <li><a href="/services_example/mysql.html">mysql</a></li>
+          <li><a href="/services_example/nagios.html">nagios</a></li>
+          <li><a href="/services_example/network.html">network</a></li>
+          <li><a href="/services_example/nginx.html">nginx</a></li>
+          <li><a href="/services_example/openstack.html">openstack</a></li>
+          <li><a href="/services_example/php-fpm.html">php-fpm</a></li>
+          <li><a href="/services_example/postgresql.html">postgresql</a></li>
+          <li><a href="/services_example/process.html">process</a></li>
+          <li><a href="/services_example/pubu.html">pubu</a></li>
+          <li><a href="/services_example/rabbitmq.html">rabbitmq</a></li>
+          <li><a href="/services_example/redis.html">redis</a></li>
+          <li><a href="/services_example/snmp.html">snmp</a></li>
+          <li><a href="/services_example/solr.html">solr</a></li>
+          <li><a href="/services_example/sqlserver.html">sqlserver</a></li>
+          <li><a href="/services_example/ssh.html">ssh</a></li>
+          <li><a href="/services_example/supervisord.html">supervisord</a></li>
+          <li><a href="/services_example/tcp.html">tcp</a></li>
+          <li><a href="/services_example/tomcat.html">tomcat</a></li>
+          <li><a href="/services_example/wmi.html">wmi</a></li>
+          <li><a href="/services_example/zookeeper.html">zookeeper</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="col-xs-9 page-body">
+          <div class="body-box">
+            <h1>阿里云集成</h1>
+
+<h2>简介</h2>
+
+<p>连接到阿里云您可以：</p>
+
+<ul>
+<li>得到阿里云ECS主机的监控数据，而不需要安装Cloudinsight 探针</li>
+<li>得到阿里云其他服务的CMS监控数据：ECS, RDS</li>
+</ul>
+
+<p><strong>请注意</strong>: 我们对监控的主机数量做了每个产品20台的限制，即一个阿里云账户可以监控20个ECS和20个RDS。</p>
+
+<hr>
+
+<h2>配置</h2>
+
+<ol>
+<li>登陆到阿里云管理控制台</li>
+<li>开通<a href="https://www.aliyun.com/product/ram">访问控制</a>， 进入访问控制的管理界面</li>
+<li>创建新用户(开启字自动生成AccessKey)， 保存生成的AccessKey对，点击 <em>授权</em>，为新用户增加权限: <strong>AliyunCloudMonitorReadOnlyAccess</strong> 和 <strong>ReadOnlyAccess</strong></li>
+<li>将您的 <strong>key</strong> 和 <strong>secret</strong> 以及想要监控的的区域 对应填写到Cloudinsight的阿里云集成页面的表格中</li>
+<li><strong>可选</strong>，进入云监控管理界面，点击云服务器ECS，点击安装 插件（推荐，ECS的一些指标需要安装插件之后才能获取)</li>
+<li>完成~</li>
+</ol>
+
+<hr>
+
+<h2>支持情况</h2>
+
+<p>首先要说明一下我们如何集成阿里云：</p>
+
+<ul>
+<li>使用了阿里云的几个API：ECS、CMS、RDS</li>
+<li>阿里云云监控服务默认就开启，而且云资源购买之后就可以直接使用云监控, 但是<a href="https://help.aliyun.com/document_detail/cms/SDK_References/Preset_Metric_Item_Reference.html">一些ECS指标是需要安装插件才能拿到的</a></li>
+<li>使用您提供的AccessKey获取您的云资源列表(如ECS)，然后调用CMS对每个资源获取监控指标</li>
+</ul>
+
+<p>以下是对阿里云不同服务的支持情况：</p>
+
+<p>想了解阿里云的监控指标，可以参考 <a href="https://help.aliyun.com/document_detail/cms/API_References/Preset_Metric_Item_Reference.html">阿里云 监控项</a>。</p>
+
+<hr>
+
+<h3>ECS, 对应Cloudinsight的System服务</h3>
+
+<h4>metric 映射</h4>
+
+<table><thead>
+<tr>
+<th>阿里云</th>
+<th>Cloudinsight</th>
+<th>说明</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>CPUUtilization</td>
+<td>system.cpu.user</td>
+<td>单位：%</td>
+</tr>
+<tr>
+<td>DiskReadIOPS</td>
+<td>system.io.r_s</td>
+<td>单位：次, io 读取次数</td>
+</tr>
+<tr>
+<td>DiskWriteIOPS</td>
+<td>system.io.w_s</td>
+<td>单位：次，io写入次数</td>
+</tr>
+<tr>
+<td>InternetIn</td>
+<td>system.net.bytes_rcvd</td>
+<td>单位：byte/s, 外网入流量</td>
+</tr>
+<tr>
+<td>InternetOut</td>
+<td>system.net.bytes_sent</td>
+<td>单位：byte/s, 外网出流量</td>
+</tr>
+<tr>
+<td>IntranetIn</td>
+<td>system.net.bytes_rcvd</td>
+<td>单位：byte/s, 内网入流量</td>
+</tr>
+<tr>
+<td>IntranetOut</td>
+<td>system.net.bytes_sent</td>
+<td>单位：byte/s, 内网出流量</td>
+</tr>
+<tr>
+<td>vm.LoadAverage</td>
+<td>system.load.1/5/15</td>
+<td>单位：%; 系统负载，操作系统级监控数据，需要安装插件才能获取</td>
+</tr>
+<tr>
+<td>vm.DiskUtilization</td>
+<td>system.disk.in_use</td>
+<td>单位：%; 磁盘使用率，操作系统级监控数据，需要安装插件才能获取</td>
+</tr>
+<tr>
+<td>vm.DiskIORead</td>
+<td>system.io.rkb_s</td>
+<td>单位：kb/s; io读取速度, 操作系统级监控数据，需要安装插件才能获取</td>
+</tr>
+<tr>
+<td>vm.DiskIOWrite</td>
+<td>system.io.wkb_s</td>
+<td>单位：kb/s; io写入速度, 操作系统级监控数据，需要安装插件才能获取</td>
+</tr>
+</tbody></table>
+
+<h4>系统信息说明</h4>
+
+<table><thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>以下为 instance tab 信息</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>zone</td>
+<td>实例所属可用区</td>
+</tr>
+<tr>
+<td>region</td>
+<td>实例所属地域ID</td>
+</tr>
+<tr>
+<td>cluster_id</td>
+<td></td>
+</tr>
+<tr>
+<td>create_time</td>
+<td>创建时间。按照ISO8601标准表示，并需要使用UTC时间。格式为： YYYY-MM-DDThh:mmZ</td>
+</tr>
+<tr>
+<td>expire_time</td>
+<td>过期时间。按照ISO8601标准表示，并需要使用UTC时间。格式为： YYYY-MM-DDThh:mmZ</td>
+</tr>
+<tr>
+<td>description</td>
+<td>实例描述（阿里云自定义的）</td>
+</tr>
+<tr>
+<td>instance<em>charge</em>type</td>
+<td>实例的付费方式。 PrePaid：预付费，即包年包月; PostPaid：后付费，即按量付费</td>
+</tr>
+<tr>
+<td>instance_id</td>
+<td>实例Id</td>
+</tr>
+<tr>
+<td>instance_name</td>
+<td>实例的显示名称</td>
+</tr>
+<tr>
+<td>instance_type</td>
+<td>实例资源规格</td>
+</tr>
+<tr>
+<td>instance<em>type</em>family</td>
+<td>实例规格族</td>
+</tr>
+<tr>
+<td>provider</td>
+<td>公有云厂商</td>
+</tr>
+<tr>
+<td><strong>以下为 network tab 信息</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>internal_ip</td>
+<td>实例的内网IP地址</td>
+</tr>
+<tr>
+<td>public_ip</td>
+<td>实例的外网IP地址</td>
+</tr>
+<tr>
+<td>internet<em>charge</em>type</td>
+<td>网络计费类型，PayByBandwidth，PayByTraffic两个值中的一个。预付费实例显示PayByBandwidth（按带宽计费）。 PayByTraffic：按流量计费; PayByBandwidth：按带宽计费</td>
+</tr>
+<tr>
+<td>internet<em>max</em>bandwidth_in</td>
+<td>公网入带宽最大值</td>
+</tr>
+<tr>
+<td>internet<em>max</em>bandwidth_out</td>
+<td>公网出带宽最大值</td>
+</tr>
+<tr>
+<td>instance<em>network</em>type</td>
+<td>实例网络类型，可选值Classic， Vpc</td>
+</tr>
+<tr>
+<td><strong>以下为 system tab 信息</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>cpu</td>
+<td>CPU 核数</td>
+</tr>
+<tr>
+<td>host_name</td>
+<td>主机名</td>
+</tr>
+<tr>
+<td>memory</td>
+<td>内存大小，单位为 MB</td>
+</tr>
+<tr>
+<td>~~disk~~</td>
+<td>磁盘大小 (自定义阿里云镜像没有)</td>
+</tr>
+<tr>
+<td>osname</td>
+<td>操作系统的显示名称 (自定义阿里云镜像没有)</td>
+</tr>
+<tr>
+<td>ostype</td>
+<td>操作系统类型 (自定义阿里云镜像没有)</td>
+</tr>
+<tr>
+<td>platform</td>
+<td>操作系统平台系列（ubuntu,centos..)  (自定义阿里云镜像没有)</td>
+</tr>
+</tbody></table>
+
+<h4>默认的host tag</h4>
+
+<table><thead>
+<tr>
+<th>host tags</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>instance<em>charge</em>type</td>
+</tr>
+<tr>
+<td>instance_name</td>
+</tr>
+<tr>
+<td>instance<em>network</em>type</td>
+</tr>
+<tr>
+<td>instance_type</td>
+</tr>
+<tr>
+<td>instance<em>type</em>family</td>
+</tr>
+<tr>
+<td>internet<em>charge</em>type</td>
+</tr>
+<tr>
+<td>region</td>
+</tr>
+<tr>
+<td>zone</td>
+</tr>
+<tr>
+<td>provider</td>
+</tr>
+<tr>
+<td>ostype (自定义阿里云镜像没有)</td>
+</tr>
+<tr>
+<td>platform (自定义阿里云镜像没有)</td>
+</tr>
+</tbody></table>
+
+<h4>默认的metric tag</h4>
+
+<table><thead>
+<tr>
+<th>metric tags</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>instance<em>charge</em>type</td>
+</tr>
+<tr>
+<td>instance_name</td>
+</tr>
+<tr>
+<td>instance_type</td>
+</tr>
+<tr>
+<td>internet<em>charge</em>type</td>
+</tr>
+<tr>
+<td>region</td>
+</tr>
+<tr>
+<td>zone</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<h3>RDS, 对应Cloudinsight的aliyun_rds服务</h3>
+
+<h4>metric 映射</h4>
+
+<table><thead>
+<tr>
+<th>阿里云</th>
+<th>Cloudinsight</th>
+<th>说明</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>CpuUsage</td>
+<td>cpu.usage</td>
+<td>单位：%</td>
+</tr>
+<tr>
+<td>DiskUsage</td>
+<td>disk.usage</td>
+<td>单位：%</td>
+</tr>
+<tr>
+<td>IOPSUsage</td>
+<td>ipos.usage</td>
+<td>单位：%</td>
+</tr>
+<tr>
+<td>ConnectionUsage</td>
+<td>connection.usage</td>
+<td>单位：%</td>
+</tr>
+<tr>
+<td>MemoryUsage</td>
+<td>memory.usage</td>
+<td>单位：%</td>
+</tr>
+<tr>
+<td>MySQL_NetworkIn</td>
+<td>mysql.network_in</td>
+<td>单位：kb/s</td>
+</tr>
+<tr>
+<td>MySQL_NetworkOut</td>
+<td>mysql.network_out</td>
+<td>单位：kb/s</td>
+</tr>
+<tr>
+<td>SQLServer_NetworkIn</td>
+<td>sqlserver.network_in</td>
+<td>单位：kb/s</td>
+</tr>
+<tr>
+<td>SQLServer_NetworkOut</td>
+<td>sqlserver.network_out</td>
+<td>单位：kb/s</td>
+</tr>
+</tbody></table>
+
+<h4>系统信息说明</h4>
+
+<table><thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>以下为 instance tab 信息</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>create_time</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td>expire_time</td>
+<td>到期时间，按量付费实例无到期时间</td>
+</tr>
+<tr>
+<td>description</td>
+<td>实例描述</td>
+</tr>
+<tr>
+<td>instance_type</td>
+<td>实例规格类型</td>
+</tr>
+<tr>
+<td>Primary:主实例；ReadOnly：只读实例；Guard：灾备实例；Temp：临时实例</td>
+<td></td>
+</tr>
+<tr>
+<td>engine</td>
+<td>数据库类型</td>
+</tr>
+<tr>
+<td>engine_version</td>
+<td>数据库版本</td>
+</tr>
+<tr>
+<td>pay_type</td>
+<td>付费类型 Postpaid:按量付费；Prepaid：预付费</td>
+</tr>
+<tr>
+<td>zone</td>
+<td>区域</td>
+</tr>
+<tr>
+<td>region</td>
+<td>地域</td>
+</tr>
+<tr>
+<td>provider</td>
+<td>公有云厂商</td>
+</tr>
+<tr>
+<td><strong>以下为 network tab 信息</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>db<em>net</em>type</td>
+<td>实例网络类型</td>
+</tr>
+<tr>
+<td>network_type</td>
+<td>实例网络规格类型</td>
+</tr>
+<tr>
+<td>Classic：经典网络;VPC：VPC网络</td>
+<td></td>
+</tr>
+<tr>
+<td>connection_mode</td>
+<td>访问模式</td>
+</tr>
+<tr>
+<td>Performance为标准访问模式;Safty为高安全访问模式</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h4>默认的host tag</h4>
+
+<table><thead>
+<tr>
+<th>host tags</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>instance_type</td>
+</tr>
+<tr>
+<td>pay_type</td>
+</tr>
+<tr>
+<td>region</td>
+</tr>
+<tr>
+<td>zone</td>
+</tr>
+<tr>
+<td>provider</td>
+</tr>
+</tbody></table>
+
+<h4>默认的metric tag</h4>
+
+<table><thead>
+<tr>
+<th>metric tags</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>description</td>
+</tr>
+<tr>
+<td>instance_type</td>
+</tr>
+<tr>
+<td>engine</td>
+</tr>
+<tr>
+<td>network_type</td>
+</tr>
+<tr>
+<td>zone</td>
+</tr>
+<tr>
+<td>region</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<h2>问题定位</h2>
+
+<h3>指标不太对?</h3>
+
+<p>你会发现，指标概览和Cloudinsight的demo不一样，指标才只有几个，这是有原因的：</p>
+
+<p>首先，阿里云的监控指标项和我们的指标项只能互相匹配一部分, 并且有几个指标是需要您安装阿里云插件才能获取到;
+其次，有些指标比如磁盘，操作系统等的信息是从API获取不到的;
+再次，某些指标项，比如cpu使用率，阿里云只提供了一个值(cpu.user)来表示(it is true), 而我们的cpu指标下有cpu.user,cpu.system,cpu.idle,cpu.stolen,cpu.iowait, 指标是匹配不上的。</p>
+
+<h3>数据有延迟?</h3>
+
+<p>当使用阿里云集成时，我们是从阿里云 CMS API 每5分钟获取一次数据。取出的最近时间的数据你会看到2~4分钟的数据延迟，这主要是API的限制导致的。</p>
+
+<p>从使用阿里云 CMS API的情况来看，在当前时间请求前一分钟和前前一分钟的数据成功返回是不准确的（阿里云方面有确认这个情况），所以我们最近时间使用的是前前前(别晕)一分钟, 加上每次请求以及发送给服务器的固定网络开销还有服务器的处理时间，就是最近时间的延迟所在。</p>
+
+<p>如果这个延迟对您来说有点不能接受的话，推荐您在这些主机上安装Cloudinsight探针，几乎feel不到延迟 :)。</p>
+
+<h3>数据少了(掉点)?</h3>
+
+<p>目前阿里云会偶然地取不到某一分钟的监控数据，我们已经向阿里云提出了这个问题，正在修复中。</p>
+
+            <hr style="margin-top: 50px;" />
+<div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
+  <p style="font-size: 16px;">
+    如果您对 Cloudinsight 感兴趣，可以选择试用我们的产品，只需要点击下面的按钮免费注册即可。
+  </p>
+  <br />
+  <p>
+    <a href="https://cloud.oneapm.com/user/register?ref=https://cloud.oneapm.com&from=ci-docs" class="btn btn-info btn-lg" target="_blank">
+      立即注册 Cloudinsight
+    </a>
+  </p>
+</div>
+<hr />
+<!-- 多说评论框 start -->
+<div class="ds-thread"
+     id="ds-thread"
+     data-thread-key=""
+     data-title=""
+     data-url="http://docs-ci.oneapm.com/cloud-integration/aliyun.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+  var titleTag = document.getElementsByTagName("h1")[0];
+
+  if (titleTag) {
+    title = document.getElementsByTagName("h1")[0].innerText;
+  } else {
+    title = "Cloudinsight - 阿里云集成";
+  }
+
+  var duoshuoTag = document.getElementById('ds-thread');
+  duoshuoTag.setAttribute('data-thread-key', title.replace(/\s/g, ''));
+  duoshuoTag.setAttribute('data-title', title);
+
+  var duoshuoQuery = {short_name:"docs-ci"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+            <div class="return"></div>
+          </div>
+          <div class="footer-in">
+            <div class="footer-nav-block">
+    <div class="container">
+        <div class="footer-nav">
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="/quick-start/">文档</a>
+                    </li>
+                    <li>
+                        <a href="/quick-start/">快速入门</a>
+                    </li>
+                    <li>
+                        <a href="/agent/">安装配置</a>
+                    </li>
+                    <li>
+                        <a href="/platform/">操作指南</a>
+                    </li>
+                    <li>
+                        <a href="/best-practise/">实践案例</a>
+                    </li>
+                    <li>
+                        <a href="/qa/">常见问题</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">产品</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">基础组件监控</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/api_sdk.html">API 与 SDK</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/cialert.html">异常数据告警</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/price.html">报价</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">关于</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">团队介绍</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/cooperation.html">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-support">
+            <ul class="footer-support-list">
+                <li><img src="/images/home/support.svg"></li>
+                <li class="support-title">技术支持</li>
+                <li class="support-mail">support@oneapm.com</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-block">
+    <div class="container">
+        <div class="copyright-link">
+            <div class="socialLink">
+                <a href="https://github.com/cloudinsight/cloudinsight.github.io" class="social-btn github" target="_blank">
+                    <img src="/images/home/github.svg">
+                    <p class="hidden-xs hidden-xxs">Github</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="#" class="social-btn qr">
+                    <img src="/images/home/wechat.svg">
+                    <p class="hidden-xs hidden-xxs">微信</p>
+                    <div class="QRcode">
+                        <img src="/images/home/wechatQR.svg">
+                    </div>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://my.oschina.net/cloudinsight/blog" class="social-btn" target="_blank">
+                    <img src="/images/home/oschina.svg">
+                    <p class="hidden-xs hidden-xxs">开源中国</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://www.weibo.com/cloudinsight" class="social-btn" target="_blank">
+                    <img src="/images/home/weibo.svg">
+                    <p class="hidden-xs hidden-xxs">微博</p>
+                </a>
+            </div>
+        </div>
+        <div class="copyright-text">
+            <a href="http://cloudinsight.oneapm.com/">
+                <img src="/images/home/cilogomulti_btn.svg" class="footer-logo">
+            </a>
+            <p class="copyright">
+                Copyright © 2008-
+                <span id="cr-end-time"></span>
+                北京蓝海讯通科技股份有限公司
+                <br>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14028342号-2</a>
+                京公网安备 11010802016192
+                <br>
+            </p>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+      $(function() {
+        $(".navbar-default .navbar-nav .cloud-integration").addClass("active");
+        var panelHead= $(".panel-default  a[href='/cloud-integration/']").parent().parent();
+        panelHead.siblings().addClass('in');
+        panelHead.parent().siblings('div').map(function () {
+          $(this).removeClass('active');
+        });
+        panelHead.parent().addClass('active');
+      });
+    </script>
+  </body>
+</html>

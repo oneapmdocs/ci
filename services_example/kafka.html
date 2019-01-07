@@ -1,0 +1,1158 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="Kafka,Kafka监控,Kafka监控工具,Kafka指标">
+<meta name="description" content="Cloudinsight 是一款集监控与数据可视化，数据管理为一身的平台，可以进行基础组件的监控，自定义数据仪表盘的展示，对任意指标报警，是IT运维人员，以及开发人员的必备工具服务">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<!-- Use title if it's in the page YAML frontmatter -->
+<title>如何监控Kafka|Kafka监控|Kafka性能指标|CloudInsight监控Kafka</title>
+
+  <script type="text/javascript">
+    if (window.location.hostname === 'www.oneapm.com') {
+      var pathnameSegs = window.location.pathname.split("/docs/ci");
+      var realPathname = pathnameSegs[pathnameSegs.length - 1];
+      window.location.href = 'http://docs-ci.oneapm.com' + realPathname;
+    } else if (window.location.hostname !== 'docs-ci.oneapm.com') {
+      window.location.href = 'http://docs-ci.oneapm.com' + window.location.pathname;
+    }
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?dc7d70374ed3b2f6ce76527be8b9c93a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+<!-- growingio -->
+<script type='text/javascript'>
+  var _vds = _vds || [];
+  window._vds = _vds;
+  (function(){
+    _vds.push(['setAccountId', '9b345c730c9983fa']);
+    (function() {
+      var vds = document.createElement('script');
+      vds.type='text/javascript';
+      vds.async = true;
+      vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(vds, s);
+    })();
+  })();
+</script>
+
+
+<link href="/stylesheets/site.css" rel="stylesheet" />
+<script src="/javascripts/jquery-2.2.1.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/all.js"></script>
+<style media="screen">
+  .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+.highlight .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #6c8b9f;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #b2fd6d;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .err {
+  color: #fefeec;
+  background-color: #cc0000;
+}
+.highlight .gr {
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .k, .highlight .kd, .highlight .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+.highlight .o, .highlight .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .p, .highlight .pi {
+  color: #4df4ff;
+}
+.highlight .gd {
+  color: #cc0000;
+}
+.highlight .gi {
+  color: #b2fd6d;
+}
+.highlight .ge {
+  font-style: italic;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gt {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+.highlight .kc {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nc {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nd {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sb, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .sr, .highlight .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+.highlight .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+.highlight .nb {
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #BBBBBB;
+}
+.highlight .go {
+  color: #BBBBBB;
+}
+.highlight .nf {
+  color: #a8e1fe;
+}
+.highlight .py {
+  color: #a8e1fe;
+}
+.highlight .na {
+  color: #a8e1fe;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+
+  <body class="page-services_example services_example_kafka">
+        <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ6GBS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ6GBS');</script>
+    <!-- End Google Tag Manager -->
+
+<header class="main-header clearfix">
+	<div class="main-navblock col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><div>
+			<a href="../index.html" class="logo-container">
+				<div class="oneapm-logo"></div>
+			</a>
+		</div>
+		<!--<a href="#" class="burger-wrapper">-->
+			<!--<div class="burger"></div>-->
+		<!--</a>-->
+		<!--<div class="nav-container">-->
+			<!--<ul class="nav-list">-->
+				<!--<li>-->
+					<!--<a href="/quick-start/">快速入门</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/agent/">安装配置</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/platform/">操作指南</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/best-practise/">实践案例</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="/qa/">常见问题</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+			<!--<ul class="login-list">-->
+				<!--<li>-->
+					<!--<a href="http://user.oneapm.com/pages/v2/login_ci" class="btn outline-dark" id="loginIn">登录</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="https://cloud.oneapm.com/user/register" class="btn inside-yellow" id="signUp">注册</a>-->
+				<!--</li>-->
+			<!--</ul>-->
+		<!--</div>-->
+	</div>
+</header>
+<div class="flagInfo clearfix">
+    <div class="flag-left"></div>
+    <div class="flag-right">Cloudinsight Agent 在 4.7.0 版本，将 Agent 名称从 oneapm-ci-agent 更换至 cloudinsight-agent。若您在使用过程中，出现无法正常工作的情况，请加入售后群：433349863</div>
+    <span class="cl">X</span>
+</div>
+<script type="text/javascript" src="//d.oneapm.com/sso/nav.js"></script>
+
+
+    <div class="container page-container">
+      <div class="row">
+        <div class="col-lg-3 page-sidebar hidden-ssm hidden-xs">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" href="/agent/">
+          Agent 安装与设置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/agent/redhat.html">RedHat / CentOS / Fedora 安装</a></li>
+          <li><a href="/agent/ubuntu.html">Debian / Ubuntu 安装</a></li>
+          <li><a href="/agent/amazon.html">Amazon Linux 安装</a></li>
+          <li><a href="/agent/windows.html">Windows 安装</a></li>
+          <li><a href="/agent/docker.html">Docker 安装</a></li>
+          <li><a href="/agent/chef.html">Chef 安装</a></li>
+          <li><a href="/agent/inner.html">内网环境安装探针</a></li>
+          <li><a href="/agent/agent-instrument.html">Agent 操作与配置</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed"  href="/api/">
+          API与SDK
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/api/sdk.html">SDK</a></li>
+          <li><a href="/api/python.html">Python</a></li>
+          <li><a href="/api/nodejs.html">Node.js</a></li>
+          <li><a href="/api/ruby.html">Ruby</a></li>
+          <li><a href="/api/java.html">Java</a></li>
+          <li><a href="/api/dotnet.html">DotNET</a></li>
+          <li><a href="/api/php.html">PHP</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/cloud-integration/">
+          云厂商接入
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/cloud-integration/aliyun.html">阿里云</a></li>
+          <li><a href="/cloud-integration/ucloud.html">UCloud</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services/">
+          平台服务基础配置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services/status.html">状态页监控</a></li>
+          <li><a href="/services/jmx.html">JMX 远程监控</a></li>
+          <li><a href="/services/authorize.html">数据库授权监控</a></li>
+          <li><a href="/services/database.html">数据库配置</a></li>
+          <li><a href="/services/agent-check.html">自定义 AgentCheck</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a class="collapsed" href="/services_example/">
+          平台服务配置示例
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/services_example/activemq.html">artivemq</a></li>
+          <li><a href="/services_example/apache.html">apache</a></li>
+          <li><a href="/services_example/bearychat.html">bearychat</a></li>
+          <li><a href="/services_example/cacti.html">cacti</a></li>
+          <li><a href="/services_example/cassandra.html">cassandra</a></li>
+          <li><a href="/services_example/couchbase.html">couchbase</a></li>
+          <li><a href="/services_example/couchdb.html">couchdb</a></li>
+          <li><a href="/services_example/docker.html">docker</a></li>
+          <li><a href="/services_example/elasticsearch.html">elasticsearch</a></li>
+          <li><a href="/services_example/event_viewer.html">event_viewer</a></li>
+          <li><a href="/services_example/gearman.html">gearman</a></li>
+          <li><a href="/services_example/gunicorn.html">gunicorn</a></li>
+          <li><a href="/services_example/haproxy.html">haproxy</a></li>
+          <li><a href="/services_example/hdfs.html">hdfs</a></li>
+          <li><a href="/services_example/http.html">http</a></li>
+          <li><a href="/services_example/iis.html">iis</a></li>
+          <li><a href="/services_example/jianliao.html">jianliao</a></li>
+          <li><a href="/services_example/kafka.html">kafka</a></li>
+          <li><a href="/services_example/memcached.html">memcached</a></li>
+          <li><a href="/services_example/mesos.html">mesos</a></li>
+          <li><a href="/services_example/mongodb.html">mongodb</a></li>
+          <li><a href="/services_example/mysql.html">mysql</a></li>
+          <li><a href="/services_example/nagios.html">nagios</a></li>
+          <li><a href="/services_example/network.html">network</a></li>
+          <li><a href="/services_example/nginx.html">nginx</a></li>
+          <li><a href="/services_example/openstack.html">openstack</a></li>
+          <li><a href="/services_example/php-fpm.html">php-fpm</a></li>
+          <li><a href="/services_example/postgresql.html">postgresql</a></li>
+          <li><a href="/services_example/process.html">process</a></li>
+          <li><a href="/services_example/pubu.html">pubu</a></li>
+          <li><a href="/services_example/rabbitmq.html">rabbitmq</a></li>
+          <li><a href="/services_example/redis.html">redis</a></li>
+          <li><a href="/services_example/snmp.html">snmp</a></li>
+          <li><a href="/services_example/solr.html">solr</a></li>
+          <li><a href="/services_example/sqlserver.html">sqlserver</a></li>
+          <li><a href="/services_example/ssh.html">ssh</a></li>
+          <li><a href="/services_example/supervisord.html">supervisord</a></li>
+          <li><a href="/services_example/tcp.html">tcp</a></li>
+          <li><a href="/services_example/tomcat.html">tomcat</a></li>
+          <li><a href="/services_example/wmi.html">wmi</a></li>
+          <li><a href="/services_example/zookeeper.html">zookeeper</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="col-lg-9 page-body">
+          <div class="body-box">
+            <h1>Kafka</h1>
+
+<p>Kafka 是一种高吞吐量的分布式发布订阅消息系统。</p>
+
+<p>Cloudinsight 通过 JMX 来获取数据监控 Kafka 客户端生产端消息请求数，处理时间等数据来可视化性能。</p>
+
+<p><img src="/images/service_example/kafka.png" alt="Kafka" /></p>
+
+<hr>
+
+<h2>性能指标</h2>
+
+<p>Cloudinsight 采集 Kafka 以下性能指标：</p>
+
+<table><thead>
+<tr>
+<th>指标</th>
+<th>单位</th>
+<th>具体含义</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>kafka.broker_offset</td>
+<td>offsets</td>
+<td>broker 上当前消息的偏移量（offset）</td>
+</tr>
+<tr>
+<td>kafka.consumer.bytes_in</td>
+<td>bytes/second</td>
+<td>consumer 字节率（bytes in rate）</td>
+</tr>
+<tr>
+<td>kafka.consumer.delayed_requests</td>
+<td>requests</td>
+<td>延迟的 consumer 请求数</td>
+</tr>
+<tr>
+<td>kafka.consumer.expires_per_second</td>
+<td>evictions/second</td>
+<td>延迟 consumer 的请求到期（expiration）速率</td>
+</tr>
+<tr>
+<td>kafka.consumer.fetch_rate</td>
+<td>requests</td>
+<td>consumer 向 broker 发送提取请求（fetch requests）的最低速率</td>
+</tr>
+<tr>
+<td>kafka.consumer.kafka_commits</td>
+<td>writes/second</td>
+<td>面向 Kafka 的 offset commits 速率</td>
+</tr>
+<tr>
+<td>kafka.consumer.max_lag</td>
+<td>offsets</td>
+<td>最大消费滞后（consumer lag）</td>
+</tr>
+<tr>
+<td>kafka.consumer.messages_in</td>
+<td>messages/second</td>
+<td>consumer 消息消费（consumption）的速率</td>
+</tr>
+<tr>
+<td>kafka.consumer.zookeeper_commits</td>
+<td>writes/second</td>
+<td>面向 ZooKeeper 的 offset commits 速率</td>
+</tr>
+<tr>
+<td>kafka.consumer_lag</td>
+<td>offsets</td>
+<td>consumer 和 broker 之间的消息滞后（lag）</td>
+</tr>
+<tr>
+<td>kafka.consumer_offset</td>
+<td>offsets</td>
+<td>consumer 的当前消息偏移量（current message offset）</td>
+</tr>
+<tr>
+<td>kafka.expires_sec</td>
+<td>evictions/second</td>
+<td>延迟生产者（delayed producer）的请求到期（request expiration）速率</td>
+</tr>
+<tr>
+<td>kafka.follower.expires_per_second</td>
+<td>evictions/second</td>
+<td>关注者（followers）的请求到期（request expiration）速率</td>
+</tr>
+<tr>
+<td>kafka.log.flush_rate</td>
+<td>flushes/second</td>
+<td>日志刷新速率</td>
+</tr>
+<tr>
+<td>kafka.messages_in</td>
+<td>messages</td>
+<td>传入（incoming）信息速率</td>
+</tr>
+<tr>
+<td>kafka.net.bytes_in</td>
+<td>bytes/second</td>
+<td>传入（incoming）字节速率</td>
+</tr>
+<tr>
+<td>kafka.net.bytes_out</td>
+<td>bytes/second</td>
+<td>传出（outgoing）字节速率</td>
+</tr>
+<tr>
+<td>kafka.net.bytes_rejected</td>
+<td>bytes/second</td>
+<td>被拒绝（rejected）的字节速率</td>
+</tr>
+<tr>
+<td>kafka.producer.bytes_out</td>
+<td>bytes/second</td>
+<td>producer 字节输出速率</td>
+</tr>
+<tr>
+<td>kafka.producer.delayed_requests</td>
+<td>requests</td>
+<td>延迟的 producer 请求数</td>
+</tr>
+<tr>
+<td>kafka.producer.expires_per_seconds</td>
+<td>evictions/second</td>
+<td>producer 请求到期率</td>
+</tr>
+<tr>
+<td>kafka.producer.io_wait</td>
+<td>nanoseconds</td>
+<td>Producer I/O 等待时间</td>
+</tr>
+<tr>
+<td>kafka.producer.message_rate</td>
+<td>messages/second</td>
+<td>Producer 消息速率</td>
+</tr>
+<tr>
+<td>kafka.producer.request_latency_avg</td>
+<td>milliseconds</td>
+<td>Producer 平均请求延迟</td>
+</tr>
+<tr>
+<td>kafka.producer.request_rate</td>
+<td>requests/second</td>
+<td>producer 每秒钟的请求数</td>
+</tr>
+<tr>
+<td>kafka.producer.response_rate</td>
+<td>responses/second</td>
+<td>producer 每秒钟的响应数</td>
+</tr>
+<tr>
+<td>kafka.replication.isr_expands</td>
+<td>nodes/second</td>
+<td>副本加入 ISR 池的速率</td>
+</tr>
+<tr>
+<td>kafka.replication.isr_shrinks</td>
+<td>nodes/second</td>
+<td>副本离开 ISR 池的速率</td>
+</tr>
+<tr>
+<td>kafka.replication.leader_elections</td>
+<td>events/second</td>
+<td>领导选举（Leader election）频率</td>
+</tr>
+<tr>
+<td>kafka.replication.unclean_leader_elections</td>
+<td>events/second</td>
+<td>Unclean 的领导选举（Leader election）频率</td>
+</tr>
+<tr>
+<td>kafka.replication.under_replicated_partitions</td>
+<td></td>
+<td>未使用的分区数</td>
+</tr>
+<tr>
+<td>kafka.request.fetch.failed</td>
+<td>requests</td>
+<td>客户端获取请求（fetch request）失败次数</td>
+</tr>
+<tr>
+<td>kafka.request.fetch.failed_per_second</td>
+<td>requests/second</td>
+<td>每秒钟的客户端获取请求（fetch request）失败率</td>
+</tr>
+<tr>
+<td>kafka.request.fetch.time.99percentile</td>
+<td>requests/second</td>
+<td>获取请求（fetch request）时间的第 99 百分位的值</td>
+</tr>
+<tr>
+<td>kafka.request.fetch.time.avg</td>
+<td>requests/second</td>
+<td>获取请求（fetch request）时间的平均值</td>
+</tr>
+<tr>
+<td>kafka.request.handler.avg.idle.pct</td>
+<td>fractions</td>
+<td>请求处理程序线程（request handler threads）的平均空闲时间占比</td>
+</tr>
+<tr>
+<td>kafka.request.metadata.time.99percentile</td>
+<td>milliseconds</td>
+<td>元数据（metadata）请求时间的第 99 百分位的值</td>
+</tr>
+<tr>
+<td>kafka.request.metadata.time.avg</td>
+<td>milliseconds</td>
+<td>元数据（metadata）请求时间的的平均值</td>
+</tr>
+<tr>
+<td>kafka.request.offsets.time.99percentile</td>
+<td>milliseconds</td>
+<td>offset 请求时间的第 99 百分位的值</td>
+</tr>
+<tr>
+<td>kafka.request.offsets.time.avg</td>
+<td>milliseconds</td>
+<td>offset 请求时间的平均值</td>
+</tr>
+<tr>
+<td>kafka.request.produce.failed</td>
+<td>requests</td>
+<td>失败的产品请求（produce requests）数</td>
+</tr>
+<tr>
+<td>kafka.request.produce.failed_per_second</td>
+<td>requests/second</td>
+<td>每秒钟的产品请求（produce requests）失败率</td>
+</tr>
+<tr>
+<td>kafka.request.produce.time.99percentile</td>
+<td>requests/second</td>
+<td>产品请求（produce requests）时间的第 99 百分位的值</td>
+</tr>
+<tr>
+<td>kafka.request.produce.time.avg</td>
+<td>requests/second</td>
+<td>产品请求（produce requests）平均时间</td>
+</tr>
+<tr>
+<td>kafka.request.update_metadata.time.99percentile</td>
+<td>milliseconds</td>
+<td>更新元数据请求（update metadata requests）时间的第 99 百分位的值</td>
+</tr>
+<tr>
+<td>kafka.request.update_metadata.time.avg</td>
+<td>milliseconds</td>
+<td>更新元数据请求（update metadata requests）时间的平均值</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<h2>配置 Kafka 监控</h2>
+
+<h3>JMX</h3>
+
+<p>开启 JMX，只需设置环境变量 <code>JMX_PORT=9999</code>，然后重启 Kafka 即可。</p>
+
+<p>Cloudinsight Agent 通过 JMX 获取 Kafka 中的性能指标。</p>
+
+<p>由于每个实体最多可以监控 350 个性能指标，所以您需要按照下方的配置方法，修改配置文件来确定自己需要哪些指标。</p>
+
+<p>有关 JMX 采集方法，请查阅 <a href="/services/jmx.html">JMX 远程监控</a>。</p>
+
+<hr>
+
+<h2>编辑配置文件</h2>
+
+<p>编辑配置文件 <a href="/services/">conf.d/kafka.yaml</a>，使 Cloudinsight Agent 可以与 Kafka 通信。</p>
+<div class="highlight"><pre class="highlight yaml"><code><span class="c1">##########</span>
+<span class="c1"># WARNING</span>
+<span class="c1"># This sample works only for Kafka &gt;= 0.8.2.</span>
+
+<span class="na">instances</span><span class="pi">:</span>
+<span class="c1">#  - host: localhost</span>
+<span class="c1">#    port: 9999</span>
+<span class="c1">#    name: jmx_instance</span>
+<span class="c1">#    user: username</span>
+<span class="c1">#    password: password</span>
+<span class="c1">#    #java_bin_path: /path/to/java #Optional, should be set if the agent cannot find your java executable</span>
+<span class="c1">#    #trust_store_path: /path/to/trustStore.jks # Optional, should be set if ssl is enabled</span>
+<span class="c1">#    #trust_store_password: password</span>
+
+<span class="na">init_config</span><span class="pi">:</span>
+  <span class="na">is_jmx</span><span class="pi">:</span> <span class="no">true</span>
+
+  <span class="c1"># Metrics collected by this check. You should not have to modify this.</span>
+    <span class="na">conf</span><span class="pi">:</span>
+      <span class="c1">#</span>
+      <span class="c1"># Aggregate cluster stats</span>
+      <span class="c1">#</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=BrokerTopicMetrics,name=AllTopicsBytesOutPerSec'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.net.bytes_out</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=BrokerTopicMetrics,name=AllTopicsBytesInPerSec'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.net.bytes_in</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=BrokerTopicMetrics,name=AllTopicsMessagesInPerSec'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.messages_in</span>
+
+      <span class="c1">#</span>
+      <span class="c1"># Request timings</span>
+      <span class="c1">#</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=BrokerTopicMetrics,name=AllTopicsFailedFetchRequestsPerSec'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.fetch.failed</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=BrokerTopicMetrics,name=AllTopicsFailedProduceRequestsPerSec'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.produce.failed</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network:type=RequestMetrics,name=Produce-TotalTimeMs'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">Mean</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.produce.time.avg</span>
+            <span class="na">99thPercentile</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.produce.time.99percentile</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network:type=RequestMetrics,name=Fetch-TotalTimeMs'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">Mean</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.fetch.time.avg</span>
+            <span class="na">99thPercentile</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.fetch.time.99percentile</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network:type=RequestMetrics,name=UpdateMetadata-TotalTimeMs'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">Mean</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.update_metadata.time.avg</span>
+            <span class="na">99thPercentile</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.update_metadata.time.99percentile</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network:type=RequestMetrics,name=Metadata-TotalTimeMs'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">Mean</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.metadata.time.avg</span>
+            <span class="na">99thPercentile</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.metadata.time.99percentile</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.network:type=RequestMetrics,name=Offsets-TotalTimeMs'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">Mean</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.offsets.time.avg</span>
+            <span class="na">99thPercentile</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.request.offsets.time.99percentile</span>
+
+      <span class="c1">#</span>
+      <span class="c1"># Replication stats</span>
+      <span class="c1">#</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=ReplicaManager,name=ISRShrinksPerSec'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+                <span class="s">alias</span><span class="pi">:</span> <span class="s">kafka.replication.isr_shrinks</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=ReplicaManager,name=ISRExpandsPerSec'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.replication.isr_expands</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=ControllerStats,name=LeaderElectionRateAndTimeMs'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.replication.leader_elections</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.server:type=ControllerStats,name=UncleanLeaderElectionsPerSec'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.replication.unclean_leader_elections</span>
+
+      <span class="c1">#</span>
+      <span class="c1"># Log flush stats</span>
+      <span class="c1">#</span>
+      <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
+          <span class="na">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.log'</span>
+          <span class="na">bean</span><span class="pi">:</span> <span class="s1">'</span><span class="s">kafka.log:type=LogFlushStats,name=LogFlushRateAndTimeMs'</span>
+          <span class="na">attribute</span><span class="pi">:</span>
+            <span class="na">MeanRate</span><span class="pi">:</span>
+              <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+              <span class="na">alias</span><span class="pi">:</span> <span class="s">kafka.log.flush_rate</span>
+</code></pre></div>
+<h3>编辑 Consumer 配置文件</h3>
+
+<p>编辑 Consumer 配置文件 <code>conf.d/kafka_consumer.yaml</code>。</p>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+
+<span class="na">instances</span><span class="pi">:</span>
+<span class="c1">#  - kafka_connect_str: localhost:19092</span>
+<span class="c1">#    zk_connect_str: localhost:2181</span>
+<span class="c1">#    zk_prefix: /0.8</span>
+<span class="c1">#    consumer_groups:</span>
+<span class="c1">#    my_consumer:</span>
+<span class="c1">#      my_topic: [0, 1, 4, 12]</span>
+</code></pre></div>
+<h3>重启 Agent</h3>
+
+<p>重启 Cloudinsight Agent，使配置生效。</p>
+
+<p>您也可以通过查看 Agent Info 信息，来验证配置是否成功。当出现以下信息，则代表安装成功。</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Checks
+======
+
+[...]
+
+kafka-localhost-9999
+--------------------
+  - instance #0 [OK]
+  - Collected 8 metrics &amp; 0 events
+</code></pre></div>
+<p>有关 Agent Info 信息的查看，请访问帮助中心，查看  <a href="/quick-start/instrument.html">Cloudinsight Agent 常用操作</a>。</p>
+
+<hr>
+
+<h2>默认标签</h2>
+
+<p>Cloudinsight 采集 Kafka 以下默认主机标签：</p>
+
+<table><thead>
+<tr>
+<th>标签种类</th>
+<th>标签含义</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>instance</td>
+<td>实例名称（例如 &ldquo;kafka_demo&quot;）</td>
+</tr>
+<tr>
+<td>jmx_domain</td>
+<td>JMX域（例如 &quot;kafka.server&quot;）</td>
+</tr>
+<tr>
+<td>type</td>
+<td>指标类型（ThreadPool, GlobalRequestProcessor, Servlet, Cache, JspMonitor等）</td>
+</tr>
+<tr>
+<td>name</td>
+<td>指标名称（例如 &quot;BytesInPerSec&quot;）</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<h2>常见问题</h2>
+
+<ul>
+<li><a href="/qa/java_path.html">Cloudn&rsquo;t launch JMXTerm. Is Java in your PATH ?</a></li>
+<li>若要在同一个服务器上监控多个相同的平台服务，参考<a href="http://docs-ci.oneapm.com/qa/more.html">如何监控多个平台服务</a>。</li>
+<li>有任何关于产品的使用疑惑，参考<a href="http://docs-ci.oneapm.com/qa/">常见问题</a>。</li>
+</ul>
+
+            <hr style="margin-top: 50px;" />
+<div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
+  <p style="font-size: 16px;">
+    如果您对 Cloudinsight 感兴趣，可以选择试用我们的产品，只需要点击下面的按钮免费注册即可。
+  </p>
+  <br />
+  <p>
+    <a href="https://cloud.oneapm.com/user/register?ref=https://cloud.oneapm.com&from=ci-docs" class="btn btn-info btn-lg" target="_blank">
+      立即注册 Cloudinsight
+    </a>
+  </p>
+</div>
+<hr />
+<!-- 多说评论框 start -->
+<div class="ds-thread"
+     id="ds-thread"
+     data-thread-key=""
+     data-title=""
+     data-url="http://docs-ci.oneapm.com/services_example/kafka.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+  var titleTag = document.getElementsByTagName("h1")[0];
+
+  if (titleTag) {
+    title = document.getElementsByTagName("h1")[0].innerText;
+  } else {
+    title = "如何监控Kafka|Kafka监控|Kafka性能指标|CloudInsight监控Kafka";
+  }
+
+  var duoshuoTag = document.getElementById('ds-thread');
+  duoshuoTag.setAttribute('data-thread-key', title.replace(/\s/g, ''));
+  duoshuoTag.setAttribute('data-title', title);
+
+  var duoshuoQuery = {short_name:"docs-ci"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+            <div class="return"></div>
+          </div>
+          <div class="footer-in">
+            <div class="footer-nav-block">
+    <div class="container">
+        <div class="footer-nav">
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="/quick-start/">文档</a>
+                    </li>
+                    <li>
+                        <a href="/quick-start/">快速入门</a>
+                    </li>
+                    <li>
+                        <a href="/agent/">安装配置</a>
+                    </li>
+                    <li>
+                        <a href="/platform/">操作指南</a>
+                    </li>
+                    <li>
+                        <a href="/best-practise/">实践案例</a>
+                    </li>
+                    <li>
+                        <a href="/qa/">常见问题</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">产品</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/product.html">基础组件监控</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/api_sdk.html">API 与 SDK</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/product/cialert.html">异常数据告警</a>
+                    </li>
+                    <li>
+                        <a href="http://cloudinsight.oneapm.com/price.html">报价</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-nav-col">
+                <ul class="footer-nav-list">
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">关于</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/group.html">团队介绍</a></li>
+                    <li><a href="http://cloudinsight.oneapm.com/about/cooperation.html">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-support">
+            <ul class="footer-support-list">
+                <li><img src="/images/home/support.svg"></li>
+                <li class="support-title">技术支持</li>
+                <li class="support-mail">support@oneapm.com</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright-block">
+    <div class="container">
+        <div class="copyright-link">
+            <div class="socialLink">
+                <a href="https://github.com/cloudinsight/cloudinsight.github.io" class="social-btn github" target="_blank">
+                    <img src="/images/home/github.svg">
+                    <p class="hidden-xs hidden-xxs">Github</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="#" class="social-btn qr">
+                    <img src="/images/home/wechat.svg">
+                    <p class="hidden-xs hidden-xxs">微信</p>
+                    <div class="QRcode">
+                        <img src="/images/home/wechatQR.svg">
+                    </div>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://my.oschina.net/cloudinsight/blog" class="social-btn" target="_blank">
+                    <img src="/images/home/oschina.svg">
+                    <p class="hidden-xs hidden-xxs">开源中国</p>
+                </a>
+            </div>
+            <div class="socialLink">
+                <a href="http://www.weibo.com/cloudinsight" class="social-btn" target="_blank">
+                    <img src="/images/home/weibo.svg">
+                    <p class="hidden-xs hidden-xxs">微博</p>
+                </a>
+            </div>
+        </div>
+        <div class="copyright-text">
+            <a href="http://cloudinsight.oneapm.com/">
+                <img src="/images/home/cilogomulti_btn.svg" class="footer-logo">
+            </a>
+            <p class="copyright">
+                Copyright © 2008-
+                <span id="cr-end-time"></span>
+                北京蓝海讯通科技股份有限公司
+                <br>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14028342号-2</a>
+                京公网安备 11010802016192
+                <br>
+            </p>
+        </div>
+    </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      $(function() {
+        $(".navbar-default .navbar-nav .guide").addClass("active");
+        (function () {
+          $('.panel-default').mouseenter(function () {
+            if(!$(this).hasClass('active')){
+              $(this).children().addClass('in');
+            }
+          })
+          $('.panel-default').mouseleave(function () {
+              if(!$(this).hasClass('active')) {
+                $(this).children().removeClass('in');
+              }
+            })
+          var key=window.location.pathname;
+          var lastindex;
+          var keyInfo;
+          if(key.indexOf('quick-start') !== -1){
+            keyInfo="'"+key+"'";
+            $('ol').eq(0).children().map(function () {
+              $(this).css({
+                'cursor':'pointer',
+                'color':'#005FA8'
+              })
+            })
+            $('ol').eq(0).children().eq(0).click(function () {
+              $('.page-body').animate({ scrollTop: 300 }, 500)
+            })
+            $('ol').eq(0).children().eq(1).click(function () {
+              $('.page-body').animate({ scrollTop: 1830 }, 500)
+            })
+            $('ol').eq(0).children().eq(2).click(function () {
+              $('.page-body').animate({ scrollTop: 4202 }, 500)
+            })
+            $('ol').eq(0).children().eq(3).click(function () {
+              $('.page-body').animate({ scrollTop: 5942 }, 500)
+            })
+            $('ol').eq(0).children().eq(4).click(function () {
+              $('.page-body').animate({ scrollTop: 10066 }, 500)
+            })
+          }else if(key.indexOf('/',1) !== -1){
+            lastindex=key.indexOf('/',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"'";
+          }else {
+            lastindex=key.indexOf('.',1);
+            keyInfo="'"+key.substring(0,lastindex+1)+"html'";
+          }
+          var panelHead= $(".panel-default  a[href="+keyInfo+"]").parent().parent();
+          panelHead.siblings().addClass('in');
+          panelHead.parent().siblings('div').map(function () {
+            $(this).removeClass('active');
+          });
+          panelHead.parent().addClass('active');
+        })();
+      });
+    </script>
+  </body>
+</html>
