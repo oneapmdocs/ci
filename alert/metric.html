@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -412,7 +403,7 @@
 
 <p>所以，我们在此一同为大家解释页面的涵义。</p>
 
-<p><img src="/images/alert/alert_policy.png" alt="Alert policy" /></p>
+<p><img src="/images/alert/alert_policy.png" /></p>
 
 <p>创建基于指标的报警策略，分为以下几步：</p>
 
@@ -429,8 +420,9 @@
 </ol>
 
 <p>如图，此时的检索语句为：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg:docker.container.size_rootfs {container_name:auth1, container_name:auth2}
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg:docker.container.size_rootfs {container_name:auth1, container_name:auth2}
+</code></pre>
+
 <hr>
 
 <h3>2. 设置报警条件</h3>
@@ -448,8 +440,9 @@
 </ol>
 
 <p>如图，此时的检索语句为：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg(last_5m) avg:docker.container.size_rootfs {container_name:auth1, container_name:auth2} &lt; 1.5 G
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg(last_5m) avg:docker.container.size_rootfs {container_name:auth1, container_name:auth2} &lt; 1.5 G
+</code></pre>
+
 <p>意思是，<code>avg:docker.container.size_rootfs {container_name:auth1, container_name:auth2}</code> 这条指标，<strong>在 5 分钟的时间窗口内的平均值</strong>，如果小于 1.5 G 则报警被触发。</p>
 
 <h4>稀疏型指标和密集型指标</h4>

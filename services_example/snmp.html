@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -442,7 +433,7 @@
 
 <p>Cloudinsight 通过 SNMP 协议监测网络连接的设备，例如路由器，交换器，服务器和防火墙。</p>
 
-<p><img src="/images/service_example/snmp.png" alt="Snmp" /></p>
+<p><img src="/images/service_example/snmp.png" /></p>
 
 <hr>
 
@@ -457,13 +448,15 @@
 <p><strong>1.配置探针的 SNMP 配置文件，以连接到网络设备</strong></p>
 
 <p>切换路径至 <code>/etc/cloudinsight-agent</code></p>
-<div class="highlight"><pre class="highlight plaintext"><code>cd /etc/cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>cd /etc/cloudinsight-agent
+</code></pre>
+
 <p>开启配置文件 <code>conf.d/snmp.yaml</code></p>
-<div class="highlight"><pre class="highlight plaintext"><code>cp conf.d/snmp.yaml.example conf.d/snmp.yaml
-</code></pre></div>
+<pre class="highlight plaintext"><code>cp conf.d/snmp.yaml.example conf.d/snmp.yaml
+</code></pre>
+
 <p>编辑配置文件如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>init_config:
+<pre class="highlight plaintext"><code>init_config:
 instances:
    -   ip_address: localhost
        port: 161
@@ -484,17 +477,20 @@ instances:
               metric_tags:
                 - tag: interface
                   column: ifDescr
-</code></pre></div>
+</code></pre>
+
 <p><strong>3.重启 Agent</strong></p>
 
 <p>重启 Cloudinsight Agent，使配置生效。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent restart
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent restart
+</code></pre>
+
 <p>您也可以通过查看 Agent Info 信息，来验证配置是否成功。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent info
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent info
+</code></pre>
+
 <p>当出现以下信息，则代表安装成功。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Checks
+<pre class="highlight plaintext"><code>Checks
 ======
 
   [...]
@@ -503,7 +499,8 @@ instances:
   ----
       - instance #0 [OK]
       - Collected 8 metrics &amp; 0 events
-</code></pre></div>
+</code></pre>
+
 <p>有关 Agent Info 信息的查看，请访问帮助中心，查看  <a href="/quick-start/instrument.html">Cloudinsight Agent 常用操作</a>。</p>
 
 <hr>

@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -401,7 +392,7 @@
 
 <p>启动 Ci 探针时报出以下错误：</p>
 
-<p><img src="/images/qa/AddressAlreadyInUse1.jpg" alt="Addressalreadyinuse1" /></p>
+<p><img src="/images/qa/AddressAlreadyInUse1.jpg" /></p>
 
 <h2>故障原因</h2>
 
@@ -410,12 +401,13 @@
 <h2>解决方法</h2>
 
 <p>您可以检查占用该端口的应用程序，如果方便，可以 <code>kill</code>此进程或修改此进程的端口；如果不方便修改，则可以修改 <code>/etc/cloudinsight-agent/cloudinsight-agent.conf</code> 路径下的配置文件，修改此端口。</p>
-<div class="highlight"><pre class="highlight plaintext"><code># Change port the Agent is listening to
+<pre class="highlight plaintext"><code># Change port the Agent is listening to
 listen_port: 17121（任意未使用端口）
-</code></pre></div>
+</code></pre>
+
 <p>修改之后重新启动探针会报出如下错误，因为探针在启动时会匹配默认端口 <code>10010</code>，检验出不一致后会寻找配置文件里面的端口号。该报错不影响应用与数据。</p>
 
-<p><img src="/images/qa/AddressAlreadyInUse2.jpg" alt="Addressalreadyinuse2" /></p>
+<p><img src="/images/qa/AddressAlreadyInUse2.jpg" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

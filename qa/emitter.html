@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,7 +387,7 @@
             <h1>emitter.py 报错 Unable to post payload</h1>
 
 <p>探针安装后启动成功，但 web 上没有数据，此时可以查看探针的 log ，在 <code>/var/log/cloudinsight-agent</code> 目录下面有 <code>collector.log</code> 和 <code>forwarder.log</code> 2个文件，看看里面报 <code>error</code> 的段落，如图：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>2015-12-25 11:40:54 CST | ERROR | ci.collector | checks.collector(emitter.py:69) | Unable to post payload.
+<pre class="highlight plaintext"><code>2015-12-25 11:40:54 CST | ERROR | ci.collector | checks.collector(emitter.py:69) | Unable to post payload.
 Traceback (most recent call last):
   File "/opt/cloudinsight-agent/agent/emitter.py", line 61, in http_emitter
     r = requests.post(url, data=zipped, timeout=5, headers=headers)
@@ -411,13 +402,16 @@ Traceback (most recent call last):
   File "/opt/cloudinsight-agent/embedded/lib/python2.7/site-packages/requests/adapters.py", line 415, in send
     raise ConnectionError(err, request=request)
 ConnectionError: ('Connection aborted.', error(97, 'Address family not supported by protocol'))
-</code></pre></div>
+</code></pre>
+
 <p>如果有以上 <code>Unable to post payload</code> 的问题，可以修改 <code>/etc/cloudinsight-agent/cloudinsight-agent.conf</code>  文件，在里面添加如下内容：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>bind_host: 127.0.0.1
-</code></pre></div>
+<pre class="highlight plaintext"><code>bind_host: 127.0.0.1
+</code></pre>
+
 <p>之后重启探针，在 web 上看看是否已经有数据。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>service cloudinsight-agent restart
-</code></pre></div>
+<pre class="highlight plaintext"><code>service cloudinsight-agent restart
+</code></pre>
+
 <p>这是因为探针默认会读取 localhost 的数据，如果本机没有把 localhost 解析成 127.0.0.1 ，就会报这个错误，所以可以对本机进行解析，也可以在 Cloudinsight 配置文件里面绑定 127.0.0.1。</p>
 
             <hr style="margin-top: 50px;" />

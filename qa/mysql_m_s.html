@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -398,7 +389,7 @@
 <p>MySQL 在 Master 与 Slave 之间完成一个异步的复制过程需要由三个线程来完成，其中两个线程（ Sql 线程和 IO 线程）在 Slave 端，另外一个线程（ IO 线程）在 Master 端。<code>Slave_IO_Running</code> 和 <code>Slave_SQL_Running</code> 两列的值都为 &ldquo;Yes&quot;，这表明 Slave 的 I/O 和 SQL 线程都在正常运行，主从同步功能也就是正常的</p>
 
 <p>默认情况下，这2个指标并不会显示，这时就需要修改<code>/etc/cloudinsight-agent/conf.d/mysql.yaml</code>，添加如下配置：（支持Slave<em>IO</em>Running，Slave<em>SQL</em>Running，Last<em>IO</em>Errno，Last<em>SQL</em>Errno这四项指标）</p>
-<div class="highlight"><pre class="highlight plaintext"><code>queries: # Optional
+<pre class="highlight plaintext"><code>queries: # Optional
      - # Sample Custom metric
        query: show slave status
        metric: mysql.replication.slave_io_running
@@ -419,7 +410,8 @@
        metric: mysql.replication.last_sql_errno
        type: gauge
        field: Last_SQL_Errno
-</code></pre></div>
+</code></pre>
+
 <p>之后重启探针即可，在仪表盘上就可以看到新增的这些指标了。</p>
 
             <hr style="margin-top: 50px;" />

@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -471,9 +462,10 @@
 <p><code>Counters</code> 是 StatsD 和 Cloudinsight SDK 最基本的一种数据类型。是计数器，统计一秒内某事物发生了几次，如数据库请求数，网页浏览量等。当调用 <code>increment</code> 和 <code>decrement</code> 时，对参数进行自增或自减。</p>
 
 <p>由于 Cloudinsight Agent 的采集周期为 30 s，最终展现至界面的至为采集周期的平均值。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>statsd.increment('database.query.count')
+<pre class="highlight plaintext"><code>statsd.increment('database.query.count')
 statsd.increment('page_view.count', 10)
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h3>Gauges</h3>
@@ -481,24 +473,27 @@ statsd.increment('page_view.count', 10)
 <p><code>Gauges</code> 是连续型的数据类型，也就是说，当我们第一次赋值后，该 Metric 表现在图表上，会是一条于 X 轴平行的直线；直到再次为该 Metric 赋了一个不同的值。</p>
 
 <p><code>Gauges</code> 可以用来表示在特定时间的某事物的值，例如空气质量 PM2.5，用户连接数，WebSockets 的有效链接数；而系统目前登录的用户数，则在每次用户登录时，调用 <code>Counters</code> 中的 <code>increment</code> 比较适合。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>statsd.gauge('bj.pm25', 123)
+<pre class="highlight plaintext"><code>statsd.gauge('bj.pm25', 123)
 statsd.gauge('users.active', 1001)
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h3>Histograms</h3>
 
 <p>Histograms 统计一组值的分布情况，例如一定数量的数据库查询或用户上传文件的大小的平均值，最小值，最大值，中位值，95值和总数。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>statsd.histogram('database.query.time', 0.5)
+<pre class="highlight plaintext"><code>statsd.histogram('database.query.time', 0.5)
 statsd.histogram('file.upload.size', file.get_size())
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h3>Sets</h3>
 
 <p>Sets 计算一组中惟一值的数量，例如你想统计只有一次访问你网站的用户就可以用 sets 来统计。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>statsd.set('users.uniques', user.id)
-</code></pre></div>
+<pre class="highlight plaintext"><code>statsd.set('users.uniques', user.id)
+</code></pre>
+
 <hr>
 
 <h3>Sample Rates</h3>
@@ -506,8 +501,9 @@ statsd.histogram('file.upload.size', file.get_size())
 <p>也可以通过 <code>sample_rate</code> 参数来设置采样率。假设 <code>sample_rate=0.1</code>：</p>
 
 <p>在采集周期 30 s 内，只采集 10% 的数据。也就是说，调用了 10 次 <code>increment</code>，只自增了一次 Metric。在数据量较大的情况下，可以确保采样的高效。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>statsd.increment('page.views', sample_rate=0.1)
-</code></pre></div>
+<pre class="highlight plaintext"><code>statsd.increment('page.views', sample_rate=0.1)
+</code></pre>
+
 <hr>
 
 <h3>Metric Name</h3>

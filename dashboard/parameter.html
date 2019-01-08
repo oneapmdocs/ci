@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -402,16 +393,17 @@
 
 <p>Cloudinsight 还添加了<strong>参数</strong>来提取出 <code>{FromTag}</code>，可以让用户不用每次都修改 <code>{FromTag}</code> 来查看 Metric；而只需在参数下拉框中选择 <code>{FromTag}</code> 来动态查询 Metric。</p>
 
-<p><img src="/images/dashboard/QueryMetric3.png" alt="Querymetric3" /></p>
+<p><img src="/images/dashboard/QueryMetric3.png" /></p>
 
 <p>什么意思呢？我们先来温习下 Metric 查询的语法：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Aggregation: MetricName {FromTag} by {TagKey}
-</code></pre></div>
+<pre class="highlight plaintext"><code>Aggregation: MetricName {FromTag} by {TagKey}
+</code></pre>
+
 <p>就是将 <code>{FromTag}</code> 设置为一个参数，可以让用户在界面做任意的更改。</p>
 
 <p>我们以 <em>System 总览 • 仪表盘</em>，举例来说：</p>
 
-<p><img src="/images/dashboard/Parameter1.png" alt="Parameter1" /></p>
+<p><img src="/images/dashboard/Parameter1.png" /></p>
 
 <p>我们需要一张仪表盘，能够：</p>
 
@@ -422,28 +414,31 @@
 
 <p>此时，就需要使用参数来达到要求。</p>
 
-<p><img src="/images/dashboard/Parameter2.png" alt="Parameter2" /></p>
+<p><img src="/images/dashboard/Parameter2.png" /></p>
 
 <p>在上图中，我们可以看到 <code>$scope</code> 代表的是 <code>host:*</code> ，则此时 Metric 查询语句为：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg:system.load.1 {host:*}
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg:system.load.1 {host:*}
+</code></pre>
+
 <p>而之前监控图表设置的 Metric 查询为：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg:system.load.1 {$scope}
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg:system.load.1 {$scope}
+</code></pre>
+
 <p>是不是有点像 C 语言中宏的概念。也就是说，<strong>参数是一个可以根据下拉框随时被替换的字段，来满足动态查询</strong>。</p>
 
 <p>若此时，我选择 <code>$host</code> 为 <code>host:centos.license</code> 则显示效果如图：</p>
 
-<p><img src="/images/dashboard/Parameter3.png" alt="Parameter3" /></p>
+<p><img src="/images/dashboard/Parameter3.png" /></p>
 
 <h2>注意事项</h2>
 
 <p>您可以通过如下方式进行 Metric 查询：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg:system.load.1 {$host, host:centos.license}
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg:system.load.1 {$host, host:centos.license}
+</code></pre>
+
 <p>但是我们不建议您这么做。是因为变量和常量在查询上隔离，能够帮助您更有效地管理 Metric 和 Host。</p>
 
-<p><img src="/images/dashboard/Parameter4.png" alt="Parameter4" /></p>
+<p><img src="/images/dashboard/Parameter4.png" /></p>
 
 <p>另外，只有 <code>{FromTag}</code> 中可以设置参数；用于分组的 <code>{TagKey}</code> 不能使用参数。</p>
 

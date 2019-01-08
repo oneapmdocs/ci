@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,8 +387,9 @@
             <h1>SQL Server 监控报错</h1>
 
 <p>报错信息如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>'Unable to connect to SQL Server for instance 127.0.0.1,1433 - master. \n Traceback (most recent call last):\n File "C:\\Program Files (x86)\\Cloudinsight\\Cloudinsight Agent\\files\\../checks.d\\sqlserver.py", line 218, in get_cursor\n File "adodbapi\\adodbapi.pyc", line 116, in connect\nOperationalError: (com_error(-2147352567, \'\\xb7\\xa2\\xc9\\xfa\\xd2\\xe2\\xcd\\xe2\\xa1\\xa3\', (0, u\'Microsoft OLE DB Provider for SQL Server\', u"\\u7528\\u6237 \'oneapm\' \\u767b\\u5f55\\u5931\\u8d25\\u3002", None, 0, -2147217843), None), \'Error opening connection to "Provider=SQLOLEDB;Data Source=127.0.0.1,1433;Initial Catalog=master;User ID=oneapm;Password=******;"\')\n' 
-</code></pre></div>
+<pre class="highlight plaintext"><code>'Unable to connect to SQL Server for instance 127.0.0.1,1433 - master. \n Traceback (most recent call last):\n File "C:\\Program Files (x86)\\Cloudinsight\\Cloudinsight Agent\\files\\../checks.d\\sqlserver.py", line 218, in get_cursor\n File "adodbapi\\adodbapi.pyc", line 116, in connect\nOperationalError: (com_error(-2147352567, \'\\xb7\\xa2\\xc9\\xfa\\xd2\\xe2\\xcd\\xe2\\xa1\\xa3\', (0, u\'Microsoft OLE DB Provider for SQL Server\', u"\\u7528\\u6237 \'oneapm\' \\u767b\\u5f55\\u5931\\u8d25\\u3002", None, 0, -2147217843), None), \'Error opening connection to "Provider=SQLOLEDB;Data Source=127.0.0.1,1433;Initial Catalog=master;User ID=oneapm;Password=******;"\')\n' 
+</code></pre>
+
 <h3>问题原因</h3>
 
 <p>没有授权，或者配置文件中用户名或密码错误，均会报以上错误。</p>

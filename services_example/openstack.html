@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -451,10 +442,11 @@
 <p>使用 Cloudinsight 监控 Openstak 前，需要在 Openstack 为 Cloudinsight Agent 创建单独的角色，确保 Keystone 模块可以让 Agent 访问指标数据。</p>
 
 <p>使用以下指令为 Cloudinsight 创建角色。</p>
-<div class="highlight"><pre class="highlight shell"><code>openstack role create cloudinsight_monitoring
-openstack user create cloudinsight <span class="nt">--password</span> my_password <span class="nt">--project</span> my_project_name
-openstack role add cloudinsight_monitoring <span class="nt">--project</span> my_project_name <span class="nt">--user</span> cloudinsight
-</code></pre></div>
+<pre class="highlight shell"><code>openstack role create cloudinsight_monitoring
+openstack user create cloudinsight --password my_password --project my_project_name
+openstack role add cloudinsight_monitoring --project my_project_name --user cloudinsight
+</code></pre>
+
 <p>由以上指令可知，您创建了 <code>cloudinsight_monitoring</code> 的角色。</p>
 
 <p class="notes clearfix"> 
@@ -469,7 +461,7 @@ openstack role add cloudinsight_monitoring <span class="nt">--project</span> my_
 <p>一般来说，Nova 的权限文件会在 <code>/etc/nova/policy.json</code> 路径下。打开并新增如下权限。</p>
 
 <p><strong>Nova</strong></p>
-<div class="highlight"><pre class="highlight plaintext"><code>    - "compute_extension:aggregates",
+<pre class="highlight plaintext"><code>    - "compute_extension:aggregates",
     - "compute_extension:hypervisors",
     - "compute_extension:server_diagnostics",
     - "compute_extension:v3:os-hypervisors",
@@ -483,10 +475,12 @@ openstack role add cloudinsight_monitoring <span class="nt">--project</span> my_
     - "os_compute_api:os-hypervisors:discoverable",
     - "os_compute_api:os-server-diagnostics",
     - "os_compute_api:os-used-limits"
-</code></pre></div>
+</code></pre>
+
 <p>一条完整的权限配置方法，是需要在权限后跟上角色信息。如：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>    - "compute_extension:aggregates" : "role:cloudinsight_monitoring"
-</code></pre></div>
+<pre class="highlight plaintext"><code>    - "compute_extension:aggregates" : "role:cloudinsight_monitoring"
+</code></pre>
+
 <p class="notes clearfix"> 
    <span class="notesHead"></span>
     <span class="notesContent">注：请根据以上列举的权限和方法，逐个添加权限。若您修改过角色名称 `role:cloudinsight_monitoring`，请修改角色名称为您自定义的名称。<span> 
@@ -495,14 +489,16 @@ openstack role add cloudinsight_monitoring <span class="nt">--project</span> my_
 <p><strong>Neutron</strong></p>
 
 <p>Neutron 同理可以使用以上的方法，添加如下权限。而权限配置文件一般在 <code>/etc/neutron/policy.json</code>。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>    - "get_network"
-</code></pre></div>
+<pre class="highlight plaintext"><code>    - "get_network"
+</code></pre>
+
 <p><strong>Keystone</strong></p>
 
 <p>Keystone 同理可以使用以上的方法，添加如下权限。而权限配置文件一般在 <code>/etc/keystone/policy.json</code>。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>    - "identity:get_project"
+<pre class="highlight plaintext"><code>    - "identity:get_project"
     - "identity:list_projects"
-</code></pre></div>
+</code></pre>
+
 <p>保存所有的 <code>policy.json</code> 文件后，<strong>需要重启 Keystone, Neutron 和 Nova API 来应用新的权限配置。</strong></p>
 
 <h3>配置 Cloudinsight Agent 连接到 Keystone</h3>
@@ -512,17 +508,20 @@ openstack role add cloudinsight_monitoring <span class="nt">--project</span> my_
 <p>不熟悉的如何配置情况下，请查看 <a href="../quick-start/">开始使用 Cloudinsight</a> 。</p>
 
 <p>切换路径至 <code>/etc/cloudinsight-agent</code>。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>cd /etc/cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>cd /etc/cloudinsight-agent
+</code></pre>
+
 <p>开启配置文件 <code>conf.d/openstack.yaml</code>。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>cp conf.d/openstack.yaml.example conf.d/openstack.yaml
-</code></pre></div>
+<pre class="highlight plaintext"><code>cp conf.d/openstack.yaml.example conf.d/openstack.yaml
+</code></pre>
+
 <p>修改 <code>keystone_server_url</code> 配置项。通常来说，默认的端口号为 <code>5000</code>。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>init_config:
+<pre class="highlight plaintext"><code>init_config:
   keystone_server_url: "https://my-keystone-server.com:port/"
-</code></pre></div>
+</code></pre>
+
 <p>除此之外，您还需要前往 <code>&lt;yourHorizonserver&gt;/identity</code> 查询您的 Project ID 来修改配置项 <code>id</code>。以下是示例：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>instances:
+<pre class="highlight plaintext"><code>instances:
     - name: instance_1 # A required unique identifier for this instance
 
       # The authorization scope that will be used to request a token from Identity API v3
@@ -531,19 +530,21 @@ openstack role add cloudinsight_monitoring <span class="nt">--project</span> my_
       auth_scope:
           project:
               id: b9d363ac9a5b4cceae228e03639357ae
-</code></pre></div>
+</code></pre>
+
 <p>前往配置项的 <code># User credentials</code> 部分，修改角色的账户和密码：</p>
-<div class="highlight"><pre class="highlight yaml"><code>      <span class="c1"># User credentials</span>
+<pre class="highlight yaml"><code>      <span class="c1"># User credentials</span>
       <span class="c1"># Password authentication is the only auth method supported right now</span>
       <span class="c1"># User expects username, password, and user domain id</span>
 
       <span class="c1"># `user` should resolve to a structure like {'password': 'my_password', 'name': 'my_name', 'domain$</span>
-      <span class="na">user</span><span class="pi">:</span>
-          <span class="na">password</span><span class="pi">:</span> <span class="s">my_password</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">cloudinsight</span>
-          <span class="na">domain</span><span class="pi">:</span>
-              <span class="na">id</span><span class="pi">:</span> <span class="s">default</span>
-</code></pre></div>
+      <span class="s">user</span><span class="pi">:</span>
+          <span class="s">password</span><span class="pi">:</span> <span class="s">my_password</span>
+          <span class="s">name</span><span class="pi">:</span> <span class="s">cloudinsight</span>
+          <span class="s">domain</span><span class="pi">:</span>
+              <span class="s">id</span><span class="pi">:</span> <span class="s">default</span>
+</code></pre>
+
 <p class="notes clearfix"> 
    <span class="notesHead"></span>
     <span class="notesContent">注：若您在第一步修改过角色的默认账户 `cloud insight` 和密码 `my_password`，请在此处改为对应的。<span> 
@@ -554,17 +555,20 @@ openstack role add cloudinsight_monitoring <span class="nt">--project</span> my_
 <p>有关 RabbitMQ 的监控配置可以查阅文档：<a href="/services_example/rabbitmq.html">平台服务示例 • RabbitMQ</a>。</p>
 
 <p>想要快速开启 RabbitMQ，可以使用以下指令安装 RabbitMQ 监控插件：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>rabbitmq-plugins enable rabbitmq_management
-</code></pre></div>
+<pre class="highlight plaintext"><code>rabbitmq-plugins enable rabbitmq_management
+</code></pre>
+
 <p>重启 Rabbit 使插件生效。安装成功后，插件为您创建 URL: <code>http://localhost:15672/api/</code> 来展示指标数据，而 Cloudinsight 也是通过该地址采集指标数据。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>service rabbitmq-server restart
-</code></pre></div>
+<pre class="highlight plaintext"><code>service rabbitmq-server restart
+</code></pre>
+
 <p>在 <code>etc/conf.d/rabbitmq.yaml</code> 中添加该地址：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>instances:
+<pre class="highlight plaintext"><code>instances:
     -  rabbitmq_api_url: http://localhost:15672/api/
        rabbitmq_user: guest # defaults to 'guest'
        rabbitmq_pass: guest # defaults to 'guest'
-</code></pre></div>
+</code></pre>
+
 <p class="notes clearfix"> 
    <span class="notesHead"></span>
     <span class="notesContent">注：若您的 RabbitMQ 已经自定义 API URL 或者用户名和密码，请修改相应配置项。<span> 
@@ -573,13 +577,15 @@ openstack role add cloudinsight_monitoring <span class="nt">--project</span> my_
 <h3>重启 Agent</h3>
 
 <p>重启 Cloudinsight Agent，使配置生效 。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent restart
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent restart
+</code></pre>
+
 <p>您也可以通过查看 Agent Info 信息，来验证配置是否成功 。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent info
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent info
+</code></pre>
+
 <p>当出现以下信息，则代表安装成功 。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Checks
+<pre class="highlight plaintext"><code>Checks
 ======
 
  [...]
@@ -588,7 +594,8 @@ openstack
 ------
   - instance #0  [OK]
   - Collected 8 metrics &amp; 0 events
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h2>性能指标</h2>

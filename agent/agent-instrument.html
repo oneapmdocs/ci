@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -449,10 +440,11 @@
 <p><strong>For Linux</strong></p>
 
 <p>执行以下指令，会得到如下结果。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent
 
 Usage: /etc/init.d/cloudinsight-agent {start|stop|restart|info|status|configcheck|configtest|jmx|flare}
-</code></pre></div>
+</code></pre>
+
 <p>可见 Agent 支持以下的操作：</p>
 
 <ul>
@@ -468,8 +460,9 @@ Usage: /etc/init.d/cloudinsight-agent {start|stop|restart|info|status|configchec
 </ul>
 
 <p>启动 Agent 需执行以下指令，同理于停止和重启 Agent。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent start
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent start
+</code></pre>
+
 <p><code>info</code> 指令查看 Agent 的概要信息。执行 <code>info</code> 指令，可见 Cloudinsight Agent 由 <code>Collector</code>、<code>Forwarder</code>、<code>Onestatsd</code> 3 部分构成。</p>
 
 <p><code>info</code> 指令会显示这 3 部分的时间戳、Host 信息、进程信息，以及依赖的配置文件路径和日志路径。当然，还包括数据采集的信息。</p>
@@ -483,9 +476,10 @@ Usage: /etc/init.d/cloudinsight-agent {start|stop|restart|info|status|configchec
 <p><strong>For Windows</strong></p>
 
 <p>所有配置都可以在 Cloudinsight Agent Manager 控制面板上进行操作。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Logs and Status {Agent Status}
+<pre class="highlight plaintext"><code>Logs and Status {Agent Status}
 Actions  {start|stop|restart|flare|exit}
-</code></pre></div>
+</code></pre>
+
 <p><code>Agent Status</code> 同 Linux 的 <code>info</code>，其它相同。</p>
 
 <hr>
@@ -493,49 +487,59 @@ Actions  {start|stop|restart|flare|exit}
 <h3>启动 / 停止 / 卸载</h3>
 
 <p>启动探针：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent start
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent start
+</code></pre>
+
 <p>停止探针：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent stop
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent stop
+</code></pre>
+
 <p>重启探针：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent restart
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent restart
+</code></pre>
+
 <p>删除探针：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo yum erase cloudinsight-agent / apt-get remove cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo yum erase cloudinsight-agent / apt-get remove cloudinsight-agent
+</code></pre>
+
 <hr>
 
 <h3>更新</h3>
 
 <p>CentOS / Redhat 更新</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo yum install cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo yum install cloudinsight-agent
+</code></pre>
+
 <p>Ubuntu / Debian 更新</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo apt-get update &amp;&amp; apt-get install cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo apt-get update &amp;&amp; apt-get install cloudinsight-agent
+</code></pre>
+
 <hr>
 
 <h3>查看状态</h3>
 
 <p>查看探针是否运行：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent status
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent status
+</code></pre>
+
 <p>查看探针状态信息：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent info
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent info
+</code></pre>
+
 <p>查看配置文件是否正确：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent configtest
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent configtest
+</code></pre>
+
 <hr>
 
 <h3>配置</h3>
 
 <p>探针的配置文件：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/cloudinsight-agent/cloudinsight-agent.conf
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/cloudinsight-agent/cloudinsight-agent.conf
+</code></pre>
+
 <h4><code>cloudinsight-agent.conf</code> 配置项</h4>
-<div class="highlight"><pre class="highlight plaintext"><code>[Main]
+<pre class="highlight plaintext"><code>[Main]
 
 # The host of the Cloudinsight data collector server to send Agent data to
 # 收集的数据发送的目的服务器地址
@@ -591,10 +595,12 @@ tags: bd:bj-db,user:wang       # 标签，多项用逗号间隔
 # syslog_host:                 # syslog 地址
 # syslog_port:                 # syslog 端口
 
-</code></pre></div>
+</code></pre>
+
 <p>平台服务的配置文件目录：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/cloudinsight-agent/conf.d/
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/cloudinsight-agent/conf.d/
+</code></pre>
+
 <p>平台服务的配置各有不同，详情请查看：<a href="/services/">平台服务</a></p>
 
 <hr>
@@ -620,7 +626,7 @@ tags: bd:bj-db,user:wang       # 标签，多项用逗号间隔
 <p><strong>For Linux</strong></p>
 
 <p>Agent 配置文件放置于 <code>/etc/cloudinsight-agent</code>，该路径下的文件结构如下。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/cloudinsight-agent : tree .
+<pre class="highlight plaintext"><code>$ /etc/cloudinsight-agent : tree .
 .
 ├── checks.d
 ├── conf.d
@@ -635,7 +641,8 @@ tags: bd:bj-db,user:wang       # 标签，多项用逗号间隔
 └── supervisor.conf
 
 2 directories, 49 files
-</code></pre></div>
+</code></pre>
+
 <p>里面包括 3 类配置文件：</p>
 
 <ul>

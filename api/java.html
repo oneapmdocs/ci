@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -456,12 +447,12 @@
 
 <ul>
 <li><p>pom 文件添加 maven 依赖</p>
-<div class="highlight"><pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
+<pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>com.oneapm<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>cloudinsight-sdk<span class="nt">&lt;/artifactId&gt;</span>
   <span class="nt">&lt;version&gt;</span>0.0.1<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div></li>
+</code></pre></li>
 </ul>
 
 <hr>
@@ -473,16 +464,18 @@
 <p><code>Counters</code> 是 StatsD 和 Cloudinsight SDK 最基本的一种数据类型。当调用 <code>increment</code> 和 <code>decrement</code> 时，对参数进行自增 1 或自减 1。</p>
 
 <p>由于 Cloudinsight Agent 的采集周期为 30 s，最终展现至界面的值为采集周期的平均值。</p>
-<div class="highlight"><pre class="highlight java"><code><span class="c1">// Create a client.</span>
+<pre class="highlight java"><code><span class="c1">// Create a client.</span>
 <span class="n">CloudInsightStatsDClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CloudInsightStatsDClient</span><span class="o">();</span>
 
 <span class="c1">// Increment a counter.</span>
 <span class="n">client</span><span class="o">.</span><span class="na">increment</span><span class="o">(</span><span class="s">"page.views"</span><span class="o">,</span> <span class="s">"machine:awsBeijing"</span><span class="o">);</span>
 
-</code></pre></div>
+</code></pre>
+
 <p>同样，<code>decrement</code> 和 <code>increment</code> 一样，使用相同的参数。</p>
-<div class="highlight"><pre class="highlight java"><code> <span class="n">client</span><span class="o">.</span><span class="na">decrement</span><span class="o">(</span><span class="s">"page.views"</span><span class="o">,</span> <span class="s">"machine:awsBeijing"</span><span class="o">);</span>
-</code></pre></div>
+<pre class="highlight java"><code> <span class="n">client</span><span class="o">.</span><span class="na">decrement</span><span class="o">(</span><span class="s">"page.views"</span><span class="o">,</span> <span class="s">"machine:awsBeijing"</span><span class="o">);</span>
+</code></pre>
+
 <hr>
 
 <h3>Gauges</h3>
@@ -490,14 +483,15 @@
 <p><code>Gauges</code> 是连续型的数据类型，也就是标量，当我们第一次赋值后，该 Metric 表现在图表上，会是一条于 X 轴平行的直线；直到再次为该 Metric 赋了一个不同的值。</p>
 
 <p><code>Gauges</code> 可以用来度量一些已经计算过的数值，如 WebSockets 的有效链接数；而系统目前登录的用户数，则在每次用户登录时，调用 <code>Counters</code> 中的 <code>increment</code> 比较适合。</p>
-<div class="highlight"><pre class="highlight java"><code><span class="c1">// Record a gauge .</span>
+<pre class="highlight java"><code><span class="c1">// Record a gauge .</span>
 <span class="n">client</span><span class="o">.</span><span class="na">gauge</span><span class="o">(</span><span class="s">"foo.bar"</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
 
 <span class="c1">// Record a tagged metric.</span>
 <span class="n">client</span><span class="o">.</span><span class="na">gauge</span><span class="o">(</span><span class="s">"foo.bar"</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="s">"gender:male"</span><span class="o">,</span> <span class="s">"region:north"</span><span class="o">);</span>
 
 
-</code></pre></div>
+</code></pre>
+
 <p>此时，<code>foo.bar</code> 的值为 <code>10</code>。</p>
 
 <hr>

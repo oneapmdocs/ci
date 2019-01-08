@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -413,23 +404,26 @@
 <p>Cloudinsight 是通过修改 YAML 配置文件进行配置的。您可以在配置文件中给整个服务器定义 tag ，也可以是某个组件。无论在哪种情况下，都会在那个等级上有 tag 字典的列表 。您在服务区上所配置的所有 tag 将应用于该服务器上的每一个组件。</p>
 
 <p><code>key:value</code> 格式的字典有2个不同的功能等价形式：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>tags: firsttag, secondtag, third tag
-</code></pre></div>
+<pre class="highlight plaintext"><code>tags: firsttag, secondtag, third tag
+</code></pre>
+
 <p>和</p>
-<div class="highlight"><pre class="highlight plaintext"><code>tags:
+<pre class="highlight plaintext"><code>tags:
   - firsttag
   - secondtag
   - thirdtag
-</code></pre></div>
+</code></pre>
+
 <p>在配置文件中也都可以看到这两种形式，当然配置时要注意遵循 <a href="/qa/yaml.html">YAML 格式</a>。</p>
 
 <p>每一个 tag 都可以是你喜欢的任何东西，但如果你的 tag 很关键（高度可读），那最好用标准方式标记：<code>key:value</code>。key 可以代表角色，或功能，或区域，或应用程序，该 value 是该角色、功能、区域或应用程序的实例。下面是一些很棒的 tag 例子：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>region:east
+<pre class="highlight plaintext"><code>region:east
 region:nw
 application:database
 database:primary
 role:sobotka
-</code></pre></div>
+</code></pre>
+
 <p>当你开始使用 tag 将指标和服务器进行过滤和重建群组时，采样 <code>key:value</code> 格式就会感觉到其魅力所在了。</p>
 
 <h3>前端界面配置 tag</h3>
@@ -454,19 +448,19 @@ role:sobotka
 
 <p>仪表盘进行聚合分组功能时就是依赖 tag 来进行的，如下图显示的是有 <code>os:ubuntu</code> 这个 tag 的服务器的 <code>system.disk.free</code> 的平均值。</p>
 
-<p><img src="/images/qa/tag_dash.png" alt="Tag dash" /></p>
+<p><img src="/images/qa/tag_dash.png" /></p>
 
 <h3>报警策略</h3>
 
 <p>设置报警条件时直接用 tag 进行设置，无需一一添加服务器，将要监控的服务器的统一 tag 放上去，下图的报警策略就是：有 <code>os:ubuntu</code> tag 的服务器 <code>system.mem.used</code> 总和在5分钟内至少有一次大于等于 7G 就触发报警。</p>
 
-<p><img src="/images/qa/tag_alert.png" alt="Tag alert" /></p>
+<p><img src="/images/qa/tag_alert.png" /></p>
 
 <h3>Hostmap</h3>
 
 <p>在 hostmap 里面通过添加不同 key 来对服务器进行分组过滤，这样如果某个服务器某个组件有问题，你可以在分完组的界面里直接看到，确定是数据库问题还是 DNS 问题，而且即使是混合云依旧可以这样放在统一界面进行展示。</p>
 
-<p><img src="http://7xt8dk.com2.z0.glb.clouddn.com/hostmap.gif" alt="Hostmap" /></p>
+<p><img src="http://7xt8dk.com2.z0.glb.clouddn.com/hostmap.gif" /></p>
 
 <h3>更多功能正在开发中，例如设置 API tag</h3>
 

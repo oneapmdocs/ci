@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -412,15 +403,15 @@
 
 <p>在指标页面，能看到 <code>docker.cpu.user</code> 包括了 <code>host</code> <code>image_name</code> <code>container_name</code> 等标签信息。</p>
 
-<p><img src="/images/metric/docker_tag.png" alt="Docker tag" /></p>
+<p><img src="/images/metric/docker_tag.png" /></p>
 
 <p>意味着可以按照不同的 Images 来查看 CPU 使用量：</p>
 
-<p><img src="/images/metric/group.png" alt="Group" /></p>
+<p><img src="/images/metric/group.png" /></p>
 
 <p>如果手动设定太麻烦。Cloudinsight 也为大家提供预定义的平台服务仪表盘。下图为 Docker 平台服务仪表盘。</p>
 
-<p><img src="/images/metric/docker1.png" alt="Docker1" /></p>
+<p><img src="/images/metric/docker1.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

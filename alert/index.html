@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -402,7 +393,7 @@
 
 <p>Cloudinsight 的报警机制，采用以下的设计思路：</p>
 
-<p><img src="/images/alert/alert.png" alt="Alert" /></p>
+<p><img src="/images/alert/alert.png" /></p>
 
 <p>Cloudinsight 从不同的数据源中聚合数据，转交给报警处理引擎；引擎根据报警策略中设置的报警条件，对某一固定时间窗口内，对数值进行检查。</p>
 
@@ -430,7 +421,7 @@
 
 <p>如：某个基于指标的报警策略，当前处于 <code>ALERT</code> 状态，则会显示在此。</p>
 
-<p><img src="/images/alert/alert_list.png" alt="Alert list" /></p>
+<p><img src="/images/alert/alert_list.png" /></p>
 
 <p>列表共由 7 项构成：</p>
 
@@ -450,7 +441,7 @@
 
 <h2>报警策略状态</h2>
 
-<p><img src="/images/alert/alert_status.png" alt="Alert status" /></p>
+<p><img src="/images/alert/alert_status.png" /></p>
 
 <p>报警策略状态由 5 部分构成：</p>
 
@@ -480,7 +471,7 @@
 
 <p>那什么是禁用呢？请看图：</p>
 
-<p><img src="/images/alert/alert_mute.png" alt="Alert mute" /></p>
+<p><img src="/images/alert/alert_mute.png" /></p>
 
 <p>当某个策略被禁用时，策略被触发时，事件就传输至 <strong>Cloudinsight 事件流</strong> 这个渠道。<strong>而不再分发至邮件、OneAlert 等这些对外的渠道。</strong></p>
 

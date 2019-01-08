@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,10 +387,11 @@
             <h1>进程配置完成后没有监控到相应数据</h1>
 
 <p>进程简单配置成功后，在仪表盘里面分别配置不同进程监控数据时，例如如下配置进程但仪表盘上没有相应的 <code>forwarder</code> 进程可以监控：</p>
-<div class="highlight"><pre class="highlight plaintext"><code> - name: forwarder
+<pre class="highlight plaintext"><code> - name: forwarder
    search_string: ['forwarder']
    ignore_denied_access: True
-</code></pre></div>
+</code></pre>
+
 <h3>问题原因</h3>
 
 <p>exact_match 精确匹配，采用的是 Python 正则表达式，如果没有特别配置，默认是 Ture，即上面会精确匹配 forwarder 进程，如果进程不止包含 forwarder ，例如 python forwarder.py 就匹配不上。</p>
@@ -407,11 +399,12 @@
 <h3>解决方向</h3>
 
 <p>配置 exact_match 参数为 False，即为模糊匹配。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>  - name: forwarder
+<pre class="highlight plaintext"><code>  - name: forwarder
     search_string: ['forwarder']
     ignore_denied_access: True
     exact_match: False
-</code></pre></div>
+</code></pre>
+
 <p>重启探针，即可生效。</p>
 
             <hr style="margin-top: 50px;" />

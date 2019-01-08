@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -404,17 +395,20 @@
 <p><strong>1 切换至配置文件所在地， <code>/etc/cloudinsight-agent</code></strong></p>
 
 <p><strong>2 开启配置文件 <code>conf.d/system_core.yaml</code></strong>   </p>
-<div class="highlight"><pre class="highlight plaintext"><code>cp system_core.yaml.example  system_core.yaml
-</code></pre></div>
+<pre class="highlight plaintext"><code>cp system_core.yaml.example  system_core.yaml
+</code></pre>
+
 <p><strong>3 重启 Cloudinsight Agent，使配置生效</strong></p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo  /etc/init.d/cloudinsight-agent restart
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo  /etc/init.d/cloudinsight-agent restart
+</code></pre>
+
 <p><strong>4 通过查看 Agent Info 信息，来验证配置是否成功</strong></p>
-<div class="highlight"><pre class="highlight plaintext"><code>system_core
+<pre class="highlight plaintext"><code>system_core
 -----------
    - instance #0 [OK]
    - Collected 1 metric, 0 events &amp; 1 service check
-</code></pre></div>
+</code></pre>
+
 <p><strong>5 配置仪表盘显示</strong></p>
 
 <ul>
@@ -425,7 +419,7 @@
 
 <p>仪表盘配置动图如下：</p>
 
-<p><img src="http://7xt8dk.com2.z0.glb.clouddn.com/core.gif" alt="Core" /></p>
+<p><img src="http://7xt8dk.com2.z0.glb.clouddn.com/core.gif" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

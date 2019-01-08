@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,7 +387,7 @@
             <h1>开启 WMI Check 监控，平台列表无数据</h1>
 
 <p>配置如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>init_config:
+<pre class="highlight plaintext"><code>init_config:
 
 instances:
 
@@ -434,7 +425,8 @@ instances:
     tag_by: Name
     tag_queries:
       - [IDProcess, Win32_Process, Handle, CommandLine]
-</code></pre></div>
+</code></pre>
+
 <h3>问题原因</h3>
 
 <p>如果开启的是默认配置，探针端会采集 <code>system.proc.count</code> 和 <code>system.users.count</code> 这两项指标，所以在平台列表只会看到 system 的信息。</p>

@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -444,8 +435,8 @@
 <li><p>首先您需要有一台服务器能够连接外网，并已安装探针。这里我们以 <code>Proxy-Node</code> 来代替这台服务器。</p></li>
 <li><p>在 <code>Proxy-Node</code> 上修改探针配置文件 <code>/etc/cloudinsight-agent/cloudinsight-agent.conf</code>，将其中的 <code># non_local_traffic: no</code> 修改为 <code>non_local_traffic: yes</code>，然后重启探针。</p></li>
 <li><p>确保其他内网服务器能够连接到 <code>Proxy-Node</code> 的 10010 端口，可执行如下命令:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>curl -v http://Proxy-Node:10010/status 2&gt;&amp;1 | grep "200 OK"
-</code></pre></div></li>
+<pre class="highlight plaintext"><code>curl -v http://Proxy-Node:10010/status 2&gt;&amp;1 | grep "200 OK"
+</code></pre></li>
 <li><p>在其他内网服务器上修改探针配置文件 <code>/etc/cloudinsight-agent/cloudinsight-agent.conf</code>，将其中的 <code>ci_url: https://dc-cloud.oneapm.com</code> 修改为 <code>ci_url: http://Proxy-Node:10010</code>，然后重启探针。</p></li>
 <li><p>进入<a href="https://cloud.oneapm.com/#/hosts/list">平台列表页</a>，确认所有服务器的数据均被发送至 Cloudinsight。</p></li>
 </ol>
@@ -457,24 +448,27 @@
 <p>如果你服务器的环境变量里面设置了 http_proxy，那可以直接修改探针的配置文件，首先单独下载探针包，在本地进行安装，探针包里包含 Python 所需要的环境变量：</p>
 
 <p><strong>CentOS</strong> 环境</p>
-<div class="highlight"><pre class="highlight plaintext"><code>wget http://yum.oneapm.com/x86_64/cloudinsight-agent-x.x.0-1.x86_64.rpm
+<pre class="highlight plaintext"><code>wget http://yum.oneapm.com/x86_64/cloudinsight-agent-x.x.0-1.x86_64.rpm
 rpm -Uvh cloudinsight-agent-x.x.0-1.x86_64.rpm
-</code></pre></div>
+</code></pre>
+
 <p><strong>Ubuntu</strong> 环境</p>
-<div class="highlight"><pre class="highlight plaintext"><code>wget http://apt.oneapm.com/pool/main/cloudinsight-agent_x.x.0-1_amd64.deb  
+<pre class="highlight plaintext"><code>wget http://apt.oneapm.com/pool/main/cloudinsight-agent_x.x.0-1_amd64.deb  
 dpkg -i cloudinsight-agent_x.x.0-1_amd64.deb
-</code></pre></div>
+</code></pre>
+
 <p><em>可自行查看最近版本</em></p>
 
 <p>安装好探针后好不能启动，在 <code>/etc/cloudinsight-agent</code> 目录下面复制一份 <code>cloudinsight-agent.conf</code> ，这是探针的配置文件，探针会根据这个文件把数据发送到相应的服务器上，然后修改配置文件如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code># If you need a proxy to connect to the Internet, provide the settings here
+<pre class="highlight plaintext"><code># If you need a proxy to connect to the Internet, provide the settings here
 ci_url: https://dc-cloud.oneapm.com
 proxy_host: my_host
 proxy_port: my_port
 proxy_user: my_user
 proxy_password: my_password
 license_key: 自己的 license_key
-</code></pre></div>
+</code></pre>
+
 <p>数据通过配置的代理发送到 <code>ci_url</code> 指定的地址 <code>https://dc-cloud.oneapm.com/infrastructure/metrics</code>，最后的 <code>license_key</code> 是标识你应用的，所以要改成自己的 <code>license_key</code>，接下来重启探针即可生效。</p>
 
 <hr>
@@ -482,11 +476,12 @@ license_key: 自己的 license_key
 <h2>使用 Nginx Http Proxy 代理服务器</h2>
 
 <p>如果使用 Nginx Http Proxy 代理服务器，配置相对多一些，首先是单独下载安装探针：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>wget http://yum.oneapm.com/x86_64/cloudinsight-agent-4.2.0-1.x86_64.rpm
+<pre class="highlight plaintext"><code>wget http://yum.oneapm.com/x86_64/cloudinsight-agent-4.2.0-1.x86_64.rpm
 rpm -Uvh cloudinsight-agent-4.2.0-1.x86_64.rpm
-</code></pre></div>
+</code></pre>
+
 <p>创建一个 <code>8082.conf</code> 的配置文件，然后修改这个 Nginx 代理配置文件如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>server {
+<pre class="highlight plaintext"><code>server {
         server_name 192.168.43.145 127.0.0.1;
         listen 8082;   
         access_log /var/log/nginx/8082.log main;
@@ -497,14 +492,16 @@ rpm -Uvh cloudinsight-agent-4.2.0-1.x86_64.rpm
             proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
 
 }
-</code></pre></div>
+</code></pre>
+
 <p><code>listen 8082</code> 表示监听端口，可以修改为任意端口，但是一定要在防火墙打开这个端口。</p>
 
 <p>同样复制并修改 <code>/etc/cloudinsight-agent/</code> 下 Cloudinsight 的配置文件，<code>cloudinsight-agent.conf</code>；</p>
-<div class="highlight"><pre class="highlight plaintext"><code>ci_url:http://192.168.43.145:8082    
+<pre class="highlight plaintext"><code>ci_url:http://192.168.43.145:8082    
 skip_ssl_validation: yes     # 跳过 ssl 加密
 license_key: 自己的 license_key
-</code></pre></div>
+</code></pre>
+
 <p>这样重启探针即可生效，通过配置的 ci_url ，探针将数据发送到 <code>http://192.168.43.145:8082/infrastructure/metrics</code> ，而这个地址经由 Nginx 代理服务器 8082 端口进行处理，这个地址和配置文件进行匹配再将数据转发到 Cloudinsight 的服务器 <code>https://dc-cloud.oneapm.com/infrastructure/metrics</code>，这样数据就发送出去了。之后后端对数据进行处理，在 web 上进行展示。</p>
 
             <hr style="margin-top: 50px;" />

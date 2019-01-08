@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -443,7 +434,7 @@
 
 <p>以 MySQL 为例，其原理如图：</p>
 
-<p><img src="/images/service/authorize_mysql.png" alt="Authorize mysql" /></p>
+<p><img src="/images/service/authorize_mysql.png" /></p>
 
 <hr>
 
@@ -462,37 +453,42 @@
 <h3>1. 为 Cloudinsight 创建 <code>USER</code></h3>
 
 <p>为 Cloudinsight 创建一个 <code>USER</code>，其中用户名和密码，可以按照自己的需求进行设定。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo mysql -e "CREATE USER 'oneapm'@'localhost' IDENTIFIED BY 'YourPassword';"
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo mysql -e "CREATE USER 'oneapm'@'localhost' IDENTIFIED BY 'YourPassword';"
+</code></pre>
+
 <h3>2. 配置授权和最大链接数</h3>
 
 <p>为创建的用户分配权限。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo mysql -e "GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'oneapm'@'localhost' WITH MAX_USER_CONNECTIONS 5;"
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo mysql -e "GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'oneapm'@'localhost' WITH MAX_USER_CONNECTIONS 5;"
+</code></pre>
+
 <h3>3. MySQL 版本 &gt;= 5.6 时，需要从 <code>performance_schema</code> 表中获取指标数据</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo mysql -e "GRANT SELECT ON performance_schema.* TO 'oneapm'@'localhost';"
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo mysql -e "GRANT SELECT ON performance_schema.* TO 'oneapm'@'localhost';"
+</code></pre>
+
 <h3>4. 检查授权是否成功</h3>
 
 <p>通过以下指令，来检查为 Cloudinsight 创建的用户是否授权成功。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>mysql -u oneapm --password=YourPassword -e "SHOW /*!50000 ENGINE*/ INNODB STATUS" | \
+<pre class="highlight plaintext"><code>mysql -u oneapm --password=YourPassword -e "SHOW /*!50000 ENGINE*/ INNODB STATUS" | \
 grep Uptime &amp;&amp; echo -e "\033[0;32mMySQL user - OK\033[0m" || \
 echo -e "\033[0;31mCannot connect to MySQL\033[0m"
 mysql -u oneapm --password=YourPassword -e "show slave status" &amp;&amp; \
 echo -e "\033[0;32mMySQL grant - OK\033[0m" || \
 echo -e "\033[0;31mMissing REPLICATION CLIENT grant\033[0m"
-</code></pre></div>
+</code></pre>
+
 <p>若输出信息中包含如下字段，则代表授权成功。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>MySQL grant - OK
-</code></pre></div>
+<pre class="highlight plaintext"><code>MySQL grant - OK
+</code></pre>
+
 <hr>
 
 <h2>其他配置选项</h2>
 
 <p>为了更好的使用 MySQL 和其他数据库的监控，我们以 MySQL 为例，来解释 <code>conf.d/mysql.yaml</code> 中每个参数的涵义。</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+<pre class="highlight yaml"><code><span class="s">init_config</span><span class="pi">:</span>
 <span class="s">＃ 创建实例</span>
-<span class="na">instances</span><span class="pi">:</span>                                <span class="s">＃ 创建实例</span>
+<span class="s">instances</span><span class="pi">:</span>                                <span class="s">＃ 创建实例</span>
   <span class="s">- server</span><span class="pi">:</span> <span class="s">localhost                     ＃ MySQL 所在主机，默认为 localhost</span>
     <span class="s">user</span><span class="pi">:</span> <span class="s">my_username                     ＃ 为 Cloudinsight 创建的用户名</span>
     <span class="s">pass</span><span class="pi">:</span> <span class="s">my_password                     ＃ 为 Cloudinsight 创建的用户密码</span>
@@ -503,16 +499,17 @@ echo -e "\033[0;31mMissing REPLICATION CLIENT grant\033[0m"
       <span class="s">- tag_key1:tag_value1               ＃ 自定义标签，用于在 Cloudinsight 平台对 MySQL 服务器进行分组</span>
       <span class="s">- tag_key2:tag_value2</span>
     <span class="s">options</span><span class="pi">:</span>
-      <span class="na">replication</span><span class="pi">:</span> <span class="s">0                      ＃ 主从复制选项，是否获取相关指标（0：否（默认值），1：是）</span>
-      <span class="na">galera_cluster</span><span class="pi">:</span> <span class="s">1                   ＃ Galera 集群选项，是否获取相关指标（1：是（默认值），0：否）</span>
-    <span class="na">queries</span><span class="pi">:</span>
+      <span class="s">replication</span><span class="pi">:</span> <span class="s">0                      ＃ 主从复制选项，是否获取相关指标（0：否（默认值），1：是）</span>
+      <span class="s">galera_cluster</span><span class="pi">:</span> <span class="s">1                   ＃ Galera 集群选项，是否获取相关指标（1：是（默认值），0：否）</span>
+    <span class="s">queries</span><span class="pi">:</span>
       <span class="pi">-</span>                                    <span class="s">＃ 自定义 Metric</span>
         <span class="s">query</span><span class="pi">:</span> <span class="s">SELECT TIMESTAMPDIFF(second,MAX(create_time),NOW()) as last_accessed FROM requests</span>                           
                                           <span class="s">＃ 可执行 SQL 语句，自定义 Metric 的数据源</span>
         <span class="s">metric</span><span class="pi">:</span> <span class="s">app.seconds_since_last_request               ＃ Metric 名称，用于在 Cloudinsight 平台显示，数据源的别名</span>
-        <span class="na">type</span><span class="pi">:</span> <span class="s">gauge                        ＃ Metric类型，可选值：gauge, rate, 相关解释见 http://statsd.readthedocs.org/en/v3.1/types.html#gauges</span>
-        <span class="na">field</span><span class="pi">:</span> <span class="s">last_accessed               ＃ Metric 对应的 SQL 字段</span>
-</code></pre></div>
+        <span class="s">type</span><span class="pi">:</span> <span class="s">gauge                        ＃ Metric类型，可选值：gauge, rate, 相关解释见 http://statsd.readthedocs.org/en/v3.1/types.html#gauges</span>
+        <span class="s">field</span><span class="pi">:</span> <span class="s">last_accessed               ＃ Metric 对应的 SQL 字段</span>
+</code></pre>
+
 <p>必须配置的参数包括：<code>server</code> <code>user</code> <code>pass</code>，以及可选的参数 <code>tag</code> 用于更好地管理基础设施。</p>
 
 <p>其他配置参数，按照自己的需求，以及 MySQL 熟悉程度，来有选择性地配置。</p>

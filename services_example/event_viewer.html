@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -462,40 +453,42 @@
 <p>配置文件： <code>conf.d/win32_event_log.yaml</code></p>
 
 <p>配置示例：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">instances</span><span class="pi">:</span>
+<pre class="highlight yaml"><code><span class="s">instances</span><span class="pi">:</span>
     <span class="c1"># The following will capture errors and warnings from SQL Server which</span>
     <span class="c1"># puts all events under the MSSQLSERVER source and tag them with #sqlserver.</span>
-    <span class="pi">-</span>   <span class="na">tags</span><span class="pi">:</span>
+    <span class="pi">-</span>   <span class="s">tags</span><span class="pi">:</span>
             <span class="pi">-</span> <span class="s">sqlserver</span>
-        <span class="na">type</span><span class="pi">:</span>
+        <span class="s">type</span><span class="pi">:</span>
             <span class="pi">-</span> <span class="s">Warning</span>
             <span class="pi">-</span> <span class="s">Error</span>
-        <span class="na">log_file</span><span class="pi">:</span>
+        <span class="s">log_file</span><span class="pi">:</span>
             <span class="pi">-</span> <span class="s">Application</span>
-        <span class="na">source_name</span><span class="pi">:</span>
+        <span class="s">source_name</span><span class="pi">:</span>
             <span class="pi">-</span> <span class="s">MSSQLSERVER</span>
 
     <span class="c1"># This instance will capture all system errors and tag them with #system.</span>
-    <span class="pi">-</span>   <span class="na">tags</span><span class="pi">:</span>
+    <span class="pi">-</span>   <span class="s">tags</span><span class="pi">:</span>
             <span class="pi">-</span> <span class="s">system</span>
-        <span class="na">type</span><span class="pi">:</span>
+        <span class="s">type</span><span class="pi">:</span>
             <span class="pi">-</span> <span class="s">Error</span>
-        <span class="na">log_file</span><span class="pi">:</span>
+        <span class="s">log_file</span><span class="pi">:</span>
             <span class="pi">-</span> <span class="s">System</span>
-</code></pre></div>
+</code></pre>
+
 <h3>重启探针并确认状态</h3>
 
 <p>重启探针，并在探针管理器中查看信息栏，如果有以下信息的输出，代表配置正确 。</p>
-<div class="highlight"><pre class="highlight shell"><code>Checks
+<pre class="highlight shell"><code>Checks
 <span class="o">======</span>
 
    <span class="o">[</span>...]
 
   win32_event_log
-  <span class="nt">---------------</span>
+  ---------------
       - instance <span class="c">#0  [OK]</span>
       - Collected 0 metrics, 2 events &amp; 1 service check
-</code></pre></div>
+</code></pre>
+
 <h2>常见问题</h2>
 
 <ul>

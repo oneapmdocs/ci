@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -402,7 +393,7 @@
 
 <p>自定义仪表盘是 Cloudinsight 的核心功能。在仪表盘的章节中，我们提到 Cloudinsight 仪表盘的核心逻辑是：</p>
 
-<p><img src="/images/dashboard/dashboard1.png" alt="Dashboard1" /></p>
+<p><img src="/images/dashboard/dashboard1.png" /></p>
 
 <p>即 Cloudinsight 通过 3 个步骤达到操作系统、数据库、中间件，以及未来通过 Developer API 对接进来的所有 Metric 进行处理：</p>
 
@@ -448,7 +439,7 @@
 
 <p><strong>添加仪表盘</strong></p>
 
-<p><img src="/images/dashboard/BasicUsage1.png" alt="Basicusage1" /></p>
+<p><img src="/images/dashboard/BasicUsage1.png" /></p>
 
 <p>输入仪表盘名称，即创建了一个新的自定义仪表盘。</p>
 
@@ -462,13 +453,13 @@
 <li>编辑该自定义仪表盘</li>
 </ul>
 
-<p><img src="/images/dashboard/BasicUsage2.png" alt="Basicusage2" /></p>
+<p><img src="/images/dashboard/BasicUsage2.png" /></p>
 
 <p><strong>删除仪表盘</strong></p>
 
 <p>删除仪表盘和创建副本，都隐藏在仪表盘页面右上角的设置按钮中。</p>
 
-<p><img src="/images/dashboard/BasicUsage3.png" alt="Basicusage3" /></p>
+<p><img src="/images/dashboard/BasicUsage3.png" /></p>
 
 <h3>编辑仪表盘</h3>
 
@@ -491,16 +482,17 @@
 目前 Cloudinsight 支持两种模式的指标查询，分别为普通模式与专家模式。普通模式的功能较为简单，并且可以在选择指标时即时查看指标含义。专家模式功能更为强大，操作更为简练，适用于专业运维工程师或对 OpentsDB 有一定了解的人士。</p>
 
 <p>普通模式：
-<img src="/images/dashboard/normal1.png" alt="Normal1" /></p>
+<img src="/images/dashboard/normal1.png" /></p>
 
 <p>专家模式：
-<img src="/images/dashboard/professional1.png" alt="Professional1" /></p>
+<img src="/images/dashboard/professional1.png" /></p>
 
 <p>Cloudinsight 两种指标查询模式的界面与功能不完全相同，但基本逻辑是一致的，其可以提供一种类 SQL 的 Metric 查询方式。如果您了解过 OpentsDB，那就更容易上手了。在介绍具体的指标查询操作之前，首先介绍下 Metric 的查询逻辑与语法。</p>
 
 <h3>语法</h3>
-<div class="highlight"><pre class="highlight plaintext"><code>Aggregation: MetricName {FromTag} by {TagKey}
-</code></pre></div>
+<pre class="highlight plaintext"><code>Aggregation: MetricName {FromTag} by {TagKey}
+</code></pre>
+
 <p>在介绍语法前，我们先通过一组样本来解释 Metric 查询的语法。</p>
 
 <table><thead>
@@ -579,8 +571,9 @@
 </ul>
 
 <p>如：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>max: system.cpu.idle {host:ChengMoMacAir, host:UbuntuChengMO}
-</code></pre></div>
+<pre class="highlight plaintext"><code>max: system.cpu.idle {host:ChengMoMacAir, host:UbuntuChengMO}
+</code></pre>
+
 <p>所得的结果是：</p>
 
 <table><thead>
@@ -624,8 +617,9 @@
 </tbody></table>
 
 <p>同样，上述查询也可以简化成：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>max: system.cpu.idle {owner:chengmo}
-</code></pre></div>
+<pre class="highlight plaintext"><code>max: system.cpu.idle {owner:chengmo}
+</code></pre>
+
 <p>这就是标签管理在 Cloudinsight 的重要性啦。该部分留到标签的章节，做详细的介绍。</p>
 
 <h4><code>by</code> 其实就是 <code>group_by</code></h4>
@@ -638,23 +632,25 @@
 </ul>
 
 <p>都是非常有用的。还是以上诉例子举例，如果我们想要看每个 <code>host</code> 的 CPU 空闲率：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg: system.cpu.idle {} by {host}
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg: system.cpu.idle {} by {host}
+</code></pre>
+
 <p>此时，第一个 <code>{FromTag}</code> 缺省代表从所有 Metrics 中查询数据。如图所示，得到以下图表：</p>
 
-<p><img src="/images/dashboard/professional2.png" alt="Professional2" /></p>
+<p><img src="/images/dashboard/professional2.png" /></p>
 
 <p>在实际的测试环境中，由于我们有 6 台测试主机，所以会得到如下的曲线。并且，当鼠标悬停至曲线时，下方的悬停窗口会分别显示 6 台主机的 <code>system.cpu.idle</code>。</p>
 
-<p><img src="/images/dashboard/QueryMetric2.png" alt="Querymetric2" /></p>
+<p><img src="/images/dashboard/QueryMetric2.png" /></p>
 
 <h3>灵活查询</h3>
 
 <h4>聚合和分组并存</h4>
 
 <p>除开单纯的聚合和分组，Cloudinsight 还支持聚合和分组的复合查询。如：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg: system.cpu.idle {} by {owner}
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg: system.cpu.idle {} by {owner}
+</code></pre>
+
 <table><thead>
 <tr>
 <th>Series</th>
@@ -746,11 +742,13 @@
 <h4>多条件查询</h4>
 
 <p><code>FromTag</code> 可以承接多个条件，如上文提到的：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>max: system.cpu.idle {host:ChengMoMacAir, host:UbuntuChengMO}
-</code></pre></div>
+<pre class="highlight plaintext"><code>max: system.cpu.idle {host:ChengMoMacAir, host:UbuntuChengMO}
+</code></pre>
+
 <p>查询到是两个 Host 的聚合结果。那么，如果是以下查询呢：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>max: system.cpu.idle {host:ChengMoMacAir, owner:wangzhili}
-</code></pre></div>
+<pre class="highlight plaintext"><code>max: system.cpu.idle {host:ChengMoMacAir, owner:wangzhili}
+</code></pre>
+
 <p>此时，查询到结果为 <code>NULL</code>。因为，Metric 查询遵循以下原则：</p>
 
 <ul>
@@ -780,7 +778,7 @@
 
 <p>根据图表种类的不同，Metric 查询的普通模式可分为两种，主要区别在于是否支持 grop by，下面对这两种普通模式的操作进行简单的介绍。</p>
 
-<p><img src="/images/dashboard/normal1.png" alt="Normal1" /></p>
+<p><img src="/images/dashboard/normal1.png" /></p>
 
 <p>如上图，在时间序列、状态值、热力图类型图表的指标选择普通模式中，主要包括三种功能：</p>
 
@@ -792,7 +790,7 @@
 
 <p>其中，在选择性能指标时会打开一个三级选择菜单，如下图</p>
 
-<p><img src="/images/dashboard/normal2.png" alt="Normal2" /></p>
+<p><img src="/images/dashboard/normal2.png" /></p>
 
 <p>三级菜单分别对应选择 “平台&amp;平台服务”、“指标类别”、“指标项”，而在菜单右侧可以直接查看选中的指标所对应的具体含义及类型、单位。<br>
 通过该菜单，您可以快速地选择自己想要查看的指标。同时如果您对指标的含义不甚了解，也可以在查看指标解释后再选择需要的指标。
@@ -800,13 +798,13 @@
 
 <p>而在饼图、排行榜、树状图、表格类型的图表中，普通模式的指标选择稍有不同</p>
 
-<p><img src="/images/dashboard/normal5.png" alt="Normal5" /></p>
+<p><img src="/images/dashboard/normal5.png" /></p>
 
 <p>如上图，该普通模式增加了按标签分组的功能，即 grop by 的功能。并且，在创建图表时，默认将所选数据按照主机类型进行分组。</p>
 
 <h3>专家模式</h3>
 
-<p><img src="/images/dashboard/professional1.png" alt="Professional1" /></p>
+<p><img src="/images/dashboard/professional1.png" /></p>
 
 <p>如上图，指标选择的专家模式功能更加强大，除了普通模式支持的功能外，还增加了 rate 的功能，即查看所选指标的增长率。
 并且，在 FromTag 功能中，可以选择多个不同类别的标签进行聚合筛选，选择更为精确的数据来源。</p>
@@ -817,16 +815,17 @@
 
 <p>Cloudinsight 还添加了<strong>参数</strong>来提取出 <code>{FromTag}</code>，可以让用户不用每次都修改 <code>{FromTag}</code> 来查看 Metric；而只需在参数下拉框中选择 <code>{FromTag}</code> 来动态查询 Metric。</p>
 
-<p><img src="/images/dashboard/QueryMetric3.png" alt="Querymetric3" /></p>
+<p><img src="/images/dashboard/QueryMetric3.png" /></p>
 
 <p>什么意思呢？我们先来温习下 Metric 查询的语法：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Aggregation: MetricName {FromTag} by {TagKey}
-</code></pre></div>
+<pre class="highlight plaintext"><code>Aggregation: MetricName {FromTag} by {TagKey}
+</code></pre>
+
 <p>就是将 <code>{FromTag}</code> 设置为一个参数，可以让用户在界面做任意的更改。</p>
 
 <p>我们以 <em>System 总览 • 仪表盘</em>，举例来说：</p>
 
-<p><img src="/images/dashboard/Parameter1.png" alt="Parameter1" /></p>
+<p><img src="/images/dashboard/Parameter1.png" /></p>
 
 <p>我们需要一张仪表盘，能够：</p>
 
@@ -837,19 +836,21 @@
 
 <p>此时，就需要使用参数来达到要求。</p>
 
-<p><img src="/images/dashboard/Parameter2.png" alt="Parameter2" /></p>
+<p><img src="/images/dashboard/Parameter2.png" /></p>
 
 <p>在上图中，我们可以看到 <code>$scope</code> 代表的是 <code>host:*</code> ，则此时 Metric 查询语句为：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg:system.load.1 {host:*}
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg:system.load.1 {host:*}
+</code></pre>
+
 <p>而之前监控图表设置的 Metric 查询为：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>avg:system.load.1 {$scope}
-</code></pre></div>
+<pre class="highlight plaintext"><code>avg:system.load.1 {$scope}
+</code></pre>
+
 <p>是不是有点像 C 语言中宏的概念。也就是说，<strong>参数是一个可以根据下拉框随时被替换的字段，来满足动态查询</strong>。</p>
 
 <p>若此时，我选择 <code>$host</code> 为 <code>host:centos.license</code> 则显示效果如图：</p>
 
-<p><img src="/images/dashboard/Parameter3.png" alt="Parameter3" /></p>
+<p><img src="/images/dashboard/Parameter3.png" /></p>
 
 <hr>
 
@@ -861,7 +862,7 @@
 
 <p>仪表盘图表类型现在有7种，热力图，饼图，状态值，表格，时间序列值，TopN，树状图下面一一介绍。</p>
 
-<p><img src="/images/dashboard/fun_1.png" alt="Fun 1" /></p>
+<p><img src="/images/dashboard/fun_1.png" /></p>
 
 <ul>
 <li><p>上图中 <code>cpu use</code> 是默认的数据格式，数据是按照时间序列格式采集的，所以按照时间序列显示就是这样，其中这种是曲线图，此外还有面积图和柱状图。</p></li>
@@ -881,7 +882,7 @@
 
 <p>仪表盘除了展示实时数据外，还可以展示 rate ，这点对于业务需求是很重要的，所有仪表盘类型都可以设置。设置方法很简单，点击勾选即可。</p>
 
-<p><img src="/images/dashboard/fun_2.png" alt="Fun 2" /></p>
+<p><img src="/images/dashboard/fun_2.png" /></p>
 
 <h3>显示特定数据</h3>
 
@@ -893,7 +894,7 @@
 
 <p>配置自定义仪表盘，先选定 <code>process.threads</code> 这个指标，再设置 <code>From</code> 指定查询范围，在选定前面的指标后，后面会列出只有此指标的 FromTag （即在指标中看到的那些 Tags），示例选了2个进程来监控，配置效果图如下：</p>
 
-<p><img src="/images/dashboard/fun_3.png" alt="Fun 3" /></p>
+<p><img src="/images/dashboard/fun_3.png" /></p>
 
 <p>同样的<a href="/qa/network_adapter.html">显示所有网卡流量情况</a>也是这样配置。</p>
 
@@ -910,7 +911,7 @@
 <p>其中：<code>fieldname</code> 为查询指定字段，<code>value1,value2</code>为可选值列表，<code>value3</code>和<code>value4</code>为不指定字段的全文检索</p>
 
 <p><code>fieldname</code> 可以使用以下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>event_title
+<pre class="highlight plaintext"><code>event_title
 event_type
 alert_type
 event_description
@@ -918,7 +919,8 @@ event_object
 tags
 host
 source_type_name
-</code></pre></div>
+</code></pre>
+
 <p>可以输入 <code>event_type:ALERT_TRIGGER</code> ，这样就会把报警触发相关的信息都显示出来，还有一个就是<strong>中文的必须加双引号</strong>。</p>
 
 <p>你可以搜索 <code>event_title:wzl-ubuntu.cpu over 9</code>，这样3种事件都会显示出来；也可以不加查询指定字段 <code>fieldname</code>，直接加 <code>wzl-ubuntu.cpu over 9</code>，同样会出现3种事件。</p>
@@ -929,11 +931,11 @@ source_type_name
 
 <p>点击仪表盘右上方的全屏按钮，可以进入全屏模式，来满足用户的投屏需求。</p>
 
-<p><img src="/images/dashboard/FullScreen1.png" alt="Fullscreen1" /></p>
+<p><img src="/images/dashboard/FullScreen1.png" /></p>
 
 <p>在全屏模式首页中，可选择具体要显示的图表、图表切换速度、是否锁定显示一张图表等。</p>
 
-<p><img src="/images/dashboard/FullScreen2.png" alt="Fullscreen2" /></p>
+<p><img src="/images/dashboard/FullScreen2.png" /></p>
 
 <p>在全屏模式中，具体的操作方式如下：</p>
 
@@ -946,7 +948,7 @@ source_type_name
 <li>使用 ESC 可退出全屏模式</li>
 </ul>
 
-<p><img src="/images/dashboard/FullScreen3.png" alt="Fullscreen3" /></p>
+<p><img src="/images/dashboard/FullScreen3.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

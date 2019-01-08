@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -400,14 +391,17 @@
 <p>为了避免使用 docker 时总是使用 sudo，从0.5.3开始，可以通过创建一个 docker 组，将用户加入这个组内来实现。当 docker 守护进程启动时，它会把 Unix 的读写权限赋予 docker 组。当你作为 docker 组内用户使用 docker 客户端时，你就无须使用 sudo 了。</p>
 
 <p>所以当 docker 正常运行在服务器上后，要把 agent 加到 docker 组中：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>usermod -a -G docker cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>usermod -a -G docker cloudinsight-agent
+</code></pre>
+
 <p>如果添加到 docker 组后仍然报错，你可能需要查看是否有 docker 组，查看 docker.sock 是否属于 docker 组：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>ls -ll ar/run/docker.sock
-</code></pre></div>
+<pre class="highlight plaintext"><code>ls -ll ar/run/docker.sock
+</code></pre>
+
 <p>如果是 root 组，就把 agent 加进 root 组，执行：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>usermod -a -G root cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>usermod -a -G root cloudinsight-agent
+</code></pre>
+
 <p>重启探针即可。</p>
 
             <hr style="margin-top: 50px;" />

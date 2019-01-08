@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -335,10 +326,11 @@
 <p><strong>For Linux</strong></p>
 
 <p>执行以下指令，会得到如下结果。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent
 
 Usage: /etc/init.d/cloudinsight-agent {start|stop|restart|info|status|configcheck|configtest|jmx|flare}
-</code></pre></div>
+</code></pre>
+
 <p>可见 Agent 支持以下的操作：</p>
 
 <ul>
@@ -354,8 +346,9 @@ Usage: /etc/init.d/cloudinsight-agent {start|stop|restart|info|status|configchec
 </ul>
 
 <p>启动 Agent 需执行以下指令，同理于停止和重启 Agent。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent start
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent start
+</code></pre>
+
 <p><code>info</code> 指令查看 Agent 的概要信息。执行 <code>info</code> 指令，可见 Cloudinsight Agent 由 <code>Collector</code>、<code>Forwarder</code>、<code>Onestatsd</code> 3 部分构成。</p>
 
 <p><code>info</code> 指令会显示这 3 部分的时间戳、Host 信息、进程信息，以及依赖的配置文件路径和日志路径。当然，还包括数据采集的信息。</p>
@@ -369,29 +362,34 @@ Usage: /etc/init.d/cloudinsight-agent {start|stop|restart|info|status|configchec
 <p><strong>For Windows</strong></p>
 
 <p>所有配置都可以在 Cloudinsight Agent Manager 控制面板上进行操作。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Logs and Status {Agent Status}
+<pre class="highlight plaintext"><code>Logs and Status {Agent Status}
 Actions  {start|stop|restart|flare|exit}
-</code></pre></div>
+</code></pre>
+
 <p><code>Agent Status</code> 同 Linux 的 <code>info</code>，其它相同。</p>
 
 <h2>更新</h2>
 
 <p>CentOS / Redhat 更新：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo yum install cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo yum install cloudinsight-agent
+</code></pre>
+
 <p>Ubuntu / Debian 更新：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo apt-get update &amp;&amp; apt-get install cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo apt-get update &amp;&amp; apt-get install cloudinsight-agent
+</code></pre>
+
 <p>Windows 更新：重新安装</p>
 
 <h2>卸载：</h2>
 
 <p>CentOS / Redhat 卸载：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo yum remove cloudinsight-agent  
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo yum remove cloudinsight-agent  
+</code></pre>
+
 <p>Ubuntu / Debian 卸载：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo apt-get remove cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo apt-get remove cloudinsight-agent
+</code></pre>
+
 <p>Windows 卸载：程序，卸载</p>
 
             <hr style="margin-top: 50px;" />

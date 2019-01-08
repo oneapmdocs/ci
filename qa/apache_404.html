@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -401,7 +392,7 @@
 
 <p>安装 Apache，NGINX，PHP-FPM 等组件监控时，配置完 <code>yaml</code> 文件后，重启探针报出以下错误：</p>
 
-<p><img src="/images/qa/Apache4041.png" alt="Apache4041" /></p>
+<p><img src="/images/qa/Apache4041.png" /></p>
 
 <hr>
 
@@ -419,15 +410,15 @@
 
 <h3>Apache</h3>
 
-<p><img src="/images/qa/Apache4043.png" alt="Apache4043" /></p>
+<p><img src="/images/qa/Apache4043.png" /></p>
 
 <h3>NGINX</h3>
 
-<p><img src="/images/qa/Apache4042.png" alt="Apache4042" /></p>
+<p><img src="/images/qa/Apache4042.png" /></p>
 
 <h3>PHP-FPM</h3>
 
-<p><img src="/images/qa/Apache4044.png" alt="Apache4044" /></p>
+<p><img src="/images/qa/Apache4044.png" /></p>
 
 <h2>解决方法</h2>
 
@@ -436,36 +427,40 @@
 <h3>Apache</h3>
 
 <p>修改 Apache 的配置文件 <code>httpd.conf</code>，进入以下位置进行配置：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>&lt;Location /server-status&gt;
+<pre class="highlight plaintext"><code>&lt;Location /server-status&gt;
    SetHandler server-status
    Order deny,allow
    Deny from all
    Allow from all
 &lt;/Location&gt;
-</code></pre></div>
+</code></pre>
+
 <h3>NGINX</h3>
 
 <p>修改 NGINX 的配置文件 <code>/etc/nginx/site-available/default</code>，进入以下位置进行配置：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>server {
+<pre class="highlight plaintext"><code>server {
     location  /nginx_status {
     stub_status on;
     }   
 }
-</code></pre></div>
+</code></pre>
+
 <h3>PHP_FPM</h3>
 
 <p>修改 php-fpm 配置文件 <code>php-fpm.conf</code></p>
-<div class="highlight"><pre class="highlight plaintext"><code>pm.status_path = /status
-</code></pre></div>
+<pre class="highlight plaintext"><code>pm.status_path = /status
+</code></pre>
+
 <p>修改 NGINX 的配置文件：NGINX 配置的 PHP-FPM</p>
-<div class="highlight"><pre class="highlight plaintext"><code>server {
+<pre class="highlight plaintext"><code>server {
         location /status {
              fastcgi_pass  127.0.0.1:9000;
              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
              include fastcgi_params;
         }
 }
-</code></pre></div>
+</code></pre>
+
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
   <p style="font-size: 16px;">

@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -442,7 +433,7 @@
 
 <p>Cloudinsight 通过收集 WMI 数据来实时可视化 Windows 应用程序／服务的性能，以及显示和其它应用联合使用时情况。</p>
 
-<p><img src="/images/service_example/wmi.png" alt="Wmi" /></p>
+<p><img src="/images/service_example/wmi.png" /></p>
 
 <hr>
 
@@ -451,7 +442,7 @@
 <p><strong>1. 配置需要收集的指标</strong></p>
 
 <p>配置 conf.d/wmi_check.yaml ，将需要收集的指标添加到配置文件中 。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>instances:
+<pre class="highlight plaintext"><code>instances:
 
   # Fetch the number of processes and users
   - class: Win32_OperatingSystem
@@ -468,10 +459,11 @@
       - Name: ciagent
     constant_tags:
       - 'role:test'
-</code></pre></div>
+</code></pre>
+
 <p><strong>2. 开启服务</strong></p>
 
-<p><img src="/images/../images/service_example/wmi_start.png" alt="Wmi start" /></p>
+<p><img src="/images/../images/service_example/wmi_start.png" /></p>
 
 <p>在探针管理器左侧导航栏中找到 Wmi Check 服务，点击 Enable 开启服务。</p>
 
@@ -482,7 +474,7 @@
 <p><strong>4. 确认状态</strong></p>
 
 <p>在探针管理器中查看信息栏 Log and Status 下面的 Agent Status，如果有以下信息的输出，代表配置正确。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Checks
+<pre class="highlight plaintext"><code>Checks
 ======
 
   [...]
@@ -492,7 +484,8 @@
       - instance #0 [OK]
       - Collected 8 metrics &amp; 0 events
 
-</code></pre></div>
+</code></pre>
+
 <p>有关 Agent Info 信息的查看，请访问帮助中心，查看  <a href="/quick-start/instrument.html">Cloudinsight Agent 常用操作</a>。</p>
 
 <hr>

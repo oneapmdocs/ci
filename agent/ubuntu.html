@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -440,7 +431,7 @@
 
 <p>Cloudinsight 支持监控 Debian / Ubuntu 系统的磁盘，网络流量，I/O 读写，内存，CPU 使用情况等数据，显示消耗资源较多的进程信息，基本功能完全替代系统自带的监控工具，一键部署轻松查看系统资源消耗情况。效果如下：</p>
 
-<p><img src="/images/agent/IR6.png" alt="Ir6" /></p>
+<p><img src="/images/agent/IR6.png" /></p>
 
 <hr>
 
@@ -450,26 +441,27 @@
 
 <p>选择服务器平台，目前支持 CentOS、Ubuntu、Debian、Fedora、RedHat、Amazon Linux、Docker、Chef、Puppet 等多种平台。选择 Ubuntu 平台，复制粘贴下面的指令（指令中包含您的专属 license key ，故请勿从他处复制指令），在想要监控的系统中运行该指令即可完成安装：</p>
 
-<p><img src="/images/agent/IU2.png" alt="Iu2" /></p>
+<p><img src="/images/agent/IU2.png" /></p>
 
 <p>当安装成功时，Cloudinsight Agent 会自动启动。当出现以下提示时，代表安装成功。</p>
 
-<p><img src="/images/agent/IU3.jpg" alt="Iu3" /></p>
+<p><img src="/images/agent/IU3.jpg" /></p>
 
 <hr>
 
 <h2>启动和页面显示</h2>
 
 <p>如果安装后，Cloudinsight Agent 没有自动启动；可以选择手动启动的方式：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent start
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent start
+</code></pre>
+
 <p>启动成功时，会出现以下提示：</p>
 
-<p><img src="/images/agent/IU4.png" alt="Iu4" /></p>
+<p><img src="/images/agent/IU4.png" /></p>
 
 <p>此时 Cloudinsight 平台列表页面中，会出现已安装成功的平台：</p>
 
-<p><img src="/images/agent/IU5.png" alt="Iu5" /></p>
+<p><img src="/images/agent/IU5.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

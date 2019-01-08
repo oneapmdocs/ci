@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -406,46 +397,52 @@ mapping values are not allowed in this context in &quot;&lt;byte string&gt;&quot
 <h2>规则一：缩进</h2>
 
 <p>YAML 使用一个固定的缩进风格表示数据层结构关系，需要每个缩进级别由两个空格组成，注意不要使用 tabs 键。例如 mysql.yaml 中 <code>options</code> 和 <code>replication</code> 这是2个层级，用2个空格来表示，如果同一层级，那就竖直对齐就好啦：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+<pre class="highlight yaml"><code><span class="s">init_config</span><span class="pi">:</span>
 
-<span class="na">instances</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">server</span><span class="pi">:</span> <span class="s">localhost</span>
-    <span class="na">user</span><span class="pi">:</span> <span class="s">oneapm</span>
-    <span class="na">pass</span><span class="pi">:</span> <span class="s">YourPassword</span>
-    <span class="na">tags</span><span class="pi">:</span>
+<span class="s">instances</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">server</span><span class="pi">:</span> <span class="s">localhost</span>
+    <span class="s">user</span><span class="pi">:</span> <span class="s">oneapm</span>
+    <span class="s">pass</span><span class="pi">:</span> <span class="s">YourPassword</span>
+    <span class="s">tags</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="s">tag_key1:tag_value1</span>
       <span class="pi">-</span> <span class="s">tag_key2:tag_value2</span>
-    <span class="na">options</span><span class="pi">:</span>
-      <span class="na">replication</span><span class="pi">:</span> <span class="s">0</span>
-      <span class="na">galera_cluster</span><span class="pi">:</span> <span class="s">1</span>
-</code></pre></div>
+    <span class="s">options</span><span class="pi">:</span>
+      <span class="s">replication</span><span class="pi">:</span> <span class="s">0</span>
+      <span class="s">galera_cluster</span><span class="pi">:</span> <span class="s">1</span>
+</code></pre>
+
 <h2>规则二：短横杠</h2>
 
 <p>想要表示列表项，使用一个短横杠加一个空格。多个项使用同样的缩进级别作为同一列表的一部分：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="pi">-</span> <span class="s">list_value_one</span>
+<pre class="highlight yaml"><code><span class="pi">-</span> <span class="s">list_value_one</span>
 <span class="pi">-</span> <span class="s">list_value_two</span>
 <span class="pi">-</span> <span class="s">list_value_three</span>
-</code></pre></div>
+</code></pre>
+
 <p>列表可以可以作为一个键值对的 value，这个在 tags 里面很多：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">db_user</span><span class="pi">:</span>
+<pre class="highlight yaml"><code><span class="s">db_user</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">wang</span>
   <span class="pi">-</span> <span class="s">zhang</span>
   <span class="pi">-</span> <span class="s">li</span>
-</code></pre></div>
+</code></pre>
+
 <h2>规则三：冒号</h2>
 
 <p>字典的 keys 在 YAML 中的表现形式是一个以冒号结尾的字符串，values 的表现形式是冒号后面的同一行，用一个空格隔开：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">my_key</span><span class="pi">:</span> <span class="s">my_value</span>
-</code></pre></div>
+<pre class="highlight yaml"><code><span class="s">my_key</span><span class="pi">:</span> <span class="s">my_value</span>
+</code></pre>
+
 <p>另一种选择，一个 value 可以通过缩进与 key 联接，注意也是缩紧2个空格，当然通常情况下，一个 key 的 value 不是单一的，而是一个列表的values。</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">my_key</span><span class="pi">:</span>
+<pre class="highlight yaml"><code><span class="s">my_key</span><span class="pi">:</span>
   <span class="s">my_value1</span>
   <span class="s">my_value2</span>
-</code></pre></div>
+</code></pre>
+
 <p>其中字典也可以嵌套：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">first_key</span><span class="pi">:</span>
-  <span class="na">second_key</span><span class="pi">:</span> <span class="s">value_in_second</span>
-</code></pre></div>
+<pre class="highlight yaml"><code><span class="s">first_key</span><span class="pi">:</span>
+  <span class="s">second_key</span><span class="pi">:</span> <span class="s">value_in_second</span>
+</code></pre>
+
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
   <p style="font-size: 16px;">

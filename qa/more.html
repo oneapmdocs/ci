@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -398,20 +389,21 @@
 <p>一台服务器上如果想同时监控多个 Nginx Redis Mysql 服务，可以在一个配置文件进行配置。</p>
 
 <p>以 Redis 为例，例如一台服务器上有2个 Redis 数据库，他们通过不同端口连接使用，那此时想同时监控这2台数据库，只需要修改 <code>redis.yaml</code>，具体单个配置参考 <a href="redis.html">Redis 配置平台服务</a>：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+<pre class="highlight yaml"><code><span class="s">init_config</span><span class="pi">:</span>
 
-<span class="na">instances</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>
-    <span class="na">port</span><span class="pi">:</span> <span class="s">6379</span>
-    <span class="na">password</span><span class="pi">:</span> <span class="s">mypassword</span>
-    <span class="na">tags</span><span class="pi">:</span>
+<span class="s">instances</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">host</span><span class="pi">:</span> <span class="s">localhost</span>
+    <span class="s">port</span><span class="pi">:</span> <span class="s">6379</span>
+    <span class="s">password</span><span class="pi">:</span> <span class="s">mypassword</span>
+    <span class="s">tags</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="s">port:6379</span>
-  <span class="pi">-</span> <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>
-    <span class="na">port</span><span class="pi">:</span> <span class="s">6378</span>
-    <span class="na">password</span><span class="pi">:</span> <span class="s">mypassword</span>
-    <span class="na">tags</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">host</span><span class="pi">:</span> <span class="s">localhost</span>
+    <span class="s">port</span><span class="pi">:</span> <span class="s">6378</span>
+    <span class="s">password</span><span class="pi">:</span> <span class="s">mypassword</span>
+    <span class="s">tags</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="s">port:6378</span>
-</code></pre></div>
+</code></pre>
+
 <p>如图只需要复制实例部分即可（instances 下面内容），其他配置不需要复制。这样探针会通过6379监控第一个数据库，通过6378 监控第二个数据库，而在 Cloudinsight 上则通过 <code>tags</code> 来区分这2个数据库数据，其他平台服务配置同理，格式参考<a href="/qa/yaml.html">YAML 格式须知</a>。</p>
 
             <hr style="margin-top: 50px;" />

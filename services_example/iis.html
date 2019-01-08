@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -442,7 +433,7 @@
 
 <p>Cloudinsight 监控 IIS 请求状况，传输字节情况来可视化 web server 性能。</p>
 
-<p><img src="/images/service_example/iis.png" alt="Iis" /></p>
+<p><img src="/images/service_example/iis.png" /></p>
 
 <hr>
 
@@ -571,15 +562,17 @@
 <p><strong>1. 确保 IIS 性能收集可用</strong></p>
 
 <p>Windows 版本低于或等于 2003，在 <code>cmd.exe</code> 中执行下面的命令：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>winmgmt /clearadap
+<pre class="highlight plaintext"><code>winmgmt /clearadap
 winmgmt /resyncperf
-</code></pre></div>
+</code></pre>
+
 <p>Windows 版本高于或等于 2008，在<code>cmd.exe</code>中执行下面的命令：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>winmgmt /resyncperf
-</code></pre></div>
+<pre class="highlight plaintext"><code>winmgmt /resyncperf
+</code></pre>
+
 <p><strong>2. 开启 IIS 服务</strong></p>
 
-<p><img src="/images/service_example/iis_start.jpg" alt="Iis start" /></p>
+<p><img src="/images/service_example/iis_start.jpg" /></p>
 
 <p>打开 Cloudinsight Agent Manager ，在左侧导航栏找到 iis 服务，选中后单击 Enable 即可打开 iis 服务。</p>
 
@@ -591,7 +584,7 @@ winmgmt /resyncperf
 <p><strong>4. 确认状态</strong></p>
 
 <p>在探针管理器中查看信息栏 Log and Status 下面的 Agent Status，如果有以下信息的输出，代表配置正确。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Checks
+<pre class="highlight plaintext"><code>Checks
 ======
 
   [...]
@@ -601,7 +594,8 @@ winmgmt /resyncperf
       - instance #0 [OK]
       - Collected 8 metrics &amp; 0 events
 
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h2>常见问题</h2>

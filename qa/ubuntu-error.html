@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,7 +387,7 @@
             <h1>&lsquo;nmet dependencies&rsquo; Ubuntu 安装错误</h1>
 
 <p>在 Ubuntu 操作系统上安装探针是报错如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>* Installing APT package sources for Cloudinsight
+<pre class="highlight plaintext"><code>* Installing APT package sources for Cloudinsight
 
 Executing: gpg --ignore-time-conflict --no-options --no-default-keyring --secret-keyring /tmp/tmp.0dkKOJrsNY --trustdb-name /etc/apt/trustdb.gpg --keyring /etc/apt/trusted.gpg --primary-keyring /etc/apt/trusted.gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 54B043BC
 gpg: requesting key 54B043BC from hkp server keyserver.ubuntu.com
@@ -429,7 +420,8 @@ Failed to install the Cloudinsight package, sometimes it may be
 due to another APT source failing. See the logs above to
 determine the cause.
 If the cause is unclear, please contact Cloudinsight support.
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h2>报错说明：</h2>
@@ -439,13 +431,14 @@ If the cause is unclear, please contact Cloudinsight support.
 <h2>解决方法：</h2>
 
 <p>这个问题 Cloudinsight 本身没有问题，所以可以在安装时分布安装，跳过 update 的操作，具体方法如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo apt-get autoremove
+<pre class="highlight plaintext"><code>sudo apt-get autoremove
 sudo apt-get autoclean
 wget http://apt.oneapm.com/pool/main/cloudinsight-agent_x.x.0-1_amd64.deb  (可以自行查看当前版本)
 dpkg -i cloudinsight-agent_x.x.0-1_amd64.deb
 vi /etc/cloudinsight-agent/cloudinsight-agent.conf     （ 修改成自己的 license_key ）
 /etc/init.d/cloudinsight-agent restart
-</code></pre></div>
+</code></pre>
+
 <p>以上几步即包括删除不需要的软件包，下载当前最近 Cloudinsight 探针（里面包括探针各种依赖包），修改探针配置文件，添加进自己的 license_key ，重启探针，让配置生效，其他之前的一键复制也是运行的这些功能。</p>
 
             <hr style="margin-top: 50px;" />

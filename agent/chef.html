@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -453,45 +444,52 @@
 <h2>添加 Cookbook</h2>
 
 <p>使用 <a href="http://berkshelf.com">Berkshelf</a> 添加 Cookbook：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>cookbook `cloudinsight-agent`
-</code></pre></div>
+<pre class="highlight plaintext"><code>cookbook `cloudinsight-agent`
+</code></pre>
+
 <p>若未安装 Berkshelf，请使用 Knife 添加 Cookbook：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>knife cookbook site install cloudinsight-agent
-</code></pre></div>
+<pre class="highlight plaintext"><code>knife cookbook site install cloudinsight-agent
+</code></pre>
+
 <hr>
 
 <h2>授权</h2>
 
 <p>在 Enviorment 或者 Role 中，也可以添加 Recipe，为 Cloudinsight 授权：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>node.default['cloudinsight-agent']['license_key'] = "LICENSE_KEY"
-</code></pre></div>
+<pre class="highlight plaintext"><code>node.default['cloudinsight-agent']['license_key'] = "LICENSE_KEY"
+</code></pre>
+
 <hr>
 
 <h2>上传 Cookbook</h2>
 
 <p>上传 Cookbook 至 Chef Server：</p>
-<div class="highlight"><pre class="highlight shell"><code>berks upload
-</code></pre></div>
+<pre class="highlight shell"><code>berks upload
+</code></pre>
+
 <p>未安装 Berkself 的用户请使用 Knife</p>
-<div class="highlight"><pre class="highlight shell"><code>knife cookbook upload cloudinsight-agent
-</code></pre></div>
+<pre class="highlight shell"><code>knife cookbook upload cloudinsight-agent
+</code></pre>
+
 <p>可以使用以下指令来检查，Cookbook 是否上传成功：</p>
-<div class="highlight"><pre class="highlight shell"><code>knife cookbook list | <span class="nb">grep </span>oneapm <span class="o">&amp;&amp;</span> <span class="se">\ </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[0;32oneapm cookbook - OK</span><span class="se">\e</span><span class="s2">[0m"</span> <span class="o">||</span> <span class="se">\ </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[0;31mmissing oneapm cookbook - OK</span><span class="se">\e</span><span class="s2">[0m"</span>
-</code></pre></div>
+<pre class="highlight shell"><code>knife cookbook list | grep oneapm <span class="o">&amp;&amp;</span> <span class="se">\ </span><span class="nb">echo</span> -e <span class="s2">"</span><span class="se">\e</span><span class="s2">[0;32oneapm cookbook - OK</span><span class="se">\e</span><span class="s2">[0m"</span> <span class="o">||</span> <span class="se">\ </span><span class="nb">echo</span> -e <span class="s2">"</span><span class="se">\e</span><span class="s2">[0;31mmissing oneapm cookbook - OK</span><span class="se">\e</span><span class="s2">[0m"</span>
+</code></pre>
+
 <hr>
 
 <h2>添加 Recipe</h2>
 
 <p>Cookbook 上传成功后，在 Node 中的 run_list 或 role 中添加如下信息：</p>
-<div class="highlight"><pre class="highlight shell"><code><span class="s2">"run_list"</span>: <span class="o">[</span> <span class="s2">"recipe[cloudinsight-agent::cloudinsight-agent]"</span> <span class="o">]</span>
-</code></pre></div>
+<pre class="highlight shell"><code><span class="s2">"run_list"</span>: <span class="o">[</span> <span class="s2">"recipe[cloudinsight-agent::cloudinsight-agent]"</span> <span class="o">]</span>
+</code></pre>
+
 <hr>
 
 <h2>成功</h2>
 
 <p>等待下一次 Chef Client 运行，即完成整个安装步骤。</p>
 
-<p><img src="/images/agent/chef_5.png" alt="Chef 5" /></p>
+<p><img src="/images/agent/chef_5.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -456,14 +447,15 @@
 <h2>安装与使用</h2>
 
 <p>在 <a href="https://docs.nuget.org/consume/package-manager-console">Package Manager Console</a> 里面运行下面命令：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Install-Package cloudinsight-dotnet-sdk
-</code></pre></div>
+<pre class="highlight plaintext"><code>Install-Package cloudinsight-dotnet-sdk
+</code></pre>
+
 <hr>
 
 <h2>快速使用教程</h2>
 
 <p>在你应用的开头，配置 <code>CloudInsightStatsd</code> 如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>// The code is located under the StatsdClient namespace
+<pre class="highlight plaintext"><code>// The code is located under the StatsdClient namespace
 using StatsdClient;
 
 // ...
@@ -476,9 +468,10 @@ var statsdConfig = new StatsdConfig
 };
 
 StatsdClient.CloudInsightStatsd.Configure(statsdConfig);
-</code></pre></div>
+</code></pre>
+
 <p>开始上传你的数据：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>// Increment a counter by 1
+<pre class="highlight plaintext"><code>// Increment a counter by 1
 CloudInsightStatsd.Increment("eventname");
 
 // Decrement a counter by 1
@@ -516,7 +509,8 @@ using (CloudInsightStatsd.StartTimer("stat-name", sampleRate: 0.1))
 {
     // Lots of code here
 }
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h3>Metric Name</h3>

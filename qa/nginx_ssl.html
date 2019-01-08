@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,13 +387,14 @@
             <h1>Nginx [SSL：CERTIFICATE<em>VERIFY</em>FAILED] certificate verify failed (_ssl.c:590)</h1>
 
 <p>当 Nginx 配置 url 访问是 https 格式时，如果报下面错误：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>nginx
+<pre class="highlight plaintext"><code>nginx
 -----
   - instance #0 [ERROR]: '[SSL：CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)'
   - collected 0 metrics,0 event &amp; 2 servise check
-</code></pre></div>
+</code></pre>
+
 <p>这是因为访问 Nginx 的 url 没有信任的 SSL 证书，所以如果您不想验证 SSL 证书，在 nginx.yaml 配置文件中添加参数 <code>ssl_validation</code>：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>init_config:
+<pre class="highlight plaintext"><code>init_config:
 
 instances:
   # For every instance, you have an `nginx_status_url` and (optionally)
@@ -413,7 +405,8 @@ instances:
       - tag_key:tag_value
     ssl_validation: False
 
-</code></pre></div>
+</code></pre>
+
 <p>注意 <a href="/qa/yaml.html">YAML</a> 对齐格式。  </p>
 
             <hr style="margin-top: 50px;" />

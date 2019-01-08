@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -446,18 +437,19 @@
 
 <p>选择服务器平台，目前支持 CentOS、Ubuntu、Debian、Windows、Fedora、RedHat、Amazon Linux、Docker、Chef、Puppet 等多种平台。选择 Ubuntu 平台，复制粘贴下面的文字，直接运行：</p>
 
-<p><img src="/images/agent/ID2.png" alt="Id2" /></p>
+<p><img src="/images/agent/ID2.png" /></p>
 
 <p>当安装成功时，Cloudinsight Agent 会自动启动。当出现以下提示时，代表安装成功。</p>
 
-<p><img src="/images/agent/ID3.png" alt="Id3" /></p>
+<p><img src="/images/agent/ID3.png" /></p>
 
 <p>执行 Docker 指令来检查 Cloudinsight Agent 是否启动成功（更多信息，参考 <a href="https://hub.docker.com/r/oneapm/docker-oneapm-ci-agent/">Docker 安装方法</a>）：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>docker ps
-</code></pre></div>
+<pre class="highlight plaintext"><code>docker ps
+</code></pre>
+
 <p>若启动成功，会出现以下提示：</p>
 
-<p><img src="/images/agent/ID4.png" alt="Id4" /></p>
+<p><img src="/images/agent/ID4.png" /></p>
 
 <hr>
 
@@ -465,7 +457,7 @@
 
 <p>此时 Cloudinsight 平台列表页面中，会出现已安装成功的平台，参考<a href="https://hub.docker.com/r/oneapm/docker-oneapm-ci-agent/">更多 Docker 操作</a> ：</p>
 
-<p><img src="/images/agent/ID5.png" alt="Id5" /></p>
+<p><img src="/images/agent/ID5.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

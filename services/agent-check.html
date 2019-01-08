@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -458,14 +449,15 @@
 <h2>发送指标</h2>
 
 <p>在 check 中发送指标非常容易，发送指标有以下几个方法：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>self.gauge( ... ) # Sample a gauge metric
+<pre class="highlight plaintext"><code>self.gauge( ... ) # Sample a gauge metric
 self.increment( ... ) # Increment a counter metric
 self.decrement( ... ) # Decrement a counter metric
 self.histogram( ... ) # Sample a histogram metric
 self.rate( ... ) # Sample a point, with the rate calculated at the end of the check
 self.count( ... ) # Sample a raw count metric
 self.monotonic_count( ... ) # Sample an increasing counter metric
-</code></pre></div>
+</code></pre>
+
 <p>所有的这些方法都有下面几个参数：</p>
 
 <ul>
@@ -483,7 +475,7 @@ self.monotonic_count( ... ) # Sample an increasing counter metric
 <h2>异常</h2>
 
 <p>如果由于配置不正确或者编码错误导致 <code>check</code> 不能运行，或者无法收集到任何指标，这时应该抛出一个特定的异常信息。这个异常将可以被记录到探针的log（即/var/log/cloudinsight-agent/collector.log）中，您也可以通过探针的 info 命令进行输出，便于调试，如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ sudo /etc/init.d/cloudinsight-agent info
+<pre class="highlight plaintext"><code>$ sudo /etc/init.d/cloudinsight-agent info
 
   Checks
   ======
@@ -492,7 +484,8 @@ self.monotonic_count( ... ) # Sample an increasing counter metric
   ---------------
     - instance #0 [ERROR]: ConnectionError('Connection refused.',)
     - Collected 0 metrics &amp; 0 events
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h2>日志信息</h2>
@@ -506,7 +499,7 @@ self.monotonic_count( ... ) # Sample an increasing counter metric
 <p>每个 check 都有一个配置文件，位于 <code>conf.d</code> 目录下，配置文件是采用 yaml 格式编写的，名字需要和 <code>check</code> 模块的名字一致（例如 <code>nginx.py</code> 和 <code>nginx.yaml</code>）。</p>
 
 <p>配置文件结构如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>init_config:
+<pre class="highlight plaintext"><code>init_config:
     key1: val1
     key2: val2
 
@@ -516,7 +509,8 @@ instances:
 
     - username: jane_smith
       password: 5678
-</code></pre></div>
+</code></pre>
+
 <ul>
 <li><strong>init_config</strong>: init_config 部分可以配置任意数量的键值对，这个会在每次 <code>check</code> 函数初始化时用到。</li>
 <li><strong>instances</strong>: instances 部分是一个实例的列表，其中的每个实例都会被作为参数传递至 <code>check</code> 函数并执行，这意味着 <code>check</code> 函数支持多实例。</li>
@@ -533,25 +527,29 @@ instances:
 </ul>
 
 <p>所有的 Linux 系统，您可以在下面找到文件：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/cloudinsight-agent/checks.d/
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/cloudinsight-agent/checks.d/
+</code></pre>
+
 <p>Windows Server &gt;= 2008 系统，您可以在下面找到文件：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>C:\Program Files (x86)\Cloudinsight\Cloudinsight Agent\checks.d
+<pre class="highlight plaintext"><code>C:\Program Files (x86)\Cloudinsight\Cloudinsight Agent\checks.d
 或
 C:\Program Files\Cloudinsight\Cloudinsight Agent\checks.d
-</code></pre></div>
+</code></pre>
+
 <ul>
 <li><code>conf.d</code> 文件夹，探针配置文件所在地</li>
 </ul>
 
 <p>Linux 系统中，您可以在下面找到文件：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/cloudinsight-agent/conf.d
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/cloudinsight-agent/conf.d
+</code></pre>
+
 <p>Windows Server &gt;= 2008 系统，您可以在下面找到文件：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>C:\ProgramData\Cloudinsight\conf.d
+<pre class="highlight plaintext"><code>C:\ProgramData\Cloudinsight\conf.d
 或
 C:\Documents and Settings\All Users\Application Data\Cloudinsight\conf.d\
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h2>一个简单的 HTTP check</h2>
@@ -563,7 +561,7 @@ C:\Documents and Settings\All Users\Application Data\Cloudinsight\conf.d\
 <ul>
 <li>定义配置文件 <code>conf.d/http.yaml</code>，如下：</li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>init_config:
+<pre class="highlight plaintext"><code>init_config:
     default_timeout: 5
 
 instances:
@@ -573,11 +571,12 @@ instances:
     timeout: 8
 
   - url: http://httpbin.org/status/400
-</code></pre></div>
+</code></pre>
+
 <ul>
 <li>定义 <code>check</code> 方法，check 的核心就是制造 http 请求并获取该请求的响应时间，<code>checks.d/http.py</code> 文件内容如下:</li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>import time
+<pre class="highlight plaintext"><code>import time
 import requests
 
 from collector.checks import AgentCheck
@@ -615,7 +614,8 @@ if __name__ == '__main__':
         print "\nRunning the check against url: %s" % (instance['url'])
         check.check(instance)
         print 'Metrics: %s' % (check.get_metrics())
-</code></pre></div>
+</code></pre>
+
 <p>可见，check 接口是很简单的，非常容易上手，还不 try 一把？</p>
 
 <hr>
@@ -623,16 +623,18 @@ if __name__ == '__main__':
 <h2>排错</h2>
 
 <p>您可以执行以下命令进行调试：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo -u cloudinsight-agent ci-agent check my_check
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo -u cloudinsight-agent ci-agent check my_check
+</code></pre>
+
 <h3>Windows 测试自定义 check</h3>
 
 <p>测试 Windows 自定义 check 很简单，探针安装后有一个 shell.exe 的文件，您可以直接在上面运行 Python 文件。</p>
 
 <p>例如你 check my_check，保证已经配置正确 .py 和 .yaml 文件，可以在 shell.exe 里面运行：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>&gt;&gt;&gt; from checks import run_check
+<pre class="highlight plaintext"><code>&gt;&gt;&gt; from checks import run_check
 &gt;&gt;&gt; run_check('my_check')
-</code></pre></div>
+</code></pre>
+
 <p>将输出 check 返回的指标数据。</p>
 
             <hr style="margin-top: 50px;" />

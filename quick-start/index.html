@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -346,7 +337,7 @@
 
 <p>在 Cloudinsight 产品界面「设置 -&gt; 添加平台」中会显示安装 Agent 指令，我们以 Debian 为例：</p>
 
-<p><img src="/images/agent/IU2.png" alt="Iu2" /></p>
+<p><img src="/images/agent/IU2.png" /></p>
 
 <p>需要注意的事项：</p>
 
@@ -375,42 +366,46 @@
 <h3>手动安装</h3>
 
 <h4>1.下载 Cloudinsight Agent 文件</h4>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get autoremove
-<span class="nv">$ </span><span class="nb">sudo </span>apt-get autoclean
-<span class="nv">$ </span>wget http://apt.oneapm.com/pool/main/cloudinsight-agent_x.x.0-1_amd64.deb  （可以自行查看当前版本，其中amd64/i386分别对应64位/32位系统）
-</code></pre></div>
+<pre class="highlight shell"><code><span class="gp">$ </span>sudo apt-get autoremove
+<span class="gp">$ </span>sudo apt-get autoclean
+<span class="gp">$ </span>wget http://apt.oneapm.com/pool/main/cloudinsight-agent_x.x.0-1_amd64.deb  （可以自行查看当前版本，其中amd64/i386分别对应64位/32位系统）
+</code></pre>
+
 <p class="notes clearfix"> 
    <span class="notesHead"></span>
     <span class="notesContent">注：请不要复制中文的解释字符：（可以自行查看当前版本）<span> 
 </p>
 
 <h4>2.安装 Cloudinsight Agent</h4>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>dpkg <span class="nt">-i</span> cloudinsight-agent_x.x.0-1_amd64.deb  （修改版本号）
-</code></pre></div>
+<pre class="highlight shell"><code><span class="gp">$ </span>dpkg -i cloudinsight-agent_x.x.0-1_amd64.deb  （修改版本号）
+</code></pre>
+
 <p class="notes clearfix"> 
    <span class="notesHead"></span>
     <span class="notesContent">注：请不要复制中文的解释字符：（修改版本号）<span> 
 </p>
 
 <h4>3.配置 License Key</h4>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cd</span> /etc/cloudinsight-agent/
-<span class="nv">$ </span>cp cloudinsight-agent.conf.example   cloudinsight-agent.conf  
-<span class="nv">$ </span>vi cloudinsight-agent.conf  （修改成自己的 license_key）
-</code></pre></div>
+<pre class="highlight shell"><code><span class="gp">$ </span><span class="nb">cd</span> /etc/cloudinsight-agent/
+<span class="gp">$ </span>cp cloudinsight-agent.conf.example   cloudinsight-agent.conf  
+<span class="gp">$ </span>vi cloudinsight-agent.conf  （修改成自己的 license_key）
+</code></pre>
+
 <p class="notes clearfix"> 
    <span class="notesHead"></span>
     <span class="notesContent">注：请不要复制中文的解释字符：（修改成自己的 license_key）<span> 
 </p>
 
 <h4>4.重启 Cloudinsight Agent</h4>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
+</code></pre>
+
 <hr>
 
 <h2>II.修改 Agent 配置文件</h2>
 
 <p>在使用 Cloudinsight 前，需要先了解 Agent 的目录结构，方便日后 Agent 错误排查，以及了解采集的数据。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/cloudinsight-agent : tree .
+<pre class="highlight plaintext"><code>$ /etc/cloudinsight-agent : tree .
 .
 ├── checks.d
 ├── conf.d
@@ -425,15 +420,18 @@
 └── supervisor.conf
 
 2 directories, 49 files
-</code></pre></div>
+</code></pre>
+
 <p>Agent 安装在 <code>/etc/init.d/cloudinsight-agent</code> 路径，而配置文件的路径都在 <code>/etc/cloudinsight-agent</code>。</p>
 
 <p>所以所有的探针执行操作，都需要将路径定位至 <code>/etc/init.d/cloudinsight-agent</code> 路径，如 Agent 启动命令：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent start
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent start
+</code></pre>
+
 <p>而修改配置文件，都在 <code>/etc/cloudinsight-agent</code> 路径下，如修改 Agent 中的 <code>Hostname</code>，需要：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ vi /etc/cloudinsight-agent/cloudinsight-agent.conf
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ vi /etc/cloudinsight-agent/cloudinsight-agent.conf
+</code></pre>
+
 <h3>配置文件类型</h3>
 
 <p>Agent 配置文件分为以下 3 类：</p>
@@ -469,18 +467,22 @@
 <p>但是当您修改了 Agent 配置文件后，需要以下几种常用之类来帮助您更好地使用 Cloudinsight。</p>
 
 <h4>1.重启 Agent</h4>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
+</code></pre>
+
 <p>类似的指令还有：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent restart
 $ /etc/init.d/cloudinsight-agent stop
-</code></pre></div>
+</code></pre>
+
 <h4>2.快速查看 Agent 状态</h4>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent status
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent status
+</code></pre>
+
 <h4>3.查看 Agent 基本信息</h4>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
+</code></pre>
+
 <p>在 <code>info</code> 执行结果，您会看到：</p>
 
 <ol>
@@ -492,8 +494,9 @@ $ /etc/init.d/cloudinsight-agent stop
 <p>若出现异常情况会在 <code>info</code> 执行结果中标明。</p>
 
 <h4>4.打包日志文件提供给技术支持人员</h4>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>/etc/init.d/cloudinsight-agent flare
-</code></pre></div>
+<pre class="highlight shell"><code><span class="gp">$ </span>/etc/init.d/cloudinsight-agent flare
+</code></pre>
+
 <p>若 Cloudinsight 文档不能解决您的问题，可以通过<a href="http://support.oneapm.com/request/new/">提交工单给 Cloudinsight 技术支持人员</a>，来帮助您解决问题。</p>
 
 <p>但是技术人员需要查看您的日志文件，此时可以通过 <code>flare</code> 对日志文件进行打包。</p>
@@ -504,7 +507,7 @@ $ /etc/init.d/cloudinsight-agent stop
 
 <p>成功安装 Agent 后，打开 Cloudinsight 产品页，就会看到安装成功的主机的操作系统相关指标。</p>
 
-<p><img src="/images/quick_system_os.png" alt="Quick system os" /></p>
+<p><img src="/images/quick_system_os.png" /></p>
 
 <p style="text-align:center">图 1</p>
 
@@ -516,11 +519,11 @@ $ /etc/init.d/cloudinsight-agent stop
 <li>平台仪表盘（如图 3）：点击导航仪表盘进入</li>
 </ul>
 
-<p><img src="/images/quick_system_dash.png" alt="Quick system dash" /></p>
+<p><img src="/images/quick_system_dash.png" /></p>
 
 <p style="text-align:center">图 2</p>
 
-<p><img src="/images/quick_dash_system.png" alt="Quick dash system" /></p>
+<p><img src="/images/quick_dash_system.png" /></p>
 
 <p style="text-align:center">图 3</p>
 
@@ -549,24 +552,27 @@ $ /etc/init.d/cloudinsight-agent stop
 <h3>MySQL 监控</h3>
 
 <h4>1.给 Cloudinsight 创建一个名为 <code>oneapm</code> 的角色</h4>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>mysql <span class="nt">-e</span> <span class="s2">"CREATE USER 'oneapm'@'localhost' IDENTIFIED BY 'YourPassword';"</span>
-</code></pre></div>
+<pre class="highlight shell"><code><span class="gp">$ </span>sudo mysql -e <span class="s2">"CREATE USER 'oneapm'@'localhost' IDENTIFIED BY 'YourPassword';"</span>
+</code></pre>
+
 <p>至此，我们为 MySQL 配置了一个名为 <code>oneapm</code> 的角色，并且密码为 <code>YourPassword</code>。</p>
 
 <h4>2.为该角色赋予 <code>performance_scheme</code> 权限</h4>
-<div class="highlight"><pre class="highlight plaintext"><code>$ sudo mysql -e "GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'oneapm'@'localhost' WITH MAX_USER_CONNECTIONS 5;"
+<pre class="highlight plaintext"><code>$ sudo mysql -e "GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'oneapm'@'localhost' WITH MAX_USER_CONNECTIONS 5;"
 $ sudo mysql -e "GRANT SELECT ON performance_schema.* TO 'oneapm'@'localhost';"
-</code></pre></div>
+</code></pre>
+
 <p>此处，<code>oneapm@localhost</code> 中地址可以修改为您实际环境中的地址；最大连接数默认为 <code>5</code>。</p>
 
 <h4>3.确认权限是否创建成功</h4>
-<div class="highlight"><pre class="highlight plaintext"><code>$ mysql -u oneapm --password=YourPassword -e "SHOW /*!50000 ENGINE*/ INNODB STATUS" | \
+<pre class="highlight plaintext"><code>$ mysql -u oneapm --password=YourPassword -e "SHOW /*!50000 ENGINE*/ INNODB STATUS" | \
 grep Uptime &amp;&amp; echo -e "\033[0;32mMySQL user - OK\033[0m" || \
 echo -e "\033[0;31mCannot connect to MySQL\033[0m"
 mysql -u oneapm --password=YourPassword -e "show slave status" &amp;&amp; \
 echo -e "\033[0;32mMySQL grant - OK\033[0m" || \
 echo -e "\033[0;31mMissing REPLICATION CLIENT grant\033[0m"
-</code></pre></div>
+</code></pre>
+
 <p class="notes clearfix"> 
    <span class="notesHead"></span>
     <span class="notesContent">注：若您修改了密码和地址，请将其中的相关字段替换为您修改后的字符。<span> 
@@ -579,13 +585,15 @@ echo -e "\033[0;31mMissing REPLICATION CLIENT grant\033[0m"
 <h4>4.配置 <code>mysql.yaml</code></h4>
 
 <p>将路径定位至 <code>/etc/cloudinsight-agent/conf.d</code></p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ cd /etc/cloudinsight-agent/conf.d
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ cd /etc/cloudinsight-agent/conf.d
+</code></pre>
+
 <p>该目录下存储着 Cloudinsight 支持所有的平台服务监控的配置文件的示例文件，后缀为 <code>*.yaml.example</code>。</p>
 
 <p>若您不熟悉 <code>yaml</code> 语法，建议直接从示例文件中创建副本开启监控。</p>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>cp mysql.yaml.example mysql.yaml
-</code></pre></div>
+<pre class="highlight shell"><code><span class="gp">$ </span>cp mysql.yaml.example mysql.yaml
+</code></pre>
+
 <p>或者阅读：<a href="/qa/yaml.html">YAML 格式须知 • 文档</a>。</p>
 
 <p>然后打开 <code>mysql.yaml</code>文件。建议阅读配置项的注释，了解配置项的涵义。</p>
@@ -604,10 +612,11 @@ echo -e "\033[0;31mMissing REPLICATION CLIENT grant\033[0m"
 <h4>5.确定 Agent 是否采集到 MySQL 相关数据</h4>
 
 <p>执行 Agent Info 指令来查看，Agent 是否开始采集 MySQL 相关指标的数据。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
+</code></pre>
+
 <p>若出现以下提示信息，则代表 Agent 已经成功采集 MySQL 数据。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Checks
+<pre class="highlight plaintext"><code>Checks
 ======
 
 [...]
@@ -616,29 +625,33 @@ mysql
 -----
   - instance #0 [OK]
   - Collected 8 metrics &amp; 0 events`
-</code></pre></div>
+</code></pre>
+
 <h3>Tomcat 监控</h3>
 
 <h4>1.开启 JMXRemote</h4>
 
 <p>监控 Tomcat 的第一步是要检查 JMXRemote 是否处于 <code>enable</code> 状态。若没有处于 <code>enable</code> 状态，您可以添加以下参数至 <code>setenv.sh</code> 文件：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>set CATALINA_OPTS=-Dcom.sun.management.jmxremote
+<pre class="highlight plaintext"><code>set CATALINA_OPTS=-Dcom.sun.management.jmxremote
   -Dcom.sun.management.jmxremote.port=%my.jmx.port%
   -Dcom.sun.management.jmxremote.ssl=false
   -Dcom.sun.management.jmxremote.authenticate=false
-</code></pre></div>
+</code></pre>
+
 <p>或者查阅 <a href="http://tomcat.apache.org/tomcat-6.0-doc/monitoring.html">Monitoring and Managing Tomcat • 官网文档</a></p>
 
 <h4>2.配置 <code>tomcat.yaml</code></h4>
 
 <p>将路径定位至 <code>/etc/cloudinsight-agent/conf.d</code></p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ cd /etc/cloudinsight-agent/conf.d
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ cd /etc/cloudinsight-agent/conf.d
+</code></pre>
+
 <p>该目录下存储着 Cloudinsight 支持所有的平台服务监控的配置文件的示例文件，后缀为 <code>*.yaml.example</code>。</p>
 
 <p>若您不熟悉 <code>yaml</code> 语法，建议直接从示例文件中创建副本开启监控。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ cp tomcat.yaml.example tomcat.yaml
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ cp tomcat.yaml.example tomcat.yaml
+</code></pre>
+
 <p>或者阅读：<a href="/qa/yaml.html">YAML 格式须知 • 文档</a>。</p>
 
 <p>然后打开 <code>tomcat.yaml</code>文件。建议阅读配置项的注释，了解配置项的涵义。</p>
@@ -661,20 +674,23 @@ mysql
 <p>由于 JMX 采集的指标特别多，而 Cloudinsight 认为只选取一些常用的指标，就可以满足大部分的用户场景。所以我们针对采集指标的数量，做了最大 350 条的限制。</p>
 
 <p>至此，我们需要为您介绍 Agent 操作中的 jmx 指令。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ sudo /etc/init.d/cloudinsight-agent jmx
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ sudo /etc/init.d/cloudinsight-agent jmx
+</code></pre>
+
 <p>如需要查看哪些指标因为数量限制未被 Agent 采集：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ sudo /etc/init.d/cloudinsight-agent jmx list_limited_attributes
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ sudo /etc/init.d/cloudinsight-agent jmx list_limited_attributes
+</code></pre>
+
 <p>详细操作命令，以及如何自定义指标采集，请查阅：<a href="/services/jmx.html">JMX 远程监控 • 文档</a>。</p>
 
 <h4>3.确定 Agent 是否采集到 Tomcat 相关数据</h4>
 
 <p>执行 Agent Info 指令来查看，Agent 是否开始采集 Tomcat 相关指标的数据。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
-</code></pre></div>
+<pre class="highlight plaintext"><code>$ /etc/init.d/cloudinsight-agent info
+</code></pre>
+
 <p>若出现以下提示信息，则代表 Agent 已经成功采集 MySQL 数据。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Checks
+<pre class="highlight plaintext"><code>Checks
 ======
 
 [...]
@@ -683,7 +699,8 @@ tomcat
 ------
   - instance #0 [OK]
   - Collected 8 metrics &amp; 0 events
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h2>V.查看监控服务数据</h2>
@@ -692,19 +709,19 @@ tomcat
 
 <p>您可以在平台列表中，点击 MySQL 平台服务，快速查看 MySQL 运行情况和相关指标，如图 4。</p>
 
-<p><img src="/images/quick_system_mysql.png" alt="Quick system mysql" /></p>
+<p><img src="/images/quick_system_mysql.png" /></p>
 
 <p style="text-align:center">图 4</p>
 
 <p>或者前往仪表盘页面，查看为您定制的平台服务仪表盘 • MySQL 概览，了解 MySQL 的关键指标。如图 5。</p>
 
-<p><img src="/images/quick_dash_mysql.png" alt="Quick dash mysql" /></p>
+<p><img src="/images/quick_dash_mysql.png" /></p>
 
 <p style="text-align:center">图 5</p>
 
 <p>想要了解 MySQL 每个指标的含义和单位，来更好地创建自定义仪表盘。建议前往指标概览页面，查看 MySQL 相关指标的含义和采集单位。如图 6.</p>
 
-<p><img src="/images/quick_mysql_metric.png" alt="Quick mysql metric" /></p>
+<p><img src="/images/quick_mysql_metric.png" /></p>
 
 <p style="text-align:center">图 6</p>
 

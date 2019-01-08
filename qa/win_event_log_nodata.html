@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,7 +387,7 @@
             <h1>开启 Windows Event Log 监控，平台列表无数据</h1>
 
 <p>配置如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>init_config:
+<pre class="highlight plaintext"><code>init_config:
 
 instances:
 
@@ -416,7 +407,8 @@ instances:
             - Application
         source_name:
             - MSSQLSERVER
-</code></pre></div>
+</code></pre>
+
 <h3>问题原因</h3>
 
 <p>Win32 Event Log 监控，只是用于采集事件查看器中产生的事件，对应的信息会在<strong>事件流</strong>中显示，并不会有指标产生。</p>
@@ -424,7 +416,7 @@ instances:
 <h3>解决方案</h3>
 
 <p>这里需要注意一点，如果事件查看器中日志级别是中文，则配置文件中也应是中文，所以上面的配置需要修正如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>init_config:
+<pre class="highlight plaintext"><code>init_config:
 
 instances:
 
@@ -444,7 +436,8 @@ instances:
             - Application
         source_name:
             - MSSQLSERVER
-</code></pre></div>
+</code></pre>
+
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
   <p style="font-size: 16px;">

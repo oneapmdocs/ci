@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -399,7 +390,7 @@
 
 <p>配置完 Tomcat，启动 Cloudinsight，执行 <code>info</code> 后出现如下错误：</p>
 
-<p><img src="/images/qa/QATomcat1.png" alt="Qatomcat1" /></p>
+<p><img src="/images/qa/QATomcat1.png" /></p>
 
 <h2>故障原因</h2>
 
@@ -410,18 +401,19 @@
 <p>配置 Tomcat JMX，查阅 <a href="http://tomcat.apache.org/tomcat-6.0-doc/monitoring.html">Apache Tomcat 官方手册</a>。</p>
 
 <p>在 Tomcat 的 bin 目录下添加 <code>setenv.sh</code> 文件，在里面添加环境变量：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote
+<pre class="highlight plaintext"><code>CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote
   -Dcom.sun.management.jmxremote.port=7199
   -Dcom.sun.management.jmxremote.ssl=false
   -Dcom.sun.management.jmxremote.authenticate=false"
-</code></pre></div>
+</code></pre>
+
 <p>此处设置连接 JXM 端口为 <code>7199</code>，因此在 tomcat.yaml 配置文件中也要写成相应的 <code>7199</code>。如下图所示：</p>
 
-<p><img src="/images/qa/QATomcat2.png" alt="Qatomcat2" /></p>
+<p><img src="/images/qa/QATomcat2.png" /></p>
 
 <p>之后请重启 Tomcat 与 Cloudinsight，再次执行 info 命令，出现下图即为配置成功。</p>
 
-<p><img src="/images/qa/QATomcat3.png" alt="Qatomcat3" /></p>
+<p><img src="/images/qa/QATomcat3.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

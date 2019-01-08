@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -453,29 +444,32 @@
 <h2>安装 Module</h2>
 
 <p>从 <a href="https://forge.puppet.com/cloudinsight/cloudinsight_agent">puppet forge</a> 中安装 Cloudinsight Agent 至 puppet master：</p>
-<div class="highlight"><pre class="highlight shell"><code>puppet module install cloudinsight-cloudinsight_agent
-</code></pre></div>
+<pre class="highlight shell"><code>puppet module install cloudinsight-cloudinsight_agent
+</code></pre>
+
 <hr>
 
 <h2>授权</h2>
 
 <p>在 Nodes 中通过添加 Manifests 信息，为 Cloudinsight 授权。</p>
-<div class="highlight"><pre class="highlight javascript"><code><span class="nx">node</span> <span class="s2">"mongo.mydomain.com"</span> <span class="p">{</span>
-  <span class="kd">class</span> <span class="p">{</span> <span class="s2">"cloudinsight_agent"</span><span class="p">:</span>
+<pre class="highlight javascript"><code><span class="nx">node</span> <span class="s2">"mongo.mydomain.com"</span> <span class="p">{</span>
+  <span class="kr">class</span> <span class="p">{</span> <span class="s2">"cloudinsight_agent"</span><span class="err">:</span>
     <span class="nx">license_key</span> <span class="o">=&gt;</span> <span class="s2">"your license key"</span>
 <span class="p">}</span>
 <span class="err">#</span> <span class="err">如果想开启一个服务监控，对应修改一下</span> <span class="nx">manifests</span><span class="o">/</span><span class="nx">integrations</span><span class="o">/</span> <span class="err">下的文件</span>
   <span class="nx">include</span> <span class="s1">'cloudinsight_agent::integrations::mongo'</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+
 <p class="notes clearfix"> 
    <span class="notesHead"></span>
     <span class="notesContent">注：Node Names 必须与 Cloudinsight Agent 已获取的 Hostnames 对应。 否则，Cloudinsight 无法对指标进行分组。<span> 
 </p>
 
 <p>通过以下指令，来检查 Agent 已获取的 Hostname：</p>
-<div class="highlight"><pre class="highlight shell"><code>service cloudinsight-agent info
-</code></pre></div>
+<pre class="highlight shell"><code>service cloudinsight-agent info
+</code></pre>
+
 <p>若配置没有任何问题，那只需等待 Agent 检查到新的安装任务后，会完成安装。</p>
 
 <hr>
@@ -483,16 +477,18 @@
 <h2>引入平台服务监控</h2>
 
 <p>Cloudinsight 使用以下格式引入平台服务监控：</p>
-<div class="highlight"><pre class="highlight javascript"><code><span class="nx">include</span> <span class="s1">'cloudinsight_agent::integrations::ServicesName'</span>
-</code></pre></div>
+<pre class="highlight javascript"><code><span class="nx">include</span> <span class="s1">'cloudinsight_agent::integrations::ServicesName'</span>
+</code></pre>
+
 <p>以 MongoDB 为例：</p>
-<div class="highlight"><pre class="highlight javascript"><code><span class="nx">node</span> <span class="s2">"mongo.mydomain.com"</span> <span class="p">{</span>
-  <span class="kd">class</span> <span class="p">{</span> <span class="s2">"cloudinsight_agent"</span><span class="p">:</span>
+<pre class="highlight javascript"><code><span class="nx">node</span> <span class="s2">"mongo.mydomain.com"</span> <span class="p">{</span>
+  <span class="kr">class</span> <span class="p">{</span> <span class="s2">"cloudinsight_agent"</span><span class="err">:</span>
     <span class="nx">license_key</span> <span class="o">=&gt;</span> <span class="s2">"YourLicenseKey"</span>
   <span class="p">}</span>
   <span class="nx">include</span> <span class="s2">"cloudinsight_agent::integrations::mongo"</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
   <p style="font-size: 16px;">

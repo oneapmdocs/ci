@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -397,10 +388,10 @@
 
 <p>CentOS 5 安装 Cloudinsight 时报错如图 ：</p>
 
-<p><img src="/images/qa/centos5.png" alt="Centos5" /></p>
+<p><img src="/images/qa/centos5.png" /></p>
 
 <p>查看 cloudinsight-agent-install.log 的日志，部分如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Loaded plugins: fastestmirror
+<pre class="highlight plaintext"><code>Loaded plugins: fastestmirror
 Loading mirror speeds from cached hostfile
 http://yum.oneapm.com/x86_64/repodata/ae9772f136d882fd8f61b9c71e29c2630db3d5b211ef4ddc2b976af3006ebe1a-primary.sqlite.bz2: [Errno -3] Error performing checksum
 Trying other mirror.
@@ -409,7 +400,8 @@ Trying other mirror.
 Error: failure: repodata/ae9772f136d882fd8f61b9c71e29c2630db3d5b211ef4ddc2b976af3006ebe1a-primary.sqlite.bz2 from cloudinsight-agent: [Errno 256] No more mirrors to try.
 [31m
 
-</code></pre></div>
+</code></pre>
+
 <p>以上出错原因是发布 Cloudinsight 探针包时默认的 checksum（检验码）是 sha256 ,而 CentOS 5/rhel 5 版本不符合这个，所以安装不了这个安装包。</p>
 
 <hr>
@@ -417,8 +409,9 @@ Error: failure: repodata/ae9772f136d882fd8f61b9c71e29c2630db3d5b211ef4ddc2b976af
 <h2>解决方法</h2>
 
 <p><strong>首先删掉因安装 Ci 添加的 yum 源</strong></p>
-<div class="highlight"><pre class="highlight plaintext"><code>rm -rf  /etc/yum.repos.d/cloudinsight-agent.repo
-</code></pre></div>
+<pre class="highlight plaintext"><code>rm -rf  /etc/yum.repos.d/cloudinsight-agent.repo
+</code></pre>
+
 <p><strong>然后安装一个 hash加密的模块：</strong>
 <code>
 yum install python-hashlib
@@ -426,7 +419,7 @@ yum install python-hashlib
 
 <p><strong>最后一键复制安装探针</strong></p>
 
-<p><img src="/images/qa/IR2.png" alt="Ir2" /></p>
+<p><img src="/images/qa/IR2.png" /></p>
 
 <p>就这样。</p>
 

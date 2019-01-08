@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -400,10 +391,10 @@
  /etc/init.d/cloudinsight-agent info
 </code></p>
 
-<p><img src="/images/qa/java_path1.png" alt="Java path1" /></p>
+<p><img src="/images/qa/java_path1.png" /></p>
 
 <p>报错找不到 JAVA 路径，所以自己添加，修改配置文件，添加 JAVA 的路径：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>instances:
+<pre class="highlight plaintext"><code>instances:
   - host: localhost
     port: 11099
     user: admin
@@ -419,7 +410,8 @@
   #   tags:
   #     env: stage
   #     newTag: test
-</code></pre></div>
+</code></pre>
+
 <p>修改完之后重启探针 ：
 <code>
 /etc/init.d/cloudinsight-agent  restart
@@ -430,7 +422,7 @@
 </code>
 输出如下图就没问题啦！</p>
 
-<p><img src="/images/qa/java_path2.png" alt="Java path2" /></p>
+<p><img src="/images/qa/java_path2.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

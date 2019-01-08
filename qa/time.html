@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -397,11 +388,11 @@
 
 <p>探针启动成功，没有任何报错，首先执行 info 命令，<code>/etc/init.d/cloudinsight-agent  info</code>，查看，没有错误，在 Web 上查看数据，状态也是 up，再查看具体数据时，显示如下：</p>
 
-<p><img src="/images/qa/time.png" alt="Time" /></p>
+<p><img src="/images/qa/time.png" /></p>
 
 <p>此时需查看你的服务器时间是否是北京时间，因为探针采集数据是按照时间序列采集的，发送到我们云端，此时存储方式也是安装时间序列，发送到前端展示的时候依旧会按照采集到时间序列，但默认前段展示的是北京时间最近30分钟的数据，因此你的数据会出现上图的情况，如果你的服务器比北京时间晚，那你可以拉长时间轴，看看是否在历史时间中，如下：</p>
 
-<p><img src="/images/qa/time2.png" alt="Time2" /></p>
+<p><img src="/images/qa/time2.png" /></p>
 
 <p>如果你的服务器时间比北京时间早，那么明天你就可以看到现在传输的数据啦。</p>
 

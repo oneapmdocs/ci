@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -401,7 +392,7 @@
 
 <p>安装探针后没有应用信息，执行 <code>info</code> 命令有以下 <code>http_emitter</code> 错误信息：</p>
 
-<p><img src="/images/qa/HttpEmitter1.png" alt="Httpemitter1" /></p>
+<p><img src="/images/qa/HttpEmitter1.png" /></p>
 
 <h2>故障原因</h2>
 
@@ -413,13 +404,13 @@
 
 <p>执行 <code>locale</code>，查看机器编码。若输出如下图所示，说明机器编码为 <code>zh_CN</code>，此时可修改为 <code>zh_CN.UTF-8</code>，再重启服务器使之生效。</p>
 
-<p><img src="/images/qa/HttpEmitter2.png" alt="Httpemitter2" /></p>
+<p><img src="/images/qa/HttpEmitter2.png" /></p>
 
 <h3>解决方案 2</h3>
 
 <p>若服务器为生产环境，不能随意重启。则修改 <code>/opt/cloudinsight-agent/agent/emitter.py</code> 路径下的 <code>emitter.py</code> 文件：</p>
 
-<p><img src="/images/qa/HttpEmitter3.png" alt="Httpemitter3" /></p>
+<p><img src="/images/qa/HttpEmitter3.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

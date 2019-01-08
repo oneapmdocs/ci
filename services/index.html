@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -448,8 +439,9 @@
 <p>在 Ubuntu 中所有的配置文件都存在 <code>/etc/cloudinsight-agent</code> 这个目录下。</p>
 
 <p>如何开启 Redis 呢？很简单：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>cp /etc/cloudinsight-agent/conf.d/redis.yaml.example /etc/cloudinsight-agent/conf.d/redis.yaml
-</code></pre></div>
+<pre class="highlight plaintext"><code>cp /etc/cloudinsight-agent/conf.d/redis.yaml.example /etc/cloudinsight-agent/conf.d/redis.yaml
+</code></pre>
+
 <hr>
 
 <h2>特殊情况</h2>
@@ -465,8 +457,9 @@
 <p>点击上述链接，来查看采集原理和配置方法。相信您在了解采集原理后，就会知道如何配置 Cloudinsight 了。</p>
 
 <p>在编辑完配置文件后，可以通过以下指令对配置文件的正确性进行检查。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent configtest
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent configtest
+</code></pre>
+
 <hr>
 
 <h2>自定义 AgentCheck</h2>

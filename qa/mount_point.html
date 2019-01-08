@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,20 +387,21 @@
             <h1>如何针对不同挂载目录查看磁盘的使用率情况</h1>
 
 <p>在一台服务器上，如果想同时监控不同挂载点上的磁盘使用率或其他指标数据，只需要修改 <code>/etc/cloudinsight-agent/conf.d/disk.yaml.default</code> 文件，将其中的 <code>use_mount</code> 属性改为 <code>yes</code> 即可：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+<pre class="highlight yaml"><code><span class="s">init_config</span><span class="pi">:</span>
 
-<span class="na">instances</span><span class="pi">:</span>
+<span class="s">instances</span><span class="pi">:</span>
 <span class="c1"># The use_mount parameter will instruct the check to collect disk</span>
 <span class="c1"># and fs metrics using mount points instead of volumes</span>
-<span class="pi">-</span> <span class="na">use_mount</span><span class="pi">:</span> <span class="s">yes</span>
+<span class="pi">-</span> <span class="s">use_mount</span><span class="pi">:</span> <span class="s">yes</span>
 <span class="c1"># The (optional) excluded_filesystems parameter will instruct the check to</span>
 <span class="c1"># ignore disks using these filesystems</span>
 <span class="c1"># excluded_filesystems:</span>
 <span class="c1"># - tmpfs</span>
 <span class="s">......</span>
-</code></pre></div>
+</code></pre>
+
 <p>以磁盘使用率为例，按上述方法修改配置文件后，即可通过选择 device_name 标签来查看不同挂载点上的数据。</p>
-<div class="highlight"><pre class="highlight plaintext"><code>[root@localhost ~]# df -k
+<pre class="highlight plaintext"><code>[root@localhost ~]# df -k
 文件系统 1K-块 已用 可用 已用% 挂载点
 /dev/mapper/centos-root 96209000 15030648 81178352 16% /
 devtmpfs 1930920 0 1930920 0% /dev
@@ -418,8 +410,9 @@ tmpfs 1941228 194616 1746612 11% /run
 tmpfs 1941228 0 1941228 0% /sys/fs/cgroup
 /dev/sda1 201388 141268 60120 71% /boot
 tmpfs 388248 0 388248 0% /run/user/0
-</code></pre></div>
-<p><img src="/images/qa/mount_point.png" alt="Mount point" /></p>
+</code></pre>
+
+<p><img src="/images/qa/mount_point.png" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

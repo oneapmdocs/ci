@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,9 +387,10 @@
             <h1>Error setting up syslog</h1>
 
 <p>启动agent的时候出现下面的报错：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>[root@S-C7 conf.d]# /etc/init.d/cloudinsight-agent restart
+<pre class="highlight plaintext"><code>[root@S-C7 conf.d]# /etc/init.d/cloudinsight-agent restart
 Stopping Cloudinsight Agent (using killproc on supervisord): [ OK ] Error setting up syslog: '[Errno 13] Permission denied' Traceback (most recent call last): File "/opt/cloudinsight-agent/agent/config.py", line 1004, in initialize_logging handler = SysLogHandler(address=sys_log_addr, facility=SysLogHandler.LOG_DAEMON) File "/opt/cloudinsight-agent/embedded/lib/python2.7/logging/handlers.py", line 761, in __init__ self._connect_unixsocket(address) File "/opt/cloudinsight-agent/embedded/lib/python2.7/logging/handlers.py", line 789, in _connect_unixsocket self.socket.connect(address) File "/opt/cloudinsight-agent/embedded/lib/python2.7/socket.py", line 228, in meth return getattr(self._sock,name)(*args) error: [Errno 13] Permission denied
-</code></pre></div>
+</code></pre>
+
 <p>此为 syslog 文件找不到，修改 <code>/etc/cloudinsight-agent/cloudinsight-agent.conf</code>   里面 <code>log_to_syslog</code> 设置为 no ，重启探针即可，参考<a href="../started/instrument.html">探针常用操作</a></p>
 
             <hr style="margin-top: 50px;" />

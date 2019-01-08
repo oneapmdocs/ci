@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,12 +387,13 @@
             <h1>IIS 监控报错</h1>
 
 <p>报错信息如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code> Traceback (most recent call last):
+<pre class="highlight plaintext"><code> Traceback (most recent call last):
  File "checks\libs\wmi\sampler.pyc", line 396, in _query
  File "checks\libs\wmi\sampler.pyc", line 424, in _parse_results
  File "win32com\client\util.pyc", line 84, in next
  com_error: (-2147217392, 'OLE error 0x80041010', None, None)
-</code></pre></div>
+</code></pre>
+
 <h3>问题原因</h3>
 
 <p>探针通过 WMI 获取 IIS 性能数据，所以需要确保 IIS 性能收集功能可用。</p>

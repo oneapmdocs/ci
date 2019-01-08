@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -397,22 +388,25 @@
 
 <p>CentOS 7 安装 Cloudinsight 报错如图：</p>
 
-<p><img src="/images/qa/centos7-4041.png" alt="Centos7 4041" /></p>
+<p><img src="/images/qa/centos7-4041.png" /></p>
 
 <p>查看日记截图如下：</p>
 
-<p><img src="/images/qa/centos7-4042.png" alt="Centos7 4042" /></p>
+<p><img src="/images/qa/centos7-4042.png" /></p>
 
 <p>可以看出是cloudinsight-agent 这个用户没有添加成功，不能在/etc/passwd 里面添加用户，查看此文件</p>
-<div class="highlight"><pre class="highlight plaintext"><code># lsattr /etc/passwd
+<pre class="highlight plaintext"><code># lsattr /etc/passwd
 ----i----------- /etc/passwd
-</code></pre></div>
+</code></pre>
+
 <p>此文件加了权限保护，需要修改属性，执行：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>chattr -i /etc/passwd
-</code></pre></div>
+<pre class="highlight plaintext"><code>chattr -i /etc/passwd
+</code></pre>
+
 <p>然后安装探针，安装成功后，再执行：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>chattr +i /etc/passwd
-</code></pre></div>
+<pre class="highlight plaintext"><code>chattr +i /etc/passwd
+</code></pre>
+
 <p>至此安装完毕，具体安装细节见<a href="/platform/redhat.html">Cloudinsight</a></p>
 
             <hr style="margin-top: 50px;" />

@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -399,21 +390,23 @@
 
 <p>安装 Ci 探针，配置了某项平台服务，重启探针后，在 Web 端出现如下界面，一直在加载中。</p>
 
-<p><img src="/images/qa/yamlloading.png" alt="Yamlloading" /></p>
+<p><img src="/images/qa/yamlloading.png" /></p>
 
 <h2>故障原因</h2>
 
 <p>运行如下指令：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent configcheck
-</code></pre></div>
+<pre class="highlight plaintext"><code>/etc/init.d/cloudinsight-agent configcheck
+</code></pre>
+
 <p>若出现以下信息：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>mysql.yaml contains errors:
+<pre class="highlight plaintext"><code>mysql.yaml contains errors:
     mapping values are not allowed in this context
    in "&lt;byte string&gt;", line 5, column 11
 Fix the invalid yaml files above in order to start the Cloudinsight Agent.
 A useful external tool for yaml parsing can be found at
 http://yaml-online-parser.appspot.com/
-</code></pre></div>
+</code></pre>
+
 <p>则 MySQL 的 <code>yaml</code> 文件存在问题，<code>yaml</code> 的缩进有格式要求。</p>
 
 <h2>解决方法</h2>

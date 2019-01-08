@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -407,10 +398,11 @@
 <p>Hostmap 分组是根据 tag 进行的，现在有2种加 tag 的方式，一种是服务器配置好监控后，在 system 上面添加各种 <code>key:value</code> 的 tag 标签。</p>
 
 <p>另一种是在 Cloudinsight Agent 配置文件里面配置，例如在 mysql 配置文件里面加上2个tag：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>tags:
+<pre class="highlight plaintext"><code>tags:
   - region: beijing
-</code></pre></div>
-<p><img src="/images/hostmap/hostmap1.png" alt="Hostmap1" /></p>
+</code></pre>
+
+<p><img src="/images/hostmap/hostmap1.png" /></p>
 
 <p>在这之后就可以点击<strong>平台，拓补</strong>，默认会出现所有的平台列表。目前 Hostmap 可以通过过滤器过滤数据，也可以通过 tag 对数据进行分组。</p>
 
@@ -430,11 +422,11 @@
 
 <p>Hostmap 通过 tag 对所有主机进行分组，前面在每个主机上都添加了 tag，接下来就通过不同 key，相同  value 的会自动聚合成一组，通过这个可以很方便的管理不同地区，不同人员，不同系统等维度的数据进行分组。鼠标放上去，会显示所有可选的 key。</p>
 
-<p><img src="/images/hostmap/hostmap2.png" alt="Hostmap2" /></p>
+<p><img src="/images/hostmap/hostmap2.png" /></p>
 
 <p>整体动图表示如下：</p>
 
-<p><img src="http://7xt8dk.com2.z0.glb.clouddn.com/hostmap.gif" alt="Hostmap" /></p>
+<p><img src="http://7xt8dk.com2.z0.glb.clouddn.com/hostmap.gif" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">

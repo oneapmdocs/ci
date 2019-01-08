@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -443,7 +434,7 @@
 
 <p>为了收集这些指标，Cloudinsight 会调用一个轻量级的 Java 插件 JMXFetch 连接到 MBean 服务器，并通过 OneStatsd 服务器，将这些指标发送到 Cloudinsight Agent。</p>
 
-<p><img src="/images/service/jmx1.png" alt="Jmx1" /></p>
+<p><img src="/images/service/jmx1.png" /></p>
 
 <p>JMX 监控每个实例的 350 个指标应该足以满足需求，因为自定义指标是非常容易的。接下来我们来看看如何做到这一点。</p>
 
@@ -466,18 +457,19 @@
 <p>使用 JMX 来监控 Java 系列的平台服务，需要先启用 JMX。我们以 Tomcat 为例，为大家介绍如何开启 JMX。</p>
 
 <p>在 Tomcat 的 <code>bin</code> 目录下添加 <code>setenv.sh</code> 文件，在里面添加环境变量：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote
+<pre class="highlight plaintext"><code>CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote
   -Dcom.sun.management.jmxremote.port=7199
   -Dcom.sun.management.jmxremote.ssl=false
   -Dcom.sun.management.jmxremote.authenticate=false"
-</code></pre></div>
+</code></pre>
+
 <p>此处设置连接 JMX 端口为 <code>7199</code>，因此在 <code>tomcat.yaml</code> 配置文件中也要写成相应的 <code>7199</code>。如下图所示：</p>
 
-<p><img src="/images/service/jmx2.png" alt="Jmx2" /></p>
+<p><img src="/images/service/jmx2.png" /></p>
 
 <p>之后请重启 Tomcat 与 Cloudinsight，再次执行 <code>info</code> 命令，出现下图即为配置成功。</p>
 
-<p><img src="/images/service/jmx3.png" alt="Jmx3" /></p>
+<p><img src="/images/service/jmx3.png" /></p>
 
 <h3>修改配置文件</h3>
 
@@ -486,23 +478,24 @@
 <p>为了更好让您理解如何配置 Cloudinsight Java 系列的平台服务，我们为您列举每一项配置参数的意义。</p>
 
 <p>我们以 Tomcat 的配置文件为例，为大家介绍配置文件的参数意义。同理，ActiveMQ Kafka 等使用 JMX 来采集指标的平台服务的配置文件，结构类似。</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">instances</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>              <span class="c1"># Tomcat 所在主机，默认为 localhost</span>
-    <span class="na">port</span><span class="pi">:</span> <span class="s">9012</span>                   <span class="c1"># JMX 远程连接端口</span>
-    <span class="na">user</span><span class="pi">:</span> <span class="s">username</span>               <span class="c1"># JMX 远程连接用户名</span>
-    <span class="na">password</span><span class="pi">:</span> <span class="s">password</span>           <span class="c1"># JMX 远程连接密码</span>
+<pre class="highlight yaml"><code><span class="s">instances</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">host</span><span class="pi">:</span> <span class="s">localhost</span>              <span class="c1"># Tomcat 所在主机，默认为 localhost</span>
+    <span class="s">port</span><span class="pi">:</span> <span class="s">9012</span>                   <span class="c1"># JMX 远程连接端口</span>
+    <span class="s">user</span><span class="pi">:</span> <span class="s">username</span>               <span class="c1"># JMX 远程连接用户名</span>
+    <span class="s">password</span><span class="pi">:</span> <span class="s">password</span>           <span class="c1"># JMX 远程连接密码</span>
     <span class="c1"># process_name_regex: .*process_name.*     # 实现 JMX 监控， 除了配置 host 和 port 外，还可通过 attach api的方式，具体见http://docs.oracle.com/javase/7/docs/technotes/guides/management/agent.html</span>
 
     <span class="c1"># tools_jar_path: /usr/lib/jvm/java-7-openjdk-amd64/lib/tools.jar    # 通过 attach API 方式实现 JMX 监控时，需配置 tools.jar 的路径</span>
-    <span class="na">name</span><span class="pi">:</span> <span class="s">tomcat_instance</span>                      <span class="c1"># Tomcat 实例名称，将在 Cloudinsight 平台生成对应的标签，如: instance:tomcat_instance</span>
-    <span class="na">java_bin_path</span><span class="pi">:</span> <span class="s">/path/to/java</span>               <span class="c1"># 探针找不到 Java 可执行路径时，需配置此项</span>
-    <span class="na">java_options</span><span class="pi">:</span> <span class="s2">"</span><span class="s">-Xmx200m</span><span class="nv"> </span><span class="s">-Xms50m"</span>           <span class="c1"># Java JVM 对应项</span>
-    <span class="na">trust_store_path</span><span class="pi">:</span> <span class="s">/path/to/trustStore.jks</span>  <span class="c1"># 若 JMX 远程连接开启 SSL，需配置此项</span>
-    <span class="na">trust_store_password</span><span class="pi">:</span> <span class="s">password</span>             <span class="c1"># SSL 证书密码</span>
-    <span class="na">tags</span><span class="pi">:</span>                 
-      <span class="na">env</span><span class="pi">:</span> <span class="s">stage</span>                               <span class="c1"># 自定义标签，用于在 Cloudinsight 平台对 Tomcat 服务器进行分组</span>
+    <span class="s">name</span><span class="pi">:</span> <span class="s">tomcat_instance</span>                      <span class="c1"># Tomcat 实例名称，将在 Cloudinsight 平台生成对应的标签，如: instance:tomcat_instance</span>
+    <span class="s">java_bin_path</span><span class="pi">:</span> <span class="s">/path/to/java</span>               <span class="c1"># 探针找不到 Java 可执行路径时，需配置此项</span>
+    <span class="s">java_options</span><span class="pi">:</span> <span class="s2">"</span><span class="s">-Xmx200m</span><span class="nv"> </span><span class="s">-Xms50m"</span>           <span class="c1"># Java JVM 对应项</span>
+    <span class="s">trust_store_path</span><span class="pi">:</span> <span class="s">/path/to/trustStore.jks</span>  <span class="c1"># 若 JMX 远程连接开启 SSL，需配置此项</span>
+    <span class="s">trust_store_password</span><span class="pi">:</span> <span class="s">password</span>             <span class="c1"># SSL 证书密码</span>
+    <span class="s">tags</span><span class="pi">:</span>                 
+      <span class="s">env</span><span class="pi">:</span> <span class="s">stage</span>                               <span class="c1"># 自定义标签，用于在 Cloudinsight 平台对 Tomcat 服务器进行分组</span>
     <span class="c1">#     newTag: test</span>
-</code></pre></div>
+</code></pre>
+
 <h3>查看可用指标</h3>
 
 <p>由于 JMX 采集的指标特别多，而 Cloudinsight 认为只选取一些常用的指标，就可以满足大部分的用户场景。所以我们针对采集指标的数量，做了最大 350 条的限制。</p>
@@ -512,33 +505,39 @@
 <ul>
 <li>列出匹配的 <code>attributes</code>：</li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_matching_attributes
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_matching_attributes
+</code></pre>
+
 <ul>
 <li>列出配置成功，却因为 Agent 采集限制，未被采集的 <code>attributes</code>:</li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_limited_attributes
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_limited_attributes
+</code></pre>
+
 <ul>
 <li>列出已被收集的 <code>attributes</code>：</li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_collected_attributes
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_collected_attributes
+</code></pre>
+
 <ul>
 <li>列出不匹配任何 <code>instances</code> 配置的 <code>attributes</code>：</li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_not_matching_attributes
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_not_matching_attributes
+</code></pre>
+
 <ul>
 <li>列出所有 JMXFetch 支持的 <code>attributes</code>：</li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_everything
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx list_everything
+</code></pre>
+
 <ul>
 <li>开始采集已配置生效的指标，并在控制台显示它们：</li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx collect
-</code></pre></div>
+<pre class="highlight plaintext"><code>sudo /etc/init.d/cloudinsight-agent jmx collect
+</code></pre>
+
 <h3>如何自定义要收集的数据：</h3>
 
 <p>像其他的探针检查一样，JMX 检查有 2 个主要部分：</p>
@@ -553,28 +552,28 @@
 <p>通过 <code>conf</code> 部分将被用于确定什么 JMX 属性必须被收集和发送的 Cloudinsight。</p>
 
 <p>配置部分如下所示：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="c1"># Make sure you replace the API and/or APP key below</span>
+<pre class="highlight yaml"><code><span class="c1"># Make sure you replace the API and/or APP key below</span>
 <span class="c1"># with the ones for your account</span>
 
-  <span class="na">conf</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
-        <span class="na">domain</span><span class="pi">:</span> <span class="s">domain_name</span>
-        <span class="na">type</span><span class="pi">:</span>
+  <span class="s">conf</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">include</span><span class="pi">:</span>
+        <span class="s">domain</span><span class="pi">:</span> <span class="s">domain_name</span>
+        <span class="s">type</span><span class="pi">:</span>
           <span class="pi">-</span> <span class="s">bean_type</span>
-        <span class="na">bean</span><span class="pi">:</span>
+        <span class="s">bean</span><span class="pi">:</span>
           <span class="pi">-</span> <span class="s">first_bean_name</span>
           <span class="pi">-</span> <span class="s">second_bean_name</span>
-        <span class="na">attribute</span><span class="pi">:</span>
-          <span class="na">nameOfAttribute</span><span class="pi">:</span>
-            <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
-            <span class="na">alias</span><span class="pi">:</span> <span class="s">jmx.my_metric_name</span>
-          <span class="na">nameOf2ndAttribute</span><span class="pi">:</span>
-            <span class="na">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
-            <span class="na">alias</span><span class="pi">:</span> <span class="s">jmx.my2ndattribute</span>
-    <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
-        <span class="na">domain</span><span class="pi">:</span> <span class="s">2nd_domain</span>
-      <span class="na">exclude</span><span class="pi">:</span>
-        <span class="na">bean</span><span class="pi">:</span> <span class="s">2nd_domain:type=BeanType,tag1=value1,tag2=value2</span>
+        <span class="s">attribute</span><span class="pi">:</span>
+          <span class="s">nameOfAttribute</span><span class="pi">:</span>
+            <span class="s">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+            <span class="s">alias</span><span class="pi">:</span> <span class="s">jmx.my_metric_name</span>
+          <span class="s">nameOf2ndAttribute</span><span class="pi">:</span>
+            <span class="s">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
+            <span class="s">alias</span><span class="pi">:</span> <span class="s">jmx.my2ndattribute</span>
+    <span class="pi">-</span> <span class="s">include</span><span class="pi">:</span>
+        <span class="s">domain</span><span class="pi">:</span> <span class="s">2nd_domain</span>
+      <span class="s">exclude</span><span class="pi">:</span>
+        <span class="s">bean</span><span class="pi">:</span> <span class="s">2nd_domain:type=BeanType,tag1=value1,tag2=value2</span>
         <span class="c1"># this line is equivalent to:</span>
         <span class="c1"># domain: 2nd_domain</span>
         <span class="c1"># type:</span>
@@ -583,7 +582,8 @@
         <span class="c1">#   - value1</span>
         <span class="c1"># tag2:</span>
         <span class="c1">#   - value2</span>
-</code></pre></div>
+</code></pre>
+
 <p><code>conf</code> 参数是一个字典列表。在这个字典只允许2个键：</p>
 
 <ul>
@@ -592,8 +592,9 @@
 </ul>
 
 <p>对于给定的 bean，指标将以下列方式被标记：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>mydomain:attr0=val0,attr1=val1
-</code></pre></div>
+<pre class="highlight plaintext"><code>mydomain:attr0=val0,attr1=val1
+</code></pre>
+
 <p>你的指标将被 mydomain（或一些变化取决于bean中的属性），并有 <code>attr0:val0, attr1:val1, domain:mydomain</code> 几种标签。</p>
 
 <hr>
@@ -613,15 +614,16 @@
 <p><code>domain_regex</code> 和 <code>bean_regex</code> 定义的正则表达式必须符合 <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Java的正则表达式格式</a>]。</p>
 
 <p>这些参数之上，该过滤器支持“自定义”键，这意味着你可以通过 bean 的参数进行筛选。例如，如果你想就收集指标 Cassandra cache，您可以使用 <code>type: - Caches</code> 过滤器：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="c1"># Make sure you replace the API and/or APP key below</span>
+<pre class="highlight yaml"><code><span class="c1"># Make sure you replace the API and/or APP key below</span>
 <span class="c1"># with the ones for your account</span>
 
-  <span class="na">conf</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
-        <span class="na">domain</span><span class="pi">:</span> <span class="s">org.apache.cassandra.db</span>
-        <span class="na">type</span><span class="pi">:</span>
+  <span class="s">conf</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">include</span><span class="pi">:</span>
+        <span class="s">domain</span><span class="pi">:</span> <span class="s">org.apache.cassandra.db</span>
+        <span class="s">type</span><span class="pi">:</span>
           <span class="pi">-</span> <span class="s">Caches</span>
-</code></pre></div>
+</code></pre>
+
 <h3><code>attribute</code> 过滤器</h3>
 
 <p><code>attribute</code> 过滤器可以接受两种类型的值：</p>
@@ -629,34 +631,35 @@
 <ul>
 <li>字典的键是 attribute 的名称：</li>
 </ul>
-<div class="highlight"><pre class="highlight yaml"><code><span class="c1"># Make sure you replace the API and/or APP key below</span>
+<pre class="highlight yaml"><code><span class="c1"># Make sure you replace the API and/or APP key below</span>
 <span class="c1"># with the ones for your account</span>
 
-  <span class="na">conf</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
-        <span class="na">attribute</span><span class="pi">:</span>
-          <span class="na">maxThreads</span><span class="pi">:</span>
-            <span class="na">alias</span><span class="pi">:</span> <span class="s">tomcat.threads.max</span>
-            <span class="na">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
-          <span class="na">currentThreadCount</span><span class="pi">:</span>
-            <span class="na">alias</span><span class="pi">:</span> <span class="s">tomcat.threads.count</span>
-            <span class="na">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
-          <span class="na">bytesReceived</span><span class="pi">:</span>
-            <span class="na">alias</span><span class="pi">:</span> <span class="s">tomcat.bytes_rcvd</span>
-            <span class="na">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
-</code></pre></div>
+  <span class="s">conf</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">include</span><span class="pi">:</span>
+        <span class="s">attribute</span><span class="pi">:</span>
+          <span class="s">maxThreads</span><span class="pi">:</span>
+            <span class="s">alias</span><span class="pi">:</span> <span class="s">tomcat.threads.max</span>
+            <span class="s">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
+          <span class="s">currentThreadCount</span><span class="pi">:</span>
+            <span class="s">alias</span><span class="pi">:</span> <span class="s">tomcat.threads.count</span>
+            <span class="s">metric_type</span><span class="pi">:</span> <span class="s">gauge</span>
+          <span class="s">bytesReceived</span><span class="pi">:</span>
+            <span class="s">alias</span><span class="pi">:</span> <span class="s">tomcat.bytes_rcvd</span>
+            <span class="s">metric_type</span><span class="pi">:</span> <span class="s">counter</span>
+</code></pre>
+
 <p>在这种情况下，你可以给指标指定一个别名，这将成为 Cloudinsight 的标准指标名称。您还可以指定指标类型无论是常规规则或计数器。如果你选择计数器，探针将以每秒的速度计算这个指标。</p>
 
 <ul>
 <li>属性名称的列表：</li>
 </ul>
-<div class="highlight"><pre class="highlight yaml"><code><span class="c1"># Make sure you replace the API and/or APP key below</span>
+<pre class="highlight yaml"><code><span class="c1"># Make sure you replace the API and/or APP key below</span>
 <span class="c1"># with the ones for your account</span>
 
-  <span class="na">conf</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
-        <span class="na">domain</span><span class="pi">:</span> <span class="s">org.apache.cassandra.db</span>
-        <span class="na">attribute</span><span class="pi">:</span>
+  <span class="s">conf</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">include</span><span class="pi">:</span>
+        <span class="s">domain</span><span class="pi">:</span> <span class="s">org.apache.cassandra.db</span>
+        <span class="s">attribute</span><span class="pi">:</span>
           <span class="pi">-</span> <span class="s">BloomFilterDiskSpaceUsed</span>
           <span class="pi">-</span> <span class="s">BloomFilterFalsePositives</span>
           <span class="pi">-</span> <span class="s">BloomFilterFalseRatio</span>
@@ -666,7 +669,8 @@
           <span class="pi">-</span> <span class="s">ExceptionCount</span>
           <span class="pi">-</span> <span class="s">Hits</span>
           <span class="pi">-</span> <span class="s">RecentHitRate</span>
-</code></pre></div>
+</code></pre>
+
 <p>在这种情况下：</p>
 
 <ul>
@@ -675,21 +679,22 @@
 </ul>
 
 <p>这里是另一个过滤示例：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">instances</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">host</span><span class="pi">:</span> <span class="s">127.0.0.1</span>
-    <span class="na">name</span><span class="pi">:</span> <span class="s">jmx_instance</span>
-    <span class="na">port</span><span class="pi">:</span> <span class="s">9999</span>
+<pre class="highlight yaml"><code><span class="s">instances</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">host</span><span class="pi">:</span> <span class="s">127.0.0.1</span>
+    <span class="s">name</span><span class="pi">:</span> <span class="s">jmx_instance</span>
+    <span class="s">port</span><span class="pi">:</span> <span class="s">9999</span>
 
-<span class="na">init_config</span><span class="pi">:</span>
-  <span class="na">conf</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span>
-        <span class="na">bean</span><span class="pi">:</span> <span class="s">org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency</span>
-        <span class="na">attribute</span><span class="pi">:</span>
+<span class="s">init_config</span><span class="pi">:</span>
+  <span class="s">conf</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">include</span><span class="pi">:</span>
+        <span class="s">bean</span><span class="pi">:</span> <span class="s">org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency</span>
+        <span class="s">attribute</span><span class="pi">:</span>
           <span class="pi">-</span> <span class="s">OneMinuteRate</span>
           <span class="pi">-</span> <span class="s">75thPercentile</span>
           <span class="pi">-</span> <span class="s">95thPercentile</span>
           <span class="pi">-</span> <span class="s">99thPercentile</span>
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h2>指标</h2>
@@ -763,8 +768,9 @@
 <p>Cloudinsight Agent 并不捆绑 JVM，但是需要您的系统已经安装 JVM。因此，您必须确保 Java 主目录存在于运行探针的用户的路径上。</p>
 
 <p>另外，您也可以在某个集成的配置文件中指定 JVM 路径：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>java_bin_path：/path/java
-</code></pre></div>
+<pre class="highlight plaintext"><code>java_bin_path：/path/java
+</code></pre>
+
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
   <p style="font-size: 16px;">

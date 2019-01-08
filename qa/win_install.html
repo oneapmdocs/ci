@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -401,11 +392,13 @@
 <li><p>一种是标准安装，点击下载 Windows 版 Agent，双击安装，输入 <code>YOUR_LICENSE_KEY</code>。</p></li>
 <li><p>另一种是命令行安装，点击下载 Windows 版 Agent，打开cmd.exe，定位到 Agent 所在目录，执行下面命令：</p></li>
 </ul>
-<div class="highlight"><pre class="highlight plaintext"><code>＃ 32位
+<pre class="highlight plaintext"><code>＃ 32位
 msiexec /qn /i cloudinsight-agent.msi CI_LICENSE_KEY="YOUR_LICENSE_KEY"
-</code></pre></div><div class="highlight"><pre class="highlight plaintext"><code>＃ 64位
+</code></pre>
+<pre class="highlight plaintext"><code>＃ 64位
 msiexec /qn /i cloudinsight-agent.amd64.msi CI_LICENSE_KEY="YOUR_LICENSE_KEY"
-</code></pre></div>
+</code></pre>
+
 <p>如果你想看安装详情，可以去掉 <code>/qn</code>  这个参数。</p>
 
 <hr>
@@ -416,7 +409,7 @@ msiexec /qn /i cloudinsight-agent.amd64.msi CI_LICENSE_KEY="YOUR_LICENSE_KEY"
 
 <p>不过大多数是 hostname 的问题，就像下面的报错：</p>
 
-<p><img src="/images/qa/win_ins1.png" alt="Win ins1" /></p>
+<p><img src="/images/qa/win_ins1.png" /></p>
 
 <p>这是因为安装 Ci 探针后，默认会以服务器系统的 hostname 作为应用名称，默认的 localhost、 localhost.localdomain、 localhost6.localdomains 等名称是无效的，所以需要修改 hostname，保证其唯一性。</p>
 
@@ -424,7 +417,7 @@ msiexec /qn /i cloudinsight-agent.amd64.msi CI_LICENSE_KEY="YOUR_LICENSE_KEY"
 
 <p>修改 CloudinsightAgent 配置文件，在控制面板上 setting 上修改 hostname: xxxx 指标（任意可识别的名称，且不能有下划线），此处的 hostname 只是作为应用的名称而存在，与服务器本身的 hostnme 没有关系，所以可以任意设置，如图：</p>
 
-<p><img src="/images/qa/win_ins2.png" alt="Win ins2" /></p>
+<p><img src="/images/qa/win_ins2.png" /></p>
 
 <p>然后重启探针即可(Actions&ndash;restart)。</p>
 

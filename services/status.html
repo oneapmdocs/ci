@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -443,7 +434,7 @@
 
 <p>以 NGINX 为例：</p>
 
-<p><img src="/images/service/status_nginx.png" alt="Status nginx" /></p>
+<p><img src="/images/service/status_nginx.png" /></p>
 
 <p>NGINX 自带监控模块，输出 NGINX 状态页，来表征其运行情况。</p>
 
@@ -476,14 +467,15 @@
 <h4>1. 检查是否支持 `http<em>stub</em>status_module&rsquo;</h4>
 
 <p>开启 Cloudinsight NGINX 监控，需要 NGINX 的 <code>http_stub_status_module</code>，您可以通过以下指令来检查，当前版本的 NGINX 是否支持：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>nginx -V |&amp; grep http_stub_status_module
-</code></pre></div>
+<pre class="highlight plaintext"><code>nginx -V |&amp; grep http_stub_status_module
+</code></pre>
+
 <p>若输出 <code>configure arguments:</code> 并且后接一些参数，则代表当前版本支持 <code>http_stub_status_module</code>，并且已经开启该模块。</p>
 
 <h4>2. 设置模块的配置</h4>
 
 <p>当 NGINX 的状态页可用，可以配置其参数，并确定 URL 地址：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>server {
+<pre class="highlight plaintext"><code>server {
   listen 80;
   server_name localhost;
 
@@ -495,21 +487,22 @@
     stub_status on;
   }
 }
-</code></pre></div>
+</code></pre>
+
 <p>如上述输出所示，当前 NGINX 状态页运行在本地 <code>localhost</code> 上。</p>
 
 <h4>3. 关联 URL</h4>
 
 <p>打开 Cloudinsight NGINX 配置文件 <code>conf.d/nginx.yaml</code>，添加状态页 URL 地址：</p>
 
-<p><img src="/images/service/Apache4042.png" alt="Apache4042" /></p>
+<p><img src="/images/service/Apache4042.png" /></p>
 
 <h2>其他配置选项</h2>
 
 <p>有关 NGINX 其他配置选型，请查看以下信息：</p>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">init_config</span><span class="pi">:</span>
+<pre class="highlight yaml"><code><span class="s">init_config</span><span class="pi">:</span>
 
-<span class="na">instances</span><span class="pi">:</span>
+<span class="s">instances</span><span class="pi">:</span>
   <span class="c1"># For every instance, you need an `nginx_status_url` and can optionally</span>
   <span class="c1"># supply a list of tags. This plugin requires nginx to be compiled with</span>
   <span class="c1"># the nginx stub status module option, and activated with the correct</span>
@@ -519,16 +512,17 @@
   <span class="c1"># http://support.oneapm.com/</span>
   <span class="c1">#</span>
 
-  <span class="pi">-</span> <span class="na">nginx_status_url</span><span class="pi">:</span> <span class="s">http://localhost/nginx_status/</span>             <span class="c1"># NGINX 状态页 URL</span>
+  <span class="pi">-</span> <span class="s">nginx_status_url</span><span class="pi">:</span> <span class="s">http://localhost/nginx_status/</span>             <span class="c1"># NGINX 状态页 URL</span>
   <span class="c1"># ssl_validation: False                                        # 是否启用 SSL，默认为True</span>
-    <span class="na">tags</span><span class="pi">:</span>
+    <span class="s">tags</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="s">instance:foo</span>                                             <span class="c1"># 自定义标签，用于在 Cloudinsight 平台对 NGINX 服务器进行分组</span>
   <span class="c1">#</span>
   <span class="c1"># - nginx_status_url: http://example2.com:1234/nginx_status/   ＃ 监控多个 NGINX 实例时进行配置</span>
   <span class="c1"># ssl_validation: False</span>
   <span class="c1"># tags:</span>
   <span class="c1"># - instance:bar</span>
-</code></pre></div>
+</code></pre>
+
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
   <p style="font-size: 16px;">

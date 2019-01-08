@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -456,8 +447,8 @@
 
 <ul>
 <li><p>使用 <code>pip</code> 安装(之前包名是oneapm-ci-sdk, 已不再更新，不建议使用)</p>
-<div class="highlight"><pre class="highlight plaintext"><code>pip install -i http://pypi.oneapm.com/simple --trusted-host pypi.oneapm.com --upgrade cloudinsight
-</code></pre></div></li>
+<pre class="highlight plaintext"><code>pip install -i http://pypi.oneapm.com/simple --trusted-host pypi.oneapm.com --upgrade cloudinsight
+</code></pre></li>
 <li><p>从 4.4.0 版本开始，Cloudinsight 已经内嵌入 SDK ，使用的时候可以直接使用，无需安装，使用时可以指定 Python 环境 <code>/opt/cloudinsight-agent/embedded/bin/python</code> 或者导入探针的 Python 库 <code>/opt/cloudinsight-agent/embedded/lib/python2.7/site-packages/</code>。 <strong>注意</strong>:探针版本&lt;=4.5.0的内嵌SDK包名为oneapm-ci-sdk。</p></li>
 <li><p><a href="https://github.com/cloudinsight/cloudinsight-python-sdk/tree/master/example">示例代码参考</a></p></li>
 </ul>
@@ -471,16 +462,18 @@
 <p><code>Counters</code> 是 StatsD 和 Cloudinsight SDK 最基本的一种数据类型。当调用 <code>increment</code> 和 <code>decrement</code> 时，对参数进行自增或自减。</p>
 
 <p>由于 Cloudinsight Agent 的采集周期为 30 s，最终展现至界面的值为采集周期的平均值。</p>
-<div class="highlight"><pre class="highlight python"><code><span class="c"># Import the module.</span>
+<pre class="highlight python"><code><span class="c"># Import the module.</span>
 <span class="kn">from</span> <span class="nn">cloudinsight</span> <span class="kn">import</span> <span class="n">statsd</span>
 
 <span class="c"># Increment a counter.</span>
 <span class="n">statsd</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s">'page.views'</span><span class="p">)</span>
 
-</code></pre></div>
+</code></pre>
+
 <p><code>Increment</code> 的步进默认为 <code>1</code>，也可以设置第二个参数来调整步进。</p>
-<div class="highlight"><pre class="highlight python"><code><span class="n">statsd</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s">'page.views'</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</code></pre></div>
+<pre class="highlight python"><code><span class="n">statsd</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s">'page.views'</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</code></pre>
+
 <hr>
 
 <h4>采样率</h4>
@@ -490,17 +483,19 @@
 <p>在采集周期 30 s 内，只采集 10% 的数据。也就是说，平均调用 10 次 <code>increment</code>，只自增一次 Metric。</p>
 
 <p>在数据量较大的情况下，可以确保采样的高效。</p>
-<div class="highlight"><pre class="highlight python"><code><span class="n">statsd</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s">'page.views'</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-</code></pre></div>
+<pre class="highlight python"><code><span class="n">statsd</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s">'page.views'</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</code></pre>
+
 <p>采样率会传递至 Agent，所以最终发送的数值，为计算采样率后的真实数值。</p>
 
 <p>同样，<code>decrement</code> 和 <code>increment</code> 一样，使用相同的参数。</p>
-<div class="highlight"><pre class="highlight python"><code><span class="n">statsd</span><span class="o">.</span><span class="n">decrement</span><span class="p">(</span><span class="s">'some.other.event'</span><span class="p">)</span>
+<pre class="highlight python"><code><span class="n">statsd</span><span class="o">.</span><span class="n">decrement</span><span class="p">(</span><span class="s">'some.other.event'</span><span class="p">)</span>
 
 <span class="c"># Decrease the counter by 5, 15% sample.</span>
 
 <span class="n">statsd</span><span class="o">.</span><span class="n">decrement</span><span class="p">(</span><span class="s">'some.third.event'</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
-</code></pre></div>
+</code></pre>
+
 <hr>
 
 <h3>Gauges</h3>
@@ -508,13 +503,14 @@
 <p><code>Gauges</code> 是连续型的数据类型，也就是说，当我们第一次赋值后，该 Metric 表现在图表上，会是一条于 X 轴平行的直线；直到再次为该 Metric 赋了一个不同的值。</p>
 
 <p><code>Gauges</code> 可以用来度量一些已经计算过的数值，如 WebSockets 的有效链接数；而系统目前登录的用户数，则在每次用户登录时，调用 <code>Counters</code> 中的 <code>increment</code> 比较适合。</p>
-<div class="highlight"><pre class="highlight python"><code><span class="c"># Record a gauge .</span>
+<pre class="highlight python"><code><span class="c"># Record a gauge .</span>
 <span class="n">statsd</span><span class="o">.</span><span class="n">gauge</span><span class="p">(</span><span class="s">'foo.bar'</span><span class="p">,</span> <span class="mi">123</span><span class="p">)</span>
 
 <span class="c"># Record a tagged metric.</span>
 <span class="n">statsd</span><span class="o">.</span><span class="n">gauge</span><span class="p">(</span><span class="s">'users.online'</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s">'gender:male'</span><span class="p">,</span><span class="s">'region:north'</span><span class="p">])</span>
 
-</code></pre></div>
+</code></pre>
+
 <p>此时，<code>foo.bar</code> 的值为 <code>123</code>。</p>
 
 <hr>

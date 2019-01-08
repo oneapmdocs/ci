@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -396,8 +387,9 @@
             <h1>Gunicorn 监控报错</h1>
 
 <p>报错信息如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Found no master process with name: gunicorn: master[app]
-</code></pre></div>
+<pre class="highlight plaintext"><code>Found no master process with name: gunicorn: master[app]
+</code></pre>
+
 <h3>问题原因</h3>
 
 <p>启动 Gunicorn 时，未添加 <code>--name</code> 这项参数，或者没有安装 <code>setproctitle</code> 这个模块</p>
@@ -407,8 +399,9 @@
 <p>如果未安装 <code>setproctitle</code>，可执行命令 <code>pip install setproctitle</code> 进行安装。</p>
 
 <p>Gunicorn 启动时，需添加 <code>--name</code> 参数，如下：</p>
-<div class="highlight"><pre class="highlight plaintext"><code>gunicorn --name app -w 4 myapp:app
-</code></pre></div>
+<pre class="highlight plaintext"><code>gunicorn --name app -w 4 myapp:app
+</code></pre>
+
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
   <p style="font-size: 16px;">

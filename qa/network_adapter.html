@@ -65,10 +65,6 @@
   color: #dee5e7;
   background-color: #4e5d62;
 }
-.highlight .gp {
-  color: #a8e1fe;
-  font-weight: bold;
-}
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #6c8b9f;
   font-style: italic;
@@ -83,9 +79,8 @@
   background-color: #cc0000;
 }
 .highlight .gr {
-  color: #cc0000;
-  font-weight: bold;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 .highlight .k, .highlight .kd, .highlight .kv {
   color: #f6dd62;
@@ -93,7 +88,6 @@
 }
 .highlight .o, .highlight .ow {
   color: #4df4ff;
-  font-weight: bold;
 }
 .highlight .p, .highlight .pi {
   color: #4df4ff;
@@ -210,9 +204,6 @@
   font-weight: bold;
 }
 .highlight .w {
-  color: #BBBBBB;
-}
-.highlight .go {
   color: #BBBBBB;
 }
 .highlight .nf {
@@ -399,21 +390,21 @@
 
 <p>首先成功安装探针（我这个账号上只有一台服务器），查看服务器本身有几块网卡，然后查看 Cloudinsight 的指标，如下图：</p>
 
-<p><img src="/images/qa/adapter_1.png" alt="Adapter 1" /></p>
+<p><img src="/images/qa/adapter_1.png" /></p>
 
 <p>然后配置仪表盘，可以直接在 System Network 预定于仪表盘的基础上进行修改，直接创建一个副本 ，生成 network 自定义仪表盘，（为什么要建自定义仪表盘？因为预定义仪表盘不可修改，所以复制成一个自定义仪表盘，在原有基础上进行修改），创建一个新的图表或在原来的基础上进行修改，本文示例是在原来基础上修改，打开了 Network Out 表盘，添加性能指标 <code>system.net.bytes_sent</code>，为了显示所有网卡的数据，后面添加上 <code>avg_by: device_name</code> 显示所有 <code>device_name</code> 的数值，保存即可。</p>
 
-<p><img src="/images/qa/adapter_2.png" alt="Adapter 2" /></p>
+<p><img src="/images/qa/adapter_2.png" /></p>
 
 <p>因为我只监控了一台服务器，直接显示所有网卡流量比较方便，如果你已经监控了多台服务器，而在这一个表盘里只想显示某一台服务器的流量情况，那就多添几个 <code>from</code>： <code>device_name: xxxxx11</code> 等。</p>
 
 <p>鼠标点击即呈现下图，下面是指标详解：</p>
 
-<p><img src="/images/qa/adapter_3.png" alt="Adapter 3" /></p>
+<p><img src="/images/qa/adapter_3.png" /></p>
 
 <p>整体动图就是：</p>
 
-<p><img src="http://7xt8dk.com2.z0.glb.clouddn.com/net.gif" alt="Net" /></p>
+<p><img src="http://7xt8dk.com2.z0.glb.clouddn.com/net.gif" /></p>
 
             <hr style="margin-top: 50px;" />
 <div class="alert alert-warning" style="text-align:center; margin: 40px 0px;">
